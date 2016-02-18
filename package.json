@@ -2,9 +2,9 @@
   "name": "wechat-electron",
   "version": "0.0.0",
   "description": "A Electron application for WeChat",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron src/main.js"
   },
   "repository": {
     "type": "git",

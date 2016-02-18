@@ -1,30 +1,39 @@
-# electron-quick-start
+# WeChat Electron
 
-**Clone and run for a quick way to see an Electron in action.**
+**A better WeChat client on Mac OS X.**
 
-This is a minimal Electron application based on the [Quick Start Guide](http://electron.atom.io/docs/latest/tutorial/quick-start) within the Electron documentation.
+This is an ***unofficial*** client wrapped with Electron. The web app embedded inside is from the official WeChat team.
 
-A basic Electron application needs just these files:
+## Features
 
-- `index.html` - A web page to render.
-- `main.js` - Starts the app and creates a browser window to render HTML.
-- `package.json` - Points to the app's main file and lists its details and dependencies.
+- Modern UI and full features from the Web platform.
+- Auto resize window.
+- Drag-to-send pictures.
+- Open inhibited websites without redirects (including taobao.com, etc).
 
-You can learn more about each of these components within the [Quick Start Guide](http://electron.atom.io/docs/latest/tutorial/quick-start).
+![qq20160219-0 2x](https://cloud.githubusercontent.com/assets/7262715/13150473/eae10174-d6a0-11e5-9909-09d3b5854d51.png)
 
-## To Use
+## How To Use
 
 To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
-```bash
+``` bash
 # Clone this repository
-git clone https://github.com/atom/electron-quick-start
+git clone https://github.com/geeeeeeeeek/wechat-electron
 # Go into the repository
-cd electron-quick-start
+cd wechat-electron
 # Install dependencies and run the app
 npm install && npm start
 ```
 
-Learn more about Electron and its API in the [documentation](http://electron.atom.io/docs/latest).
+**Or**, if electron has already been installed, you can simply type:
 
-#### License [CC0 (Public Domain)](LICENSE.md)
+``` bash
+electron .
+```
+
+#### Download App
+
+If you only cares about the app, you can find it out in the [release](https://github.com/geeeeeeeeek/wechat-electron/releases) section.
+
+#### License [MIT](LICENSE.md)
