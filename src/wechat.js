@@ -77,13 +77,4 @@ onload = () => {
       shell.openExternal(e.url);
     }
   })
-
-  webview.addEventListener('new-window', function (e) {
-    var url = getParameterByName(e.url, 'requrl');
-    if (url.length > 1) {
-      shell.openExternal(url);
-    } else {
-      shell.openExternal(e.url);
-    }
-  })
 };
