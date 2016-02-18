@@ -77,4 +77,8 @@ onload = () => {
       shell.openExternal(e.url);
     }
   })
+
+  webview.addEventListener("resize", (e) => {
+    console.log(e);
+  });
 };
