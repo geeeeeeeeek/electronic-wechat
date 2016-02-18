@@ -1,0 +1,11 @@
+html, body, #webview {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: hidden;
+}
+
+html::-webkit-scrollbar {
+  width: 0 !important;
+}

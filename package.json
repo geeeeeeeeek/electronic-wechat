@@ -1,0 +1,28 @@
+{
+  "name": "wechat-electron",
+  "version": "0.0.0",
+  "description": "A Electron application for WeChat",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geeeeeeeeek/wechat-electron.git"
+  },
+  "keywords": [
+    "Electron",
+    "WeChat",
+    "微信",
+    "Web"
+  ],
+  "author": "Zhongyi Tong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/geeeeeeeeek/wechat-electron/issues"
+  },
+  "homepage": "https://github.com/geeeeeeeeek/wechat-electron/",
+  "devDependencies": {
+    "electron-prebuilt": "^0.36.0"
+  }
+}
