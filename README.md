@@ -1,15 +1,17 @@
-# WeChat Electron
+# Electronic WeChat
 
-**A better WeChat client on Mac OS X.**
+**A better WeChat client on Mac OS X and Linux.**
 
 This is an ***unofficial*** client wrapped with Electron. The web app embedded inside is from the official WeChat team.
 
+This app is still under development. Mainly tested on OS X, but should work on Linux.
+
 ## Features
 
-- Modern UI and full features from the Web platform.
+- Modern UI and full features from Web WeChat.
 - Auto resize window.
 - Drag-to-send pictures.
-- Open inhibited websites without redirects (including taobao.com, etc).
+- Open inhibited links without redirects (like taobao.com).
 
 ![qq20160219-0 2x](https://cloud.githubusercontent.com/assets/7262715/13150473/eae10174-d6a0-11e5-9909-09d3b5854d51.png)
 
@@ -19,9 +21,9 @@ To clone and run this repository you'll need [Git](https://git-scm.com) and [Nod
 
 ``` bash
 # Clone this repository
-git clone https://github.com/geeeeeeeeek/wechat-electron
+git clone https://github.com/geeeeeeeeek/electronic-wechat
 # Go into the repository
-cd wechat-electron
+cd electronic-wechat
 # Install dependencies and run the app
 npm install && npm start
 ```
