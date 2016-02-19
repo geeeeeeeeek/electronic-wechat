@@ -1,6 +1,7 @@
 "use strict";
 
 const shell = require('electron').shell;
+// const badge = require('./badge.js');
 
 const wechatCSS = `
   div.main {
@@ -66,6 +67,7 @@ onload = () => {
   webview.addEventListener('dom-ready', () => {
     webview.insertCSS(wechatCSS);
     webview.insertCSS(loginCSS);
+    // alert(badge.injectBadgeCount);
     webview.executeJavaScript('injectJS.getBadge()');
   });
 
@@ -77,8 +79,4 @@ onload = () => {
       shell.openExternal(e.url);
     }
   })
-
-  webview.addEventListener("resize", (e) => {
-    console.log(e);
-  });
 };

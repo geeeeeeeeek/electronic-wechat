@@ -5,6 +5,7 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const globalShortcut = electron.globalShortcut;
 const session = require('electron').session;
+const ipcMain = electron.ipcMain;
 
 let windows = {};
 
@@ -53,4 +54,8 @@ app.on('activate', () => {
   if (Object.keys(windows).length == 0) {
     createWindow();
   }
+});
+
+ipcMain.on('badge-changed', (event, num) => {
+  app.dock.setBadge(num);
 });
