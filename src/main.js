@@ -3,17 +3,18 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
-const globalShortcut = electron.globalShortcut;
-const session = require('electron').session;
 const ipcMain = electron.ipcMain;
+const injectBundle = require('./inject-onload.js');
+const shell = require('electron').shell;
+const messageHandler = require('./message.js');
 
-let windows = {};
+const WINDOW_TITLE = 'Electronic WeChat';
+
+let browserWindow = null;
 
 let createWindow = () => {
-  let name = (new Date()).getTime();
-
-  windows[name] = new BrowserWindow({
-    title: 'WeChat',
+  browserWindow = new BrowserWindow({
+    title: WINDOW_TITLE,
     width: 800,
     height: 600,
     resizable: true,
@@ -21,57 +22,81 @@ let createWindow = () => {
     show: true,
     frame: true,
     icon: 'icon.png',
+    titleBarStyle: 'hidden-inset',
+    'web-preferences': {
+      javascript: true,
+      plugins: true,
+      nodeIntegration: false,
+      webSecurity: false,
+      preload: __dirname + '/inject-preload.js'
+    }
   });
 
-  // windows[name].webContents.openDevTools();
+  browserWindow.webContents.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36");
+  //browserWindow.webContents.openDevTools();
 
-  windows[name].loadURL('file://' + __dirname + '/index.html');
+  browserWindow.loadURL("https://wx.qq.com/");
 
-  windows[name].webContents.on('will-navigate', (ev) => {
+  browserWindow.webContents.on('will-navigate', (ev, url) => {
+    if (/.*wx\.qq\.com.*/.test(url)) return;
+    // Prevent navigation off the site.
     ev.preventDefault();
   });
 
-  windows[name].on('closed', () => {
-    windows[name] = null;
+  browserWindow.on('closed', () => {
+    browserWindow = null;
+  });
+
+  browserWindow.on('page-title-updated', (ev) => {
+    ev.preventDefault();
   });
 
 
-  // try {
-  //   windows[name].webContents.debugger.attach("1.1");
-  // } catch(err) {
-  //   console.log("Debugger attach failed : ", err);
-  // };
+  //try {
+  //  browserWindow.webContents.debugger.attach("1.1");
+  //} catch (err) {
+  //  console.log("Debugger attach failed : ", err);
+  //}
   //
-  // windows[name].webContents.debugger.on('detach', function(event, reason) {
-  //   console.log("Debugger detached due to : ", reason);
-  // });
   //
-  // windows[name].webContents.debugger.on('message', function(event, method, params) {
-  //   if (method == "Network.responseReceived") {
-  //     console.log(method);
-  //     message.handleEmojiMessage(params.response);
-  //   }
-  // });
+  //browserWindow.webContents.debugger.on('detach', function (event, reason) {
+  //  console.log("Debugger detached due to : ", reason);
+  //});
   //
-  // windows[name].webContents.debugger.sendCommand("Network.enable");
-}
+  //browserWindow.webContents.debugger.on('message', function (event, method, params) {
+  //  if (method == "Network.responseReceived") {
+  //    console.log(method);
+  //    // message.handleEmojiMessage(params.response);
+  //  }
+  //});
+
+  //browserWindow.webContents.debugger.sendCommand("Network.enable");
+
+  browserWindow.webContents.on('dom-ready', () => {
+    browserWindow.webContents.insertCSS(injectBundle.loginCSS);
+    browserWindow.webContents.insertCSS(injectBundle.wechatCSS);
+    browserWindow.webContents.executeJavaScript(`injectBundle.getBadgeJS()`);
+    browserWindow.webContents.executeJavaScript(`injectBundle.getProfileNameJS()`);
+  });
+
+  browserWindow.webContents.on('new-window', (event, url) => {
+    event.preventDefault();
+    shell.openExternal(messageHandler.handleRedirectMessage(url));
+  });
+};
 
 app.on('ready', createWindow);
 
-app.on('window-all-closed', () => {
+app.on('browserWindow-all-closed', () => {
   app.quit();
 });
 
 app.on('activate', () => {
-  if (Object.keys(windows).length == 0) {
+  if (browserWindow == null) {
     createWindow();
   }
 });
 
 ipcMain.on('badge-changed', (event, num) => {
   app.dock.setBadge(num);
-});
-
-ipcMain.on('log', (event, msg) => {
-  console.log(msg);;
 });
