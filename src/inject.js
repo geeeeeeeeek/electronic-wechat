@@ -1,5 +1,4 @@
 const ipcRenderer = require('electron').ipcRenderer;
-
 injectJS = {
   getBadge: function () {
     $(".chat_list.scroll-content").bind('DOMSubtreeModified', () => {

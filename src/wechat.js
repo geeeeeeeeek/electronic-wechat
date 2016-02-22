@@ -1,7 +1,7 @@
 "use strict";
 
 const shell = require('electron').shell;
-// const badge = require('./badge.js');
+const message = require('./message.js');
 
 const wechatCSS = `
   div.main {
@@ -61,13 +61,13 @@ let getParameterByName = (url, name) => {
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-onload = () => {
+window.onload = () => {
   let webview = document.getElementById("webview");
 
   webview.addEventListener('dom-ready', () => {
+    webview.openDevTools();
     webview.insertCSS(wechatCSS);
     webview.insertCSS(loginCSS);
-    // alert(badge.injectBadgeCount);
     webview.executeJavaScript('injectJS.getBadge()');
   });
 
@@ -78,5 +78,9 @@ onload = () => {
     } else {
       shell.openExternal(e.url);
     }
-  })
+  });
+  webview.addEventListener('did-get-response-details', (details) => {
+    message.handleEmojiMessage(details);
+  });
+
 };

@@ -22,6 +22,7 @@ let createWindow = () => {
     frame: true,
     icon: 'icon.png',
   });
+
   // windows[name].webContents.openDevTools();
 
   windows[name].loadURL('file://' + __dirname + '/index.html');
@@ -30,24 +31,35 @@ let createWindow = () => {
     ev.preventDefault();
   });
 
-  windows[name].on('closed', ()=> {
+  windows[name].on('closed', () => {
     windows[name] = null;
   });
 
-  // globalShortcut.register('CommandOrControl+N', () => {
-  //   createWindow();
-  // });
 
-  // let ses = windows[name].webContents.session;
-  // ses.cookies.remove("https://wx.qq.com", "wxuin", ()=>{})
+  // try {
+  //   windows[name].webContents.debugger.attach("1.1");
+  // } catch(err) {
+  //   console.log("Debugger attach failed : ", err);
+  // };
+  //
+  // windows[name].webContents.debugger.on('detach', function(event, reason) {
+  //   console.log("Debugger detached due to : ", reason);
+  // });
+  //
+  // windows[name].webContents.debugger.on('message', function(event, method, params) {
+  //   if (method == "Network.responseReceived") {
+  //     console.log(method);
+  //     message.handleEmojiMessage(params.response);
+  //   }
+  // });
+  //
+  // windows[name].webContents.debugger.sendCommand("Network.enable");
 }
 
 app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  app.quit();
 });
 
 app.on('activate', () => {
@@ -58,4 +70,8 @@ app.on('activate', () => {
 
 ipcMain.on('badge-changed', (event, num) => {
   app.dock.setBadge(num);
+});
+
+ipcMain.on('log', (event, msg) => {
+  console.log(msg);;
 });
