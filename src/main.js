@@ -4,13 +4,15 @@ const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const ipcMain = electron.ipcMain;
+const shell = electron.shell;
+
 const injectBundle = require('./inject-onload.js');
-const shell = require('electron').shell;
 const messageHandler = require('./message.js');
 
 const WINDOW_TITLE = 'Electronic WeChat';
 
 let browserWindow = null;
+//let emojiList = {};
 
 let createWindow = () => {
   browserWindow = new BrowserWindow({
@@ -52,31 +54,34 @@ let createWindow = () => {
   });
 
 
-  //try {
-  //  browserWindow.webContents.debugger.attach("1.1");
-  //} catch (err) {
-  //  console.log("Debugger attach failed : ", err);
-  //}
-  //
-  //
-  //browserWindow.webContents.debugger.on('detach', function (event, reason) {
-  //  console.log("Debugger detached due to : ", reason);
-  //});
-  //
-  //browserWindow.webContents.debugger.on('message', function (event, method, params) {
-  //  if (method == "Network.responseReceived") {
-  //    console.log(method);
-  //    // message.handleEmojiMessage(params.response);
-  //  }
-  //});
+  try {
+    browserWindow.webContents.debugger.attach("1.1");
+  } catch (err) {
+    console.log("Debugger attach failed : ", err);
+  }
 
-  //browserWindow.webContents.debugger.sendCommand("Network.enable");
+
+  browserWindow.webContents.debugger.on('detach', function (event, reason) {
+    console.log("Debugger detached due to : ", reason);
+  });
+
+  browserWindow.webContents.debugger.on('message', function (event, method, params) {
+    if (method == "Network.responseReceived" && params.type == "XHR") {
+      let promise = messageHandler.handleEmojiMessage(params.response, params.requestId, browserWindow.webContents.debugger);
+      promise.then((emojiList)=> {
+        if (Object.keys(emojiList).length == 0) return;
+        browserWindow.webContents.executeJavaScript(`injectBundle.updateEmojiListJS('${JSON.stringify(emojiList)}')`);
+      });
+    }
+  });
+
+  browserWindow.webContents.debugger.sendCommand("Network.enable");
 
   browserWindow.webContents.on('dom-ready', () => {
     browserWindow.webContents.insertCSS(injectBundle.loginCSS);
     browserWindow.webContents.insertCSS(injectBundle.wechatCSS);
     browserWindow.webContents.executeJavaScript(`injectBundle.getBadgeJS()`);
-    browserWindow.webContents.executeJavaScript(`injectBundle.getProfileNameJS()`);
+    browserWindow.webContents.executeJavaScript(`injectBundle.initEmojiListJS()`);
   });
 
   browserWindow.webContents.on('new-window', (event, url) => {
@@ -99,4 +104,8 @@ app.on('activate', () => {
 
 ipcMain.on('badge-changed', (event, num) => {
   app.dock.setBadge(num);
+});
+
+ipcMain.on('log', (event, message) => {
+  console.log(message)
 });
