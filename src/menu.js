@@ -5,6 +5,7 @@ let menuHandler = {};
 menuHandler.create = () => {
   let remote = require('remote');
   let Menu = remote.require('menu');
+  let shell = require('shell');
   let template = [
     {
       label: 'Electronic WeChat',
@@ -44,7 +45,7 @@ menuHandler.create = () => {
           label: 'Quit',
           accelerator: 'Command+Q',
           selector: 'terminate:'
-        },
+        }
       ]
     },
     {
@@ -89,18 +90,12 @@ menuHandler.create = () => {
       label: 'View',
       submenu: [
         {
-          label: 'Reload',
-          click: function () {
-            remote.getCurrentWindow().reload();
-          }
-        },
-        {
           label: 'Toggle DevTools',
           accelerator: 'Alt+Command+I',
-          click: function () {
+          click: () => {
             remote.getCurrentWindow().toggleDevTools();
           }
-        },
+        }
       ]
     },
     {
@@ -127,7 +122,26 @@ menuHandler.create = () => {
     },
     {
       label: 'Help',
-      submenu: []
+      submenu: [
+        {
+          label: 'GitHub Repository',
+          click: () => {
+            shell.openExternal('https://github.com/geeeeeeeeek/electronic-wechat');
+          }
+        },
+        {
+          type: 'separator'
+        },{
+          label: 'GitHub Issues',
+          click: () => {
+            shell.openExternal('https://github.com/geeeeeeeeek/electronic-wechat/issues');
+          }
+        },{
+          label: 'Check for New Release',
+          click: () => {
+            shell.openExternal('https://github.com/geeeeeeeeek/electronic-wechat/releases');
+          }
+        }]
     }
   ];
 

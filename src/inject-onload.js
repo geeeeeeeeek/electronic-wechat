@@ -29,16 +29,19 @@ injectBundle.wechatCSS = `
     }
     * {
       -webkit-user-select: none;
+      cursor: default !important;
+      -webkit-user-drag: none;
     }
-    pre, span, p {
+    pre, input {
       -webkit-user-select: initial;
+      cursor: initial !important;
     }
     div.header div.avatar img.img {
       width: 24px;
       height: 24px;
     }
     div.header {
-      padding-top: 31px;
+      padding-top: 38px;
       padding-bottom: 7px;
     }
     html, body {

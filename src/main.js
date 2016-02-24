@@ -61,11 +61,11 @@ let createWindow = () => {
   }
 
 
-  browserWindow.webContents.debugger.on('detach', function (event, reason) {
+  browserWindow.webContents.debugger.on('detach', (event, reason) => {
     console.log("Debugger detached due to : ", reason);
   });
 
-  browserWindow.webContents.debugger.on('message', function (event, method, params) {
+  browserWindow.webContents.debugger.on('message', (event, method, params) => {
     if (method == "Network.responseReceived" && params.type == "XHR") {
       let promise = messageHandler.handleEmojiMessage(params.response, params.requestId, browserWindow.webContents.debugger);
       promise.then((emojiList)=> {
