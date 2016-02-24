@@ -1,8 +1,8 @@
 # Electronic WeChat
 
-**A better WeChat client on Mac OS X and Linux.**
+**A better WeChat client on Mac OS X and Linux. Build with [Electron](https://github.com/atom/electron).** 
 
-This is an ***unofficial*** client wrapped with Electron. The web app embedded inside is from the official WeChat team.
+*Electronic WeChat* is released by this open source project. While Web WeChat is a major component  in the app, it should be noted that this is a community release and not an official WeChat release.
 
 This app is still under development. Mainly tested on OS X, but should work on Linux.
 
@@ -11,9 +11,10 @@ This app is still under development. Mainly tested on OS X, but should work on L
 - Modern UI and full features from Web WeChat.
 - Auto resize window.
 - Drag-to-send pictures.
+- **Compatible with sticker messages.**
 - Open inhibited links without redirects (like taobao.com).
 
-![qq20160219-0 2x](https://cloud.githubusercontent.com/assets/7262715/13150473/eae10174-d6a0-11e5-9909-09d3b5854d51.png)
+![qq20160224-0 2x](https://cloud.githubusercontent.com/assets/7262715/13275230/96b81776-daed-11e5-98ce-3ee3bd82082e.png)
 
 ## How To Use
 
@@ -28,14 +29,21 @@ cd electronic-wechat
 npm install && npm start
 ```
 
-**Or**, if electron has already been installed, you can simply type:
+You can also get a stable version via npm:
 
-``` bash
-electron .
+```shell
+# via npm
+npm i electronic-wechat
+```
+
+To pack into an OSX app, simply type:
+
+``` shell
+./osxpack.sh
 ```
 
 #### Download App
 
-If you only cares about the app, you can find it out in the [release](https://github.com/geeeeeeeeek/wechat-electron/releases) section.
+If you only cares about the app, you can find it out in the [~~release (not available yet~~)](https://github.com/geeeeeeeeek/wechat-electron/releases) section.
 
 #### License [MIT](LICENSE.md)

@@ -1,4 +1,4 @@
-First, make sure your issue is strictly related to the ***Electronic WeChat*** project. Some issues caused by ***electron*** can be viewed in the **guidelines for contributing** showing above.
+First, make sure your issue is strictly related to the ***Electronic WeChat*** project. Some upstream issues caused by ***electron*** can be viewed in the **guidelines for contributing** showing above.
 
 If it's a question or feature request, you can remove the template below.
 
@@ -21,4 +21,3 @@ If it's a question or feature request, you can remove the template below.
 ``` 
 <Stack trace here>
 ```
-

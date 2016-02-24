@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1184f897-7588-4d9f-861c-003d4a5be473" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/inject-onload.js" afterPath="$PROJECT_DIR$/src/inject-onload.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/inject-preload.js" afterPath="$PROJECT_DIR$/src/inject-preload.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.js" afterPath="$PROJECT_DIR$/src/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/menu.js" afterPath="$PROJECT_DIR$/src/menu.js" />
     </list>
     <ignored path="wechat-electron.iws" />
     <ignored path=".idea/workspace.xml" />
