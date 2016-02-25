@@ -2,6 +2,13 @@
 const ipcRenderer = require('electron').ipcRenderer;
 const menu = require('./menu.js');
 
+// Prevent Wechat from disabling `console.log`.
+const consoleReal = window.console;
+Object.defineProperty(window, 'console', {
+  get: () => consoleReal,
+  set: () => {}
+});
+
 window.injectBundle = {};
 injectBundle.getBadgeJS = () => {
   $(".chat_list.scroll-content").bind('DOMSubtreeModified', () => {
