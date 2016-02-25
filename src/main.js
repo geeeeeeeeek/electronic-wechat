@@ -12,7 +12,6 @@ const messageHandler = require('./message.js');
 const WINDOW_TITLE = 'Electronic WeChat';
 
 let browserWindow = null;
-//let emojiList = {};
 
 let createWindow = () => {
   browserWindow = new BrowserWindow({
@@ -65,23 +64,12 @@ let createWindow = () => {
     console.log("Debugger detached due to : ", reason);
   });
 
-  browserWindow.webContents.debugger.on('message', (event, method, params) => {
-    if (method == "Network.responseReceived" && params.type == "XHR") {
-      let promise = messageHandler.handleEmojiMessage(params.response, params.requestId, browserWindow.webContents.debugger);
-      promise.then((emojiList)=> {
-        if (Object.keys(emojiList).length == 0) return;
-        browserWindow.webContents.executeJavaScript(`injectBundle.updateEmojiListJS('${JSON.stringify(emojiList)}')`);
-      });
-    }
-  });
-
   browserWindow.webContents.debugger.sendCommand("Network.enable");
 
   browserWindow.webContents.on('dom-ready', () => {
     browserWindow.webContents.insertCSS(injectBundle.loginCSS);
     browserWindow.webContents.insertCSS(injectBundle.wechatCSS);
     browserWindow.webContents.executeJavaScript(`injectBundle.getBadgeJS()`);
-    browserWindow.webContents.executeJavaScript(`injectBundle.initEmojiListJS()`);
   });
 
   browserWindow.webContents.on('new-window', (event, url) => {

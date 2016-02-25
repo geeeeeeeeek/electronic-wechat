@@ -2,11 +2,43 @@
 const ipcRenderer = require('electron').ipcRenderer;
 const menu = require('./menu.js');
 
-// Prevent Wechat from disabling `console.log`.
-const consoleReal = window.console;
-Object.defineProperty(window, 'console', {
-  get: () => consoleReal,
+const lock = (object, key, value) => Object.defineProperty(object, key, {
+  get: () => value,
   set: () => {}
+});
+
+lock(window, 'console', window.console);
+
+let angular = window.angular = {};
+let angularBootstrapReal;
+Object.defineProperty(angular, 'bootstrap', {
+  get: () => angularBootstrapReal ? function (element, moduleNames) {
+    const moduleName = 'webwxApp';
+    if (moduleNames.indexOf(moduleName) >= 0) {
+      let constants;
+      angular.injector(['ng', 'Services']).invoke(['confFactory', (confFactory) => (constants = confFactory)]);
+      angular.module(moduleName).config([
+        '$httpProvider',
+        ($httpProvider) => {
+          $httpProvider.defaults.transformResponse.push((value) => {
+            if (typeof value === 'object' && value !== null && value.AddMsgList instanceof Array) {
+              value.AddMsgList.forEach((msg) => {
+                const rec = msg.Content.match(/^&lt;msg&gt;&lt;emoji.+cdnurl = "(.+?)".+thumburl = "(.+?)"/);
+                if (rec !== null) {
+                  lock(msg, 'MsgType', constants.MSGTYPE_IMAGE);
+                  lock(msg, 'MMPreviewSrc', rec[1]);
+                  lock(msg, 'MMThumbSrc', rec[2]);
+                }
+              });
+            }
+            return value;
+          });
+        }
+      ]);
+    }
+    return angularBootstrapReal.apply(angular, arguments);
+  } : angularBootstrapReal,
+  set: (real) => (angularBootstrapReal = real)
 });
 
 window.injectBundle = {};
@@ -32,56 +64,4 @@ injectBundle.getProfileNameJS = () => {
   $('.display_name').ready(updateName).change(updateName);
 };
 
-injectBundle._replaceEmojiMessageJS = (msgId, imageUrl) => {
-  setTimeout(()=> {
-    let $bubble = $(`div.js_message_bubble:regex("${msgId}")`);
-    if (!$bubble) return;
-
-    $bubble.css('background', `url('${imageUrl}') no-repeat`)
-        .css('background-size', '120px')
-        .css('height', '120px')
-        .css('width', '120px');
-    $bubble.addClass('no_arrow');
-    $bubble.find('pre').text('')
-        .css('width', '120px');
-  }, 0);
-};
-
-
-injectBundle.updateEmojiListJS = (newList)=> {
-  newList = JSON.parse(newList);
-  window.emojiList = $.extend(window.emojiList, newList);
-  for (let msgId in newList) {
-    injectBundle._replaceEmojiMessageJS(msgId, window.emojiList[msgId]);
-  }
-  setTimeout(()=> {
-    let $scrollContent = $(".chat_bd.scroll-content");
-    $scrollContent.scrollTop($scrollContent[0].scrollHeight);
-  }, 50);
-};
-
-injectBundle.initEmojiListJS = ()=> {
-  $.expr[':'].regex = (elem, index, match) => {
-    var regex = new RegExp(match[3]),
-        $elem = $(elem);
-    return regex.test($elem.attr('data-cm'));
-  };
-
-  window.emojiList = {};
-  $('a.title_name').on('DOMSubtreeModified', () => {
-    for (let msgId in window.emojiList) {
-      injectBundle._replaceEmojiMessageJS(msgId, window.emojiList[msgId]);
-    }
-  });
-  $('.chat_bd.scroll-content').on('DOMNodeInserted', (ev) => {
-    if (ev.timeStamp - injectBundle._timestamp > 50) {
-      injectBundle._timestamp = ev.timeStamp;
-      for (let msgId in window.emojiList) {
-        injectBundle._replaceEmojiMessageJS(msgId, window.emojiList[msgId]);
-      }
-    }
-  })
-};
-
-injectBundle._timestamp = 0;
 menu.create();
