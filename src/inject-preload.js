@@ -23,14 +23,20 @@ Object.defineProperty(angular, 'bootstrap', {
           $httpProvider.defaults.transformResponse.push((value) => {
             if (typeof value === 'object' && value !== null && value.AddMsgList instanceof Array) {
               value.AddMsgList.forEach((msg) => {
-                if (msg.MsgType !== constants.MSGTYPE_EMOTICON) {
-                  return;
-                }
-                const rec = msg.Content.match(/^&lt;msg&gt;&lt;emoji.+cdnurl = "(.+?)".+thumburl = "(.+?)"/);
-                if (rec !== null) {
-                  lock(msg, 'MsgType', constants.MSGTYPE_IMAGE);
-                  lock(msg, 'MMPreviewSrc', rec[1]);
-                  lock(msg, 'MMThumbSrc', rec[2]);
+                switch (msg.MsgType) {
+                  case constants.MSGTYPE_EMOTICON:
+                    const rec = msg.Content.match(/^&lt;msg&gt;&lt;emoji.+cdnurl = "(.+?)".+thumburl = "(.+?)"/);
+                    if (rec !== null) {
+                      lock(msg, 'MsgType', constants.MSGTYPE_IMAGE);
+                      lock(msg, 'MMPreviewSrc', rec[1]);
+                      lock(msg, 'MMThumbSrc', rec[2]);
+                    }
+                    break;
+                  case constants.MSGTYPE_RECALLED:
+                    lock(msg, 'MsgType', constants.MSGTYPE_SYS);
+                    lock(msg, 'MMActualContent', '阻止了一次撤回');
+                    lock(msg, 'MMDigest', '阻止了一次撤回');
+                    break;
                 }
               });
             }
