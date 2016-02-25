@@ -18,7 +18,7 @@ This app is still under development. Mainly tested on OS X, but should work on L
 
 ## How To Use
 
-To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](https://www.npmjs.com/)) installed on your computer. From your command line:
 
 ``` bash
 # Clone this repository
@@ -44,6 +44,6 @@ To pack into an OSX app, simply type:
 
 #### Download App
 
-If you only cares about the app, you can find it out in the [~~release (not available yet~~)](https://github.com/geeeeeeeeek/wechat-electron/releases) section.
+If you only cares about the app, you can find it out in the [~~release (not available yet~~)](https://github.com/geeeeeeeeek/electronic-wechat/releases) section.
 
 #### License [MIT](LICENSE.md)
