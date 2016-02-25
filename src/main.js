@@ -40,7 +40,7 @@ let createWindow = () => {
   browserWindow.loadURL("https://wx.qq.com/");
 
   browserWindow.webContents.on('will-navigate', (ev, url) => {
-    if (/.*wx\.qq\.com.*/.test(url)) return;
+    if (/.*wx.*\.qq\.com.*/.test(url)) return;
     // Prevent navigation off the site.
     ev.preventDefault();
   });
