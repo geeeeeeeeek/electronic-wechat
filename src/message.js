@@ -3,7 +3,8 @@
 let handler = {};
 
 handler.handleEmojiMessage = (response, requestId, debug) => {
-  let urlReg = /.+wx\.qq\.com\/cgi-bin\/mmwebwx-bin\/webwxsync.+/;
+  const urlReg = /.+wx.*\.qq\.com\/cgi-bin\/mmwebwx-bin\/webwxsync.+/;
+
   return new Promise((resolve, reject)=> {
     if (urlReg.test(response.url)) {
       //console.log(response);
@@ -21,8 +22,9 @@ handler.handleEmojiMessage = (response, requestId, debug) => {
           let msgList = body.AddMsgList;
           for (let msg of msgList) {
             let msgId = msg.MsgId;
-            let emojiReg = /.*emoji.*/;
-            if (emojiReg.test(msg.Content)) {
+            // https://github.com/geeeeeeeeek/electronic-wechat/issues/6
+            const MSGTYPE_EMOTICON = 47;
+            if (msg.MsgType == MSGTYPE_EMOTICON) {
               let cdnUrlReg = /cdnurl\s*\=\s*\"(\S*)\"/;
               let result = cdnUrlReg.exec(msg.Content);
               if (result) {
