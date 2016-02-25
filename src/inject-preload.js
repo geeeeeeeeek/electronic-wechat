@@ -23,6 +23,9 @@ Object.defineProperty(angular, 'bootstrap', {
           $httpProvider.defaults.transformResponse.push((value) => {
             if (typeof value === 'object' && value !== null && value.AddMsgList instanceof Array) {
               value.AddMsgList.forEach((msg) => {
+                if (msg.MsgType !== constants.MSGTYPE_EMOTICON) {
+                  return;
+                }
                 const rec = msg.Content.match(/^&lt;msg&gt;&lt;emoji.+cdnurl = "(.+?)".+thumburl = "(.+?)"/);
                 if (rec !== null) {
                   lock(msg, 'MsgType', constants.MSGTYPE_IMAGE);
