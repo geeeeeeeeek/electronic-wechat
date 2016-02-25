@@ -17,7 +17,7 @@ handler.handleEmojiMessage = (response, requestId, debug) => {
         } catch (e) {
           resolve(emojiList);
         }
-        if (body.AddMsgCount > 0) {
+        if (body.AddMsgCount && body.AddMsgCount > 0) {
           let msgList = body.AddMsgList;
           for (let msg of msgList) {
             let msgId = msg.MsgId;

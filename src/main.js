@@ -103,7 +103,9 @@ app.on('activate', () => {
 });
 
 ipcMain.on('badge-changed', (event, num) => {
-  app.dock.setBadge(num);
+  if (process.platform == "darwin") {
+    app.dock.setBadge(num);
+  }
 });
 
 ipcMain.on('log', (event, message) => {
