@@ -36,10 +36,22 @@ You can also get a stable version via npm:
 npm i electronic-wechat
 ```
 
-To pack into an OSX app, simply type:
+To pack into an app, simply type:
 
 ``` shell
-./osxpack.sh
+npm run build:osx
+```
+
+or
+
+``` shell
+npm run build:linux
+```
+
+or
+
+``` shell
+npm run build:win
 ```
 
 #### Download App
