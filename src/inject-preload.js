@@ -4,7 +4,8 @@ const menu = require('./menu.js');
 
 const lock = (object, key, value) => Object.defineProperty(object, key, {
   get: () => value,
-  set: () => {}
+  set: () => {
+  }
 });
 
 lock(window, 'console', window.console);
@@ -27,9 +28,10 @@ Object.defineProperty(angular, 'bootstrap', {
                   case constants.MSGTYPE_EMOTICON:
                     const rec = msg.Content.match(/^&lt;msg&gt;&lt;emoji.+cdnurl = "(.+?)".+thumburl = "(.+?)"/);
                     if (rec !== null) {
-                      lock(msg, 'MsgType', constants.MSGTYPE_IMAGE);
-                      lock(msg, 'MMPreviewSrc', rec[1]);
-                      lock(msg, 'MMThumbSrc', rec[2]);
+                      let actualContent = msg.Content;
+                      lock(msg, 'MMActualContent', actualContent);
+                      lock(msg, 'MMDigest', '[Emoticon resolved by Electronic WeChat]');
+                      lock(msg, 'MsgType', constants.MSGTYPE_EMOTICON);
                     }
                     break;
                   case constants.MSGTYPE_RECALLED:
