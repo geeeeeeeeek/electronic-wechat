@@ -22,7 +22,6 @@ handler.handleEmojiMessage = (response, requestId, debug) => {
           let msgList = body.AddMsgList;
           for (let msg of msgList) {
             let msgId = msg.MsgId;
-            // https://github.com/geeeeeeeeek/electronic-wechat/issues/6
             const MSGTYPE_EMOTICON = 47;
             if (msg.MsgType == MSGTYPE_EMOTICON) {
               let cdnUrlReg = /cdnurl\s*\=\s*\"(\S*)\"/;
