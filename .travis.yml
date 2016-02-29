@@ -4,7 +4,6 @@ node_js:
 branches:
   only:
   - master
-  - /^release.*$/
 before_script:
 - npm install
 script:
@@ -24,3 +23,10 @@ deploy:
     repo: geeeeeeeeek/electronic-wechat
     branch: master
     tags: true
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/d6bab2376f47ee992d78
+    on_success: always  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: always     # options: [always|never|change] default: always
