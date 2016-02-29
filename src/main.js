@@ -68,8 +68,10 @@ let createWindow = () => {
   browserWindow.webContents.debugger.sendCommand("Network.enable");
 
   browserWindow.webContents.on('dom-ready', () => {
-    browserWindow.webContents.insertCSS(injectBundle.loginCSS);
     browserWindow.webContents.insertCSS(injectBundle.wechatCSS);
+    if (process.platform == "darwin") {
+      browserWindow.webContents.insertCSS(injectBundle.osxCSS);
+    }
     browserWindow.webContents.executeJavaScript(`injectBundle.getBadgeJS()`);
   });
 

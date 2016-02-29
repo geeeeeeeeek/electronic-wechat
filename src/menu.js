@@ -132,7 +132,7 @@ menuHandler.create = () => {
         {
           type: 'separator'
         },{
-          label: 'GitHub Issues',
+          label: 'Report Issues',
           click: () => {
             shell.openExternal('https://github.com/geeeeeeeeek/electronic-wechat/issues');
           }

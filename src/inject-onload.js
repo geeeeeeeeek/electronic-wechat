@@ -40,21 +40,12 @@ injectBundle.wechatCSS = `
       -webkit-user-select: initial;
       cursor: initial !important;
     }
-    div.header div.avatar img.img {
-      width: 24px;
-      height: 24px;
-    }
-    div.header {
-      padding-top: 38px;
-      padding-bottom: 7px;
-    }
     html, body {
       width: 100%;
       height: 100%;
       overflow: hidden;
-    }`;
+    }
 
-injectBundle.loginCSS = `
     div.login_box {
       top: initial;
       left: initial;
@@ -74,5 +65,16 @@ injectBundle.loginCSS = `
       display: none !important
     }
   `;
+
+injectBundle.osxCSS = `
+    div.header div.avatar img.img {
+      width: 24px;
+      height: 24px;
+    }
+    div.header {
+      padding-top: 38px;
+      padding-bottom: 7px;
+    }
+`;
 
 module.exports = injectBundle;
