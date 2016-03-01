@@ -14,9 +14,7 @@ This app is still under development. Mainly tested on OS X, but should work on L
 
 **Electronic WeChat v.s. Mac WeChat**
 
-- ​				Modern UI and full features from Web WeChat.
-
-
+- ​Modern UI and full features from Web WeChat.
 - Drag-to-send pictures.
 - Bug free.
 - Prevent others from recalling messages.
