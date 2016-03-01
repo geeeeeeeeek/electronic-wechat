@@ -29,7 +29,7 @@ Object.defineProperty(angular, 'bootstrap', {
               value.AddMsgList.forEach((msg) => {
                 switch (msg.MsgType) {
                   case constants.MSGTYPE_EMOTICON:
-                    const rec = msg.Content.match(/^&lt;msg&gt;&lt;emoji.+cdnurl = "(.+?)".+thumburl = "(.+?)"/);
+                    const rec = msg.Content.match(/&lt;msg&gt;&lt;emoji.+cdnurl = "(.+?)".+thumburl = "(.+?)"/);
                     if (rec !== null) {
                       let actualContent = msg.Content;
                       lock(msg, 'MMActualContent', actualContent);
