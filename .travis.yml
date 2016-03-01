@@ -21,7 +21,6 @@ deploy:
   on:
     repo: geeeeeeeeek/electronic-wechat
     branch: master
-    tags: true
 notifications:
   webhooks:
     urls:
