@@ -5,14 +5,14 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron src/main.js",
-	"build": "./scripts/build-all.sh",
-	"build:osx": "./scripts/build.sh darwin x64",
-	"build:osx64": "./scripts/build.sh darwin x64",
-	"build:linux32": "./scripts/build.sh linux ia32",
-	"build:linux": "./scripts/build.sh linux x64",
-	"build:linux64": "./scripts/build.sh linux x64",
-	"build:win": "./scripts/build.sh win32 ia32",
-	"build:win32": "./scripts/build.sh win32 ia32"
+  	"build": "./scripts/build-all.sh",
+  	"build:osx": "./scripts/build.sh darwin x64",
+  	"build:osx64": "./scripts/build.sh darwin x64",
+  	"build:linux32": "./scripts/build.sh linux ia32",
+  	"build:linux": "./scripts/build.sh linux x64",
+  	"build:linux64": "./scripts/build.sh linux x64",
+  	"build:win": "./scripts/build.sh win32 ia32",
+  	"build:win32": "./scripts/build.sh win32 ia32"
   },
   "repository": {
     "type": "git",
