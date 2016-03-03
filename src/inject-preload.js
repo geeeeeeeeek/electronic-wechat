@@ -1,3 +1,4 @@
+/*eslint-disable*/
 "use strict";
 const ipcRenderer = require('electron').ipcRenderer;
 const webFrame = require('web-frame');
@@ -58,10 +59,18 @@ Object.defineProperty(angular, 'bootstrap', {
 window.injectBundle = {};
 injectBundle.getBadgeJS = () => {
   $(".chat_list.scroll-content").bind('DOMSubtreeModified', () => {
-    var count = 0;
-    $(".icon.web_wechat_reddot_middle").each(function () {
-      count += parseInt(this.textContent || 1);
-    });
+    let count = Array.from($(".icon.web_wechat_reddot_middle")).reduce((total, el) => {
+      return total + parseInt(el.textContent || 1);
+    }, 0);
+
+    count = Array.from($(".icon.web_wechat_reddot")).reduce((total, el) => {
+      return total + parseInt(el.textContent || 1);
+    }, count);
+
+    // var count = 0;
+    // $(".icon.web_wechat_reddot_middle").each(function () {
+    //   count += parseInt(this.textContent || 1);
+    // });
     if (count > 0) {
       ipcRenderer.send("badge-changed", count.toString());
     } else {
