@@ -53,7 +53,7 @@ Object.defineProperty(angular, 'bootstrap', {
 
 window.injectBundle = {};
 injectBundle.getBadgeJS = () => {
-  $(".chat_list.scroll-content").bind('DOMSubtreeModified', () => {
+  setTimeout(() => {
     let count = Array.from($(".icon.web_wechat_reddot_middle")).reduce((total, el) => {
       return total + parseInt(el.textContent || 1);
     }, 0);
@@ -67,7 +67,7 @@ injectBundle.getBadgeJS = () => {
     } else {
       ipcRenderer.send("badge-changed", "");
     }
-  })
+  }, 3000);
 };
 
 injectBundle.getProfileNameJS = () => {
