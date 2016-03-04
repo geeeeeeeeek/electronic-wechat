@@ -29,13 +29,8 @@ Object.defineProperty(angular, 'bootstrap', {
               value.AddMsgList.forEach((msg) => {
                 switch (msg.MsgType) {
                   case constants.MSGTYPE_EMOTICON:
-                    const rec = msg.Content.match(/&lt;msg&gt;&lt;emoji.+cdnurl\s*=\s*"(.+?)".+thumburl\s*=\s*"(.*?)"/);
-                    if (rec !== null) {
-                      let actualContent = msg.Content;
-                      lock(msg, 'MMActualContent', actualContent);
-                      lock(msg, 'MMDigest', '[Emoticon resolved by Electronic WeChat]');
-                      lock(msg, 'MsgType', constants.MSGTYPE_EMOTICON);
-                    }
+                    lock(msg, 'MMDigest', '[Emoticon]');
+                    lock(msg, 'MsgType', constants.MSGTYPE_EMOTICON);
                     break;
                   case constants.MSGTYPE_RECALLED:
                     lock(msg, 'MsgType', constants.MSGTYPE_SYS);
