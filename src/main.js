@@ -7,6 +7,7 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const ipcMain = electron.ipcMain;
 const shell = electron.shell;
+const Menu = electron.Menu;
 
 const injectBundle = require('./inject-onload.js');
 const messageHandler = require('./message.js');
@@ -122,5 +123,10 @@ ipcMain.on('log', (event, message) => {
 
 function createTray() {
   appIcon = new electron.Tray(path.join(__dirname, '../assets/icon20x20.png'));
+  var contextMenu = Menu.buildFromTemplate([
+      {label: 'Show', click: () => browserWindow.show()},
+      {label: 'Exit', click: () => app.exit(0)}
+  ])
+  appIcon.setContextMenu(contextMenu);
   appIcon.on('click', () => browserWindow.show());
 }
