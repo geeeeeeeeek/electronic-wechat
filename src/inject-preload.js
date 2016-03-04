@@ -11,7 +11,7 @@ const lock = (object, key, value) => Object.defineProperty(object, key, {
 
 webFrame.setZoomLevelLimits(1, 1);
 
-//lock(window, 'console', window.console);
+lock(window, 'console', window.console);
 
 let angular = window.angular = {};
 let angularBootstrapReal;

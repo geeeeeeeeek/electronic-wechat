@@ -65,19 +65,6 @@ let createWindow = () => {
     ev.preventDefault();
   });
 
-  try {
-    browserWindow.webContents.debugger.attach("1.1");
-  } catch (err) {
-    console.log("Debugger attach failed : ", err);
-  }
-
-
-  browserWindow.webContents.debugger.on('detach', (event, reason) => {
-    console.log("Debugger detached due to : ", reason);
-  });
-
-  browserWindow.webContents.debugger.sendCommand("Network.enable");
-
   browserWindow.webContents.on('dom-ready', () => {
     browserWindow.webContents.insertCSS(injectBundle.wechatCSS);
     if (process.platform == "darwin") {
@@ -111,7 +98,7 @@ app.on('activate', () => {
 ipcMain.on('badge-changed', (event, num) => {
   if (process.platform == "darwin") {
     app.dock.setBadge(num);
-    if (num) appIcon.setTitle(`${num}条未读`);
+    if (num) appIcon.setTitle(` ${num}`);
     else appIcon.setTitle('');
   }
 });
