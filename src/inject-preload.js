@@ -67,10 +67,6 @@ injectBundle.getBadgeJS = () => {
       return total + parseInt(el.textContent || 1);
     }, count);
 
-    // var count = 0;
-    // $(".icon.web_wechat_reddot_middle").each(function () {
-    //   count += parseInt(this.textContent || 1);
-    // });
     if (count > 0) {
       ipcRenderer.send("badge-changed", count.toString());
     } else {
