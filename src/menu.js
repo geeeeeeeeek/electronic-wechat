@@ -5,6 +5,7 @@ let menuHandler = {};
 menuHandler.create = () => {
   let remote = require('remote');
   let Menu = remote.require('menu');
+  let app = remote.require('app');
   let shell = require('shell');
   let template = [
     {
@@ -44,7 +45,9 @@ menuHandler.create = () => {
         {
           label: 'Quit',
           accelerator: 'Command+Q',
-          selector: 'terminate:'
+          click: () => {
+            app.exit(0);
+          }
         }
       ]
     },

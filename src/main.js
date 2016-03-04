@@ -44,7 +44,6 @@ let createWindow = () => {
 
   browserWindow.webContents.on('will-navigate', (ev, url) => {
     if (/(.*wx.*\.qq\.com.*)|(web.wechat.com)/.test(url)) return;
-    // Prevent navigation off the site.
     ev.preventDefault();
   });
 
@@ -82,10 +81,6 @@ let createWindow = () => {
 };
 
 app.on('ready', createWindow);
-
-app.on('browserWindow-all-closed', () => {
-  app.quit();
-});
 
 app.on('activate', () => {
   if (browserWindow == null) {
