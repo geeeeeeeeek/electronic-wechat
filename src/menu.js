@@ -8,7 +8,7 @@ menuHandler.create = () => {
   let app = remote.require('app');
   let shell = require('shell');
   let ipcRenderer = require("ipc-renderer");
-  let template = [
+  let darwinTemplate = [
     {
       label: 'Electronic WeChat',
       submenu: [
@@ -156,12 +156,68 @@ menuHandler.create = () => {
     }
   ];
 
-  let menu = Menu.buildFromTemplate(template);
+  let linuxTemplate = [
+    {
+      label: 'Window',
+      submenu: [
+        {
+          label: 'Reload This Window',
+          accelerator: 'Ctrl+R',
+          click: () => {
+            ipcRenderer.send('reload');
+          }
+        },
+        {
+          label: 'Toggle DevTools',
+          accelerator: 'Alt+Ctrl+I',
+          click: () => {
+            remote.getCurrentWindow().toggleDevTools();
+          }
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Quit The App',
+          accelerator: 'Ctrl+Q',
+          click: () => {
+            app.exit(0);
+          }
+        }
+      ]
+    },
+    {
+      label: 'Help',
+      submenu: [
+        {
+          label: 'GitHub Repository',
+          click: () => {
+            shell.openExternal('https://github.com/geeeeeeeeek/electronic-wechat');
+          }
+        },
+        {
+          type: 'separator'
+        }, {
+          label: 'Report Issues',
+          click: () => {
+            shell.openExternal('https://github.com/geeeeeeeeek/electronic-wechat/issues');
+          }
+        }, {
+          label: 'Check for New Release',
+          click: () => {
+            shell.openExternal('https://github.com/geeeeeeeeek/electronic-wechat/releases');
+          }
+        }]
+    }
+  ];
+
 
   if (remote.process.platform == "darwin") {
-    Menu.setApplicationMenu(menu);
-  } else {
-    Menu.setApplicationMenu(null);
+    let darwinMenu = Menu.buildFromTemplate(darwinTemplate);
+    Menu.setApplicationMenu(darwinMenu);
+  } else if (remote.process.platform == "linux"){
+    let linuxMenu = Menu.buildFromTemplate(linuxTemplate);
+    Menu.setApplicationMenu(linuxMenu);
   }
 };
 

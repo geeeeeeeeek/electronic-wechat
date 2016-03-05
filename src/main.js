@@ -7,6 +7,7 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const ipcMain = electron.ipcMain;
 const shell = electron.shell;
+const Menu = electron.Menu;
 
 const injectBundle = require('./inject-onload.js');
 const messageHandler = require('./message.js');
@@ -26,7 +27,7 @@ let createWindow = () => {
     show: true,
     frame: true,
     autoHideMenuBar: true,
-    icon: 'icon.png',
+    icon: 'assets/icon.png',
     titleBarStyle: 'hidden-inset',
     'web-preferences': {
       javascript: true,
@@ -106,7 +107,17 @@ ipcMain.on('reload', (event, message) => {
   browserWindow.loadURL("https://wx.qq.com/");
 });
 
-function createTray() {
+let createTray = () => {
   appIcon = new electron.Tray(path.join(__dirname, '../assets/icon20x20.png'));
-  appIcon.on('click', () => browserWindow.show());
+  appIcon.setToolTip('Electronic WeChat');
+
+  if (process.platform == "linux") {
+    let contextMenu = Menu.buildFromTemplate([
+         {label: 'Show', click: () => browserWindow.show()},
+         {label: 'Exit', click: () => app.exit(0)}
+    ]);
+    appIcon.setContextMenu(contextMenu);
+  }else {
+    appIcon.on('click', () => browserWindow.show());
+  }
 }
