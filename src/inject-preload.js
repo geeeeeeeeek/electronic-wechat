@@ -65,12 +65,4 @@ injectBundle.getBadgeJS = () => {
   }, 1500);
 };
 
-injectBundle.getProfileNameJS = () => {
-  let updateName = ()=> {
-    let name = $('.display_name').text();
-    ipcRenderer.send("profile-name-changed", name);
-  };
-  $('.display_name').ready(updateName).change(updateName);
-};
-
 menu.create();

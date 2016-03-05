@@ -7,6 +7,7 @@ menuHandler.create = () => {
   let Menu = remote.require('menu');
   let app = remote.require('app');
   let shell = require('shell');
+  let ipcRenderer = require("ipc-renderer");
   let template = [
     {
       label: 'Electronic WeChat',
@@ -93,6 +94,13 @@ menuHandler.create = () => {
       label: 'View',
       submenu: [
         {
+          label: 'Reload This Window',
+          accelerator: 'Command+R',
+          click: () => {
+            ipcRenderer.send('reload');
+          }
+        },
+        {
           label: 'Toggle DevTools',
           accelerator: 'Alt+Command+I',
           click: () => {
@@ -134,12 +142,12 @@ menuHandler.create = () => {
         },
         {
           type: 'separator'
-        },{
+        }, {
           label: 'Report Issues',
           click: () => {
             shell.openExternal('https://github.com/geeeeeeeeek/electronic-wechat/issues');
           }
-        },{
+        }, {
           label: 'Check for New Release',
           click: () => {
             shell.openExternal('https://github.com/geeeeeeeeek/electronic-wechat/releases');
