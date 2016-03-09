@@ -44,7 +44,7 @@ let createWindow = () => {
   browserWindow.loadURL("https://wx.qq.com/");
 
   browserWindow.webContents.on('will-navigate', (ev, url) => {
-    if (/(.*wx.*\.qq\.com.*)|(web.wechat.com)/.test(url)) return;
+    if (/(.*wx.*\.qq\.com.*)|(web.*\.wechat\.com.*)/.test(url)) return;
     ev.preventDefault();
   });
 
@@ -113,11 +113,11 @@ let createTray = () => {
 
   if (process.platform == "linux") {
     let contextMenu = Menu.buildFromTemplate([
-         {label: 'Show', click: () => browserWindow.show()},
-         {label: 'Exit', click: () => app.exit(0)}
+      {label: 'Show', click: () => browserWindow.show()},
+      {label: 'Exit', click: () => app.exit(0)}
     ]);
     appIcon.setContextMenu(contextMenu);
-  }else {
+  } else {
     appIcon.on('click', () => browserWindow.show());
   }
-}
+};
