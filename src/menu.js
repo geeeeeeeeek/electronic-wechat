@@ -169,7 +169,7 @@ menuHandler.create = () => {
         },
         {
           label: 'Toggle DevTools',
-          accelerator: 'Alt+Ctrl+I',
+          accelerator: 'Ctrl+Shift+I',
           click: () => {
             remote.getCurrentWindow().toggleDevTools();
           }
