@@ -27,7 +27,7 @@ This app is still under development. Mainly tested on OS X, but should work on L
 
 **Electronic WeChat v.s. Linux WeChat**
 
-- Well, you actually don't have a choice.​	
+- Well, you actually don't have a choice.​
 
 ## How To Use
 
@@ -50,8 +50,10 @@ npm run build:linux
 npm run build:win
 ```
 
+*OPTIONAL:* If you find `npm install` going slowly, you can use [taobao's cnpm mirror](http://npm.taobao.org/) instead.
+
 #### Download App
 
-If you only cares about the app, you can find it out in the [release](https://github.com/geeeeeeeeek/electronic-wechat/releases) section.
+If you only care about the app, you can find it out in the [release](https://github.com/geeeeeeeeek/electronic-wechat/releases) section.
 
 #### License [MIT](LICENSE.md)

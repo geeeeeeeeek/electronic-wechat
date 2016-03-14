@@ -51,6 +51,8 @@ npm run build:linux
 npm run build:win
 ```
 
+*可选项 :* 如果你感觉到`npm install`下载缓慢，可以使用[淘宝镜像(cnpm)](http://npm.taobao.org/)替代npm。
+
 #### 直接下载应用
 
 如果你希望开箱即用，你可以在[release](https://github.com/geeeeeeeeek/electronic-wechat/releases)中下载到最新的稳定版本。
