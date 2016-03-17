@@ -108,7 +108,11 @@ ipcMain.on('reload', (event, message) => {
 });
 
 let createTray = () => {
-  appIcon = new electron.Tray(path.join(__dirname, '../assets/icon20x20.png'));
+  const nativeImage = require('electron').nativeImage;
+  let image = nativeImage.createFromPath(path.join(__dirname, '../assets/status_bar.png'));
+  image.setTemplateImage(true);
+
+  appIcon = new electron.Tray(image);
   appIcon.setToolTip('Electronic WeChat');
 
   if (process.platform == "linux") {
