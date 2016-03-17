@@ -31,6 +31,9 @@ Object.defineProperty(angular, 'bootstrap', {
                   case constants.MSGTYPE_EMOTICON:
                     lock(msg, 'MMDigest', '[Emoticon]');
                     lock(msg, 'MsgType', constants.MSGTYPE_EMOTICON);
+                    if (msg.ImgWidth >= 120) {
+                      lock(msg, 'MMImgStyle', {height: '120px', width: 'initial'});
+                    }
                     break;
                   case constants.MSGTYPE_RECALLED:
                     lock(msg, 'MsgType', constants.MSGTYPE_SYS);
