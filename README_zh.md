@@ -10,7 +10,7 @@
 
 ![qq20160317-0 2x](https://cloud.githubusercontent.com/assets/7262715/13844793/ec6b6dae-ec76-11e5-934e-a388527b2ede.png)
 
-## 应用特性
+## 应用特性 ([更新日志](CHANGELOG.md))
 
 **Electronic WeChat v.s. Mac 官方微信客户端**
 

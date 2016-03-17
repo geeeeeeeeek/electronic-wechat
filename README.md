@@ -10,7 +10,7 @@ This app is still under development. Mainly tested on OS X, but should work on L
 
 ![qq20160317-0 2x](https://cloud.githubusercontent.com/assets/7262715/13844793/ec6b6dae-ec76-11e5-934e-a388527b2ede.png)
 
-## Features
+## Features ([CHANGELOG](CHANGELOG.md))
 
 **Electronic WeChat v.s. Mac WeChat**
 
