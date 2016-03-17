@@ -4,6 +4,7 @@ node_js:
 branches:
   only:
   - master
+  - production
 before_script:
 - npm install
 script:
