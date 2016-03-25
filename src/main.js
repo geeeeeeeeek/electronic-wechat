@@ -11,9 +11,10 @@ const Menu = electron.Menu;
 
 const injectBundle = require('./inject-onload.js');
 const messageHandler = require('./message.js');
+const updateHandler = require('./update.js');
 
-const WINDOW_SIZE = { width: 800, height: 600 };
-const WINDOW_SIZE_LOGIN = { width: 380, height: 540 };
+const WINDOW_SIZE = {width: 800, height: 600};
+const WINDOW_SIZE_LOGIN = {width: 380, height: 540};
 
 const WINDOW_TITLE = 'Electronic WeChat';
 
@@ -82,6 +83,7 @@ let createWindow = () => {
   browserWindow.hide();
 
   createTray();
+  updateHandler.checkForUpdate('v' + app.getVersion(), true);
 };
 
 app.on('ready', createWindow);
@@ -128,7 +130,11 @@ let setSize = (isLogined) => {
 let renderWindow = (isLogined) => {
   setResizable(isLogined);
   setSize(isLogined);
-}
+};
+
+ipcMain.on('update', (event, message) => {
+  updateHandler.checkForUpdate('v' + app.getVersion(), false);
+});
 
 let createTray = () => {
   const nativeImage = require('electron').nativeImage;

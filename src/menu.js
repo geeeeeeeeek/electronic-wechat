@@ -150,7 +150,7 @@ menuHandler.create = () => {
         }, {
           label: 'Check for New Release',
           click: () => {
-            shell.openExternal('https://github.com/geeeeeeeeek/electronic-wechat/releases');
+            ipcRenderer.send('update');
           }
         }]
     }
@@ -205,7 +205,7 @@ menuHandler.create = () => {
         }, {
           label: 'Check for New Release',
           click: () => {
-            shell.openExternal('https://github.com/geeeeeeeeek/electronic-wechat/releases');
+            ipcRenderer.send('update');
           }
         }]
     }
@@ -215,7 +215,7 @@ menuHandler.create = () => {
   if (remote.process.platform == "darwin") {
     let darwinMenu = Menu.buildFromTemplate(darwinTemplate);
     Menu.setApplicationMenu(darwinMenu);
-  } else if (remote.process.platform == "linux"){
+  } else if (remote.process.platform == "linux") {
     let linuxMenu = Menu.buildFromTemplate(linuxTemplate);
     Menu.setApplicationMenu(linuxMenu);
   }
