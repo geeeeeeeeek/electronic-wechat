@@ -1,7 +1,7 @@
 "use strict";
 const ipcRenderer = require('electron').ipcRenderer;
 const webFrame = require('web-frame');
-const MenuHandler = require('./menu.js');
+const MenuHandler = require('../handler/menu');
 
 const lock = (object, key, value) => Object.defineProperty(object, key, {
   get: () => value,
@@ -53,7 +53,7 @@ Object.defineProperty(angular, 'bootstrap', {
         ipcRenderer.send("wx-rendered", false);
 
         $rootScope.$on("newLoginPage", () => {
-          ipcRenderer.send("user-logined", "");
+          ipcRenderer.send("user-logged", "");
         });
       }]);
     }

@@ -8,149 +8,159 @@ const BrowserWindow = electron.BrowserWindow;
 const ipcMain = electron.ipcMain;
 const shell = electron.shell;
 const Menu = electron.Menu;
+const nativeImage = electron.nativeImage;
 
-const injectBundle = require('./inject-onload.js');
-const messageHandler = require('./message.js');
-const updateHandler = require('./update.js');
+const injectBundle = require('./inject/onload');
+const MessageHandler = require('./handler/message');
+const UpdateHandler = require('./handler/update');
+const Common = require('./common');
 
-const WINDOW_SIZE = {width: 800, height: 600};
-const WINDOW_SIZE_LOGIN = {width: 380, height: 540};
-
-const WINDOW_TITLE = 'Electronic WeChat';
-
-let browserWindow = null;
-let appIcon = null;
-
-let createWindow = () => {
-  browserWindow = new BrowserWindow({
-    title: WINDOW_TITLE,
-    resizable: true,
-    center: true,
-    show: true,
-    frame: true,
-    autoHideMenuBar: true,
-    icon: 'assets/icon.png',
-    titleBarStyle: 'hidden-inset',
-    'web-preferences': {
-      javascript: true,
-      plugins: true,
-      nodeIntegration: false,
-      webSecurity: false,
-      preload: __dirname + '/inject-preload.js'
-    }
-  });
-
-  browserWindow.webContents.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36");
-  // browserWindow.webContents.openDevTools();
-
-  browserWindow.loadURL("https://wx.qq.com/");
-
-  browserWindow.webContents.on('will-navigate', (ev, url) => {
-    if (/(.*wx.*\.qq\.com.*)|(web.*\.wechat\.com.*)/.test(url)) return;
-    ev.preventDefault();
-  });
-
-  browserWindow.on('close', (e) => {
-    if (browserWindow.isVisible()) {
-      e.preventDefault();
-      browserWindow.hide();
-    }
-  });
-
-  browserWindow.on('closed', () => {
-    browserWindow = null;
-    appIcon.destroy();
-    appIcon = null;
-  });
-
-  browserWindow.on('page-title-updated', (ev) => {
-    ev.preventDefault();
-  });
-
-  browserWindow.webContents.on('dom-ready', () => {
-    browserWindow.webContents.insertCSS(injectBundle.wechatCSS);
-    if (process.platform == "darwin") {
-      browserWindow.webContents.insertCSS(injectBundle.osxCSS);
-    }
-    browserWindow.webContents.executeJavaScript(`injectBundle.getBadgeJS()`);
-  });
-
-  browserWindow.webContents.on('new-window', (event, url) => {
-    event.preventDefault();
-    shell.openExternal(messageHandler.handleRedirectMessage(url));
-  });
-
-  browserWindow.hide();
-
-  createTray();
-  updateHandler.checkForUpdate('v' + app.getVersion(), true);
-};
-
-app.on('ready', createWindow);
-
-app.on('activate', () => {
-  if (browserWindow == null) {
-    createWindow();
-  } else {
-    browserWindow.show();
+class ElectronicWeChat {
+  constructor() {
+    this.browserWindow = null;
+    this.appIcon = null;
   }
-});
 
-ipcMain.on('badge-changed', (event, num) => {
-  if (process.platform == "darwin") {
-    app.dock.setBadge(num);
-    if (num) appIcon.setTitle(` ${num}`);
-    else appIcon.setTitle('');
+  init() {
+    this.initApp();
+    this.initIPC();
   }
-});
 
-ipcMain.on('user-logined', () => renderWindow(true));
+  initApp() {
+    app.on('ready', ()=> {
+      this.createWindow();
+      this.createTray();
+    });
 
-ipcMain.on('wx-rendered', (event, isLogined) => renderWindow(isLogined));
+    app.on('activate', () => {
+      if (this.browserWindow == null) {
+        this.createWindow();
+      } else {
+        this.browserWindow.show();
+      }
+    });
+  };
 
-ipcMain.on('log', (event, message) => {
-  console.log(message);
-});
+  initIPC() {
+    ipcMain.on('badge-changed', (event, num) => {
+      if (process.platform == "darwin") {
+        app.dock.setBadge(num);
+        if (num) {
+          this.appIcon.setTitle(` ${num}`);
+        } else {
+          this.appIcon.setTitle('');
+        }
+      }
+    });
 
-ipcMain.on('reload', (event, message) => {
-  browserWindow.loadURL("https://wx.qq.com/");
-});
+    ipcMain.on('user-logged', () => this.resizeWindow(true));
 
-let setResizable = (isLogined) => {
-  browserWindow.setResizable(isLogined);
-};
+    ipcMain.on('wx-rendered', (event, isLogged) => this.resizeWindow(isLogged));
 
-let setSize = (isLogined) => {
-  const size = isLogined ? WINDOW_SIZE : WINDOW_SIZE_LOGIN;
-  browserWindow.setSize(size.width, size.height);
-  browserWindow.center();
-  browserWindow.show();
-};
+    ipcMain.on('log', (event, message) => {
+      console.log(message);
+    });
 
-let renderWindow = (isLogined) => {
-  setResizable(isLogined);
-  setSize(isLogined);
-};
+    ipcMain.on('reload', (event, message) => {
+      this.browserWindow.loadURL("https://wx.qq.com/");
+    });
 
-ipcMain.on('update', (event, message) => {
-  updateHandler.checkForUpdate('v' + app.getVersion(), false);
-});
+    ipcMain.on('update', (event, message) => {
+      let updateHandler = new UpdateHandler();
+      updateHandler.checkForUpdate(`v${app.getVersion()}`, false);
+    });
+  };
 
-let createTray = () => {
-  const nativeImage = require('electron').nativeImage;
-  let image = nativeImage.createFromPath(path.join(__dirname, '../assets/status_bar.png'));
-  image.setTemplateImage(true);
+  createTray() {
+    let image = nativeImage.createFromPath(path.join(__dirname, '../assets/status_bar.png'));
+    image.setTemplateImage(true);
 
-  appIcon = new electron.Tray(image);
-  appIcon.setToolTip('Electronic WeChat');
+    this.appIcon = new electron.Tray(image);
+    this.appIcon.setToolTip(Common.ELECTRONIC_WECHAT);
 
-  if (process.platform == "linux") {
-    let contextMenu = Menu.buildFromTemplate([
-      {label: 'Show', click: () => browserWindow.show()},
-      {label: 'Exit', click: () => app.exit(0)}
-    ]);
-    appIcon.setContextMenu(contextMenu);
-  } else {
-    appIcon.on('click', () => browserWindow.show());
+    if (process.platform == "linux") {
+      let contextMenu = Menu.buildFromTemplate([
+        {label: 'Show', click: () => this.browserWindow.show()},
+        {label: 'Exit', click: () => app.exit(0)}
+      ]);
+      this.appIcon.setContextMenu(contextMenu);
+    } else {
+      this.appIcon.on('click', () => this.browserWindow.show());
+    }
   }
-};
+
+  resizeWindow(isLogged) {
+    const size = isLogged ? Common.WINDOW_SIZE : Common.WINDOW_SIZE_LOGIN;
+
+    this.browserWindow.setResizable(isLogged);
+    this.browserWindow.setSize(size.width, size.height);
+    this.browserWindow.center();
+    this.browserWindow.show();
+  }
+
+  createWindow() {
+    this.browserWindow = new BrowserWindow({
+      title: Common.ELECTRONIC_WECHAT,
+      resizable: true,
+      center: true,
+      show: true,
+      frame: true,
+      autoHideMenuBar: true,
+      icon: 'assets/icon.png',
+      titleBarStyle: 'hidden-inset',
+      'web-preferences': {
+        javascript: true,
+        plugins: true,
+        nodeIntegration: false,
+        webSecurity: false,
+        preload: __dirname + '/inject/preload.js'
+      }
+    });
+
+    this.browserWindow.webContents.setUserAgent(Common.USER_AGENT);
+    // this.browserWindow.webContents.openDevTools();
+
+    this.browserWindow.loadURL(Common.WEB_WECHAT);
+
+    this.browserWindow.webContents.on('will-navigate', (ev, url) => {
+      if (/(.*wx.*\.qq\.com.*)|(web.*\.wechat\.com.*)/.test(url)) return;
+      ev.preventDefault();
+    });
+
+    this.browserWindow.on('close', (e) => {
+      if (this.browserWindow.isVisible()) {
+        e.preventDefault();
+        this.browserWindow.hide();
+      }
+    });
+
+    this.browserWindow.on('closed', () => {
+      this.browserWindow = null;
+      this.appIcon.destroy();
+      this.appIcon = null;
+    });
+
+    this.browserWindow.on('page-title-updated', (ev) => {
+      ev.preventDefault();
+    });
+
+    this.browserWindow.webContents.on('dom-ready', () => {
+      this.browserWindow.webContents.insertCSS(injectBundle.commonCSS);
+      if (process.platform == "darwin") {
+        this.browserWindow.webContents.insertCSS(injectBundle.osxCSS);
+      }
+      this.browserWindow.webContents.executeJavaScript(`injectBundle.getBadgeJS()`);
+
+      new UpdateHandler().checkForUpdate(`v${app.getVersion()}`, true);
+    });
+
+    this.browserWindow.webContents.on('new-window', (event, url) => {
+      event.preventDefault();
+      shell.openExternal(new MessageHandler.handleRedirectMessage(url));
+    });
+
+    this.browserWindow.hide();
+  }
+}
+
+new ElectronicWeChat().init();

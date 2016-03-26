@@ -1,13 +1,22 @@
 "use strict";
 
-class MenuHandler {
+const remote = require('remote');
+const Menu = remote.require('menu');
+const app = remote.require('app');
+const shell = require('shell');
+const ipcRenderer = require("ipc-renderer");
+const Common = require("../common");
 
+class MenuHandler {
   create() {
-    let remote = require('remote');
-    let Menu = remote.require('menu');
-    let app = remote.require('app');
-    let shell = require('shell');
-    let ipcRenderer = require("ipc-renderer");
+    let template = this.getTemplate(remote.process.platform);
+    if (template) {
+      let menuFromTemplate = Menu.buildFromTemplate(template);
+      Menu.setApplicationMenu(menuFromTemplate);
+    }
+  }
+
+  getTemplate(platform) {
     let darwinTemplate = [
       {
         label: 'Electronic WeChat',
@@ -46,9 +55,7 @@ class MenuHandler {
           {
             label: 'Quit',
             accelerator: 'Command+Q',
-            click: () => {
-              app.exit(0);
-            }
+            click: MenuHandler._quitApp
           }
         ]
       },
@@ -96,16 +103,12 @@ class MenuHandler {
           {
             label: 'Reload This Window',
             accelerator: 'Command+R',
-            click: () => {
-              ipcRenderer.send('reload');
-            }
+            click: MenuHandler._reload
           },
           {
             label: 'Toggle DevTools',
             accelerator: 'Alt+Command+I',
-            click: () => {
-              remote.getCurrentWindow().toggleDevTools();
-            }
+            click: MenuHandler._devTools
           }
         ]
       },
@@ -136,26 +139,19 @@ class MenuHandler {
         submenu: [
           {
             label: 'GitHub Repository',
-            click: () => {
-              shell.openExternal('https://github.com/geeeeeeeeek/electronic-wechat');
-            }
+            click: MenuHandler._github
           },
           {
             type: 'separator'
           }, {
             label: 'Report Issues',
-            click: () => {
-              shell.openExternal('https://github.com/geeeeeeeeek/electronic-wechat/issues');
-            }
+            click: MenuHandler._githubIssues
           }, {
             label: 'Check for New Release',
-            click: () => {
-              ipcRenderer.send('update');
-            }
+            click: MenuHandler._update
           }]
       }
     ];
-
     let linuxTemplate = [
       {
         label: 'Window',
@@ -163,16 +159,12 @@ class MenuHandler {
           {
             label: 'Reload This Window',
             accelerator: 'Ctrl+R',
-            click: () => {
-              ipcRenderer.send('reload');
-            }
+            click: () => MenuHandler._reload
           },
           {
             label: 'Toggle DevTools',
             accelerator: 'Ctrl+Shift+I',
-            click: () => {
-              remote.getCurrentWindow().toggleDevTools();
-            }
+            click: () => MenuHandler._devTools
           },
           {
             type: 'separator'
@@ -180,9 +172,7 @@ class MenuHandler {
           {
             label: 'Quit The App',
             accelerator: 'Ctrl+Q',
-            click: () => {
-              app.exit(0);
-            }
+            click: () => MenuHandler._quitApp
           }
         ]
       },
@@ -191,34 +181,49 @@ class MenuHandler {
         submenu: [
           {
             label: 'GitHub Repository',
-            click: () => {
-              shell.openExternal('https://github.com/geeeeeeeeek/electronic-wechat');
-            }
+            click: MenuHandler._github
           },
           {
             type: 'separator'
           }, {
             label: 'Report Issues',
-            click: () => {
-              shell.openExternal('https://github.com/geeeeeeeeek/electronic-wechat/issues');
-            }
+            click: MenuHandler._githubIssues
           }, {
             label: 'Check for New Release',
-            click: () => {
-              ipcRenderer.send('update');
-            }
+            click: MenuHandler._update
           }]
       }
     ];
 
-
-    if (remote.process.platform == "darwin") {
-      let darwinMenu = Menu.buildFromTemplate(darwinTemplate);
-      Menu.setApplicationMenu(darwinMenu);
-    } else if (remote.process.platform == "linux") {
-      let linuxMenu = Menu.buildFromTemplate(linuxTemplate);
-      Menu.setApplicationMenu(linuxMenu);
+    if (platform == "darwin") {
+      return darwinTemplate;
+    } else if (platform == "linux") {
+      return linuxTemplate;
     }
+  }
+
+  static _quitApp() {
+    app.exit(0);
+  }
+
+  static _reload() {
+    ipcRenderer.send('reload');
+  }
+
+  static _devTools() {
+    remote.getCurrentWindow().toggleDevTools();
+  }
+
+  static _github() {
+    shell.openExternal(Common.GITHUB);
+  }
+
+  static _githubIssues() {
+    shell.openExternal(Common.GITHUB_ISSUES);
+  }
+
+  static _update() {
+    ipcRenderer.send('update');
   }
 }
 module.exports = MenuHandler;
