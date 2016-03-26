@@ -12,6 +12,9 @@ const Menu = electron.Menu;
 const injectBundle = require('./inject-onload.js');
 const messageHandler = require('./message.js');
 
+const WINDOW_SIZE = { width: 800, height: 600 };
+const WINDOW_SIZE_LOGIN = { width: 380, height: 540 };
+
 const WINDOW_TITLE = 'Electronic WeChat';
 
 let browserWindow = null;
@@ -20,8 +23,6 @@ let appIcon = null;
 let createWindow = () => {
   browserWindow = new BrowserWindow({
     title: WINDOW_TITLE,
-    width: 800,
-    height: 600,
     resizable: true,
     center: true,
     show: true,
@@ -39,7 +40,7 @@ let createWindow = () => {
   });
 
   browserWindow.webContents.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36");
-  //browserWindow.webContents.openDevTools();
+  // browserWindow.webContents.openDevTools();
 
   browserWindow.loadURL("https://wx.qq.com/");
 
@@ -78,6 +79,8 @@ let createWindow = () => {
     shell.openExternal(messageHandler.handleRedirectMessage(url));
   });
 
+  browserWindow.hide();
+
   createTray();
 };
 
@@ -99,6 +102,10 @@ ipcMain.on('badge-changed', (event, num) => {
   }
 });
 
+ipcMain.on('user-logined', () => renderWindow(true));
+
+ipcMain.on('wx-rendered', (event, isLogined) => renderWindow(isLogined));
+
 ipcMain.on('log', (event, message) => {
   console.log(message);
 });
@@ -106,6 +113,22 @@ ipcMain.on('log', (event, message) => {
 ipcMain.on('reload', (event, message) => {
   browserWindow.loadURL("https://wx.qq.com/");
 });
+
+let setResizable = (isLogined) => {
+  browserWindow.setResizable(isLogined);
+};
+
+let setSize = (isLogined) => {
+  const size = isLogined ? WINDOW_SIZE : WINDOW_SIZE_LOGIN;
+  browserWindow.setSize(size.width, size.height);
+  browserWindow.center();
+  browserWindow.show();
+};
+
+let renderWindow = (isLogined) => {
+  setResizable(isLogined);
+  setSize(isLogined);
+}
 
 let createTray = () => {
   const nativeImage = require('electron').nativeImage;

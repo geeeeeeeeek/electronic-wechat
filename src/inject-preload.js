@@ -46,7 +46,16 @@ Object.defineProperty(angular, 'bootstrap', {
             return value;
           });
         }
-      ]);
+      ])
+      .run(['$rootScope', ($rootScope) => {
+        MMCgi.isLogin ?
+        ipcRenderer.send("wx-rendered", true) :
+        ipcRenderer.send("wx-rendered", false);
+
+        $rootScope.$on("newLoginPage", () => {
+          ipcRenderer.send("user-logined", "");
+        });
+      }]);
     }
     return angularBootstrapReal.apply(angular, arguments);
   } : angularBootstrapReal,
