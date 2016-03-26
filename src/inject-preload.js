@@ -1,7 +1,7 @@
 "use strict";
 const ipcRenderer = require('electron').ipcRenderer;
 const webFrame = require('web-frame');
-const menu = require('./menu.js');
+const MenuHandler = require('./menu.js');
 
 const lock = (object, key, value) => Object.defineProperty(object, key, {
   get: () => value,
@@ -77,4 +77,4 @@ injectBundle.getBadgeJS = () => {
   }, 1500);
 };
 
-menu.create();
+(new MenuHandler()).create();
