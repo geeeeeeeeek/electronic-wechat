@@ -5,7 +5,7 @@
 
 let injectBundle = {};
 
-injectBundle.wechatCSS = `
+injectBundle.commonCSS = `
     div.main {
       height: 100% !important;
       min-height: 0 !important;
