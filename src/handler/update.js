@@ -15,7 +15,7 @@ class UpdateHandler {
       if (Common.ELECTRON == app.getName()) {
         rej(Common.UPDATE_ERROR_ELECTRON);
       }
-      https.get({
+      let req = https.get({
         host: Common.GITHUB_API_HOST,
         headers: {'user-agent': Common.USER_AGENT},
         path: Common.GITHUB_API_RELEASE_LATEST_PATH
@@ -27,7 +27,11 @@ class UpdateHandler {
         response.on('end', () => {
           this._parseUpdateData(body, version, res, rej);
         });
-      }).end();
+      });
+      req.on('error', (err) => {
+        rej(Common.UPDATE_ERROR_NETWORK);
+      });
+      req.end();
     }).then((fetched) => {
       this.showDialog(fetched.name, fetched.description, "Update", (response) => {
         if (!response) return;

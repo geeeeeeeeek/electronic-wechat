@@ -23,6 +23,7 @@ Common.UPDATE_ERROR_ELECTRON = "Failed to get the local version. If you are usin
 Common.UPDATE_ERROR_EMPTY_RESPONSE = "Failed to fetch release info.";
 Common.UPDATE_ERROR_UNKNOWN = "Something went wrong.";
 Common.UPDATE_NA_TITLE = "No Update Available";
+Common.UPDATE_ERROR_NETWORK = "Connection hang up unexpectedly. Check your network settings.";
 Common.UPDATE_ERROR_LATEST = (version)=> {
   return `You are using the latest version(${version}).`
 };

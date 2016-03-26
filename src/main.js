@@ -18,7 +18,8 @@ const Common = require('./common');
 class ElectronicWeChat {
   constructor() {
     this.browserWindow = null;
-    this.appIcon = null;
+    this.tray = null;
+    this.logged = null;
   }
 
   init() {
@@ -46,9 +47,9 @@ class ElectronicWeChat {
       if (process.platform == "darwin") {
         app.dock.setBadge(num);
         if (num) {
-          this.appIcon.setTitle(` ${num}`);
+          this.tray.setTitle(` ${num}`);
         } else {
-          this.appIcon.setTitle('');
+          this.tray.setTitle('');
         }
       }
     });
@@ -75,17 +76,17 @@ class ElectronicWeChat {
     let image = nativeImage.createFromPath(path.join(__dirname, '../assets/status_bar.png'));
     image.setTemplateImage(true);
 
-    this.appIcon = new electron.Tray(image);
-    this.appIcon.setToolTip(Common.ELECTRONIC_WECHAT);
+    this.tray = new electron.Tray(image);
+    this.tray.setToolTip(Common.ELECTRONIC_WECHAT);
 
     if (process.platform == "linux") {
       let contextMenu = Menu.buildFromTemplate([
         {label: 'Show', click: () => this.browserWindow.show()},
         {label: 'Exit', click: () => app.exit(0)}
       ]);
-      this.appIcon.setContextMenu(contextMenu);
+      this.tray.setContextMenu(contextMenu);
     } else {
-      this.appIcon.on('click', () => this.browserWindow.show());
+      this.tray.on('click', () => this.browserWindow.show());
     }
   }
 
@@ -95,7 +96,8 @@ class ElectronicWeChat {
     this.browserWindow.setResizable(isLogged);
     this.browserWindow.setSize(size.width, size.height);
     this.browserWindow.center();
-    this.browserWindow.show();
+    if (this.logged != isLogged) this.browserWindow.show();
+    this.logged = isLogged;
   }
 
   createWindow() {
@@ -136,8 +138,8 @@ class ElectronicWeChat {
 
     this.browserWindow.on('closed', () => {
       this.browserWindow = null;
-      this.appIcon.destroy();
-      this.appIcon = null;
+      this.tray.destroy();
+      this.tray = null;
     });
 
     this.browserWindow.on('page-title-updated', (ev) => {
@@ -156,7 +158,7 @@ class ElectronicWeChat {
 
     this.browserWindow.webContents.on('new-window', (event, url) => {
       event.preventDefault();
-      shell.openExternal(new MessageHandler.handleRedirectMessage(url));
+      shell.openExternal(new MessageHandler().handleRedirectMessage(url));
     });
 
     this.browserWindow.hide();
