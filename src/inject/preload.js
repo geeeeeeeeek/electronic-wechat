@@ -2,6 +2,7 @@
 const ipcRenderer = require('electron').ipcRenderer;
 const webFrame = require('web-frame');
 const MenuHandler = require('../handler/menu');
+const genShareMenu = require('./share_menu');
 
 const lock = (object, key, value) => Object.defineProperty(object, key, {
   get: () => value,
@@ -76,5 +77,29 @@ injectBundle.getBadgeJS = () => {
     }
   }, 1500);
 };
+
+injectBundle.appendMenu = () => {
+  let menu, reader;
+  let curr_pos, title, menu_html;
+  setInterval(() => {
+    reader = document.getElementById("reader");
+    menu = reader ? document.getElementById("mmpop_reader_menu") : false;
+    if (reader && menu) {
+      title = $(".read_item.active .title").text();
+      console.log(title);
+      console.log(reader.src);
+      if (!title || !reader.src) {
+        return;
+      }
+      if ((curr_pos != reader.src) || ($(".reader_menu .dropdown_menu > li").length < 5)) {
+        curr_pos = reader.src;
+        menu_html = genShareMenu({url: reader.src, title:title});
+        $(".reader_menu .dropdown_menu").prepend(menu_html);
+      }
+    }
+
+  }, 500);
+
+}
 
 (new MenuHandler()).create();
