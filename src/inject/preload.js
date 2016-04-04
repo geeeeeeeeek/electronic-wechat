@@ -2,7 +2,7 @@
 const ipcRenderer = require('electron').ipcRenderer;
 const webFrame = require('web-frame');
 const MenuHandler = require('../handler/menu');
-const genShareMenu = require('./share_menu');
+const ShareMenu = require('./share_menu');
 
 const lock = (object, key, value) => Object.defineProperty(object, key, {
   get: () => value,
@@ -12,52 +12,66 @@ const lock = (object, key, value) => Object.defineProperty(object, key, {
 
 webFrame.setZoomLevelLimits(1, 1);
 
-lock(window, 'console', window.console);
+// lock(window, 'console', window.console);
 
 let angular = window.angular = {};
 let angularBootstrapReal;
 Object.defineProperty(angular, 'bootstrap', {
   get: () => angularBootstrapReal ? function (element, moduleNames) {
     const moduleName = 'webwxApp';
-    if (moduleNames.indexOf(moduleName) >= 0) {
-      let constants;
-      angular.injector(['ng', 'Services']).invoke(['confFactory', (confFactory) => (constants = confFactory)]);
-      angular.module(moduleName).config([
-        '$httpProvider',
-        ($httpProvider) => {
-          $httpProvider.defaults.transformResponse.push((value) => {
-            if (typeof value === 'object' && value !== null && value.AddMsgList instanceof Array) {
-              value.AddMsgList.forEach((msg) => {
-                switch (msg.MsgType) {
-                  case constants.MSGTYPE_EMOTICON:
-                    lock(msg, 'MMDigest', '[Emoticon]');
-                    lock(msg, 'MsgType', constants.MSGTYPE_EMOTICON);
-                    if (msg.ImgWidth >= 120) {
-                      lock(msg, 'MMImgStyle', {height: '120px', width: 'initial'});
-                    }
-                    break;
-                  case constants.MSGTYPE_RECALLED:
-                    lock(msg, 'MsgType', constants.MSGTYPE_SYS);
-                    lock(msg, 'MMActualContent', '阻止了一次撤回');
-                    lock(msg, 'MMDigest', '阻止了一次撤回');
-                    break;
-                }
-              });
-            }
-            return value;
-          });
-        }
-      ])
-      .run(['$rootScope', ($rootScope) => {
-        MMCgi.isLogin ?
-        ipcRenderer.send("wx-rendered", true) :
-        ipcRenderer.send("wx-rendered", false);
+    if (moduleNames.indexOf(moduleName) < 0) return;
+    let constants;
+    angular.injector(['ng', 'Services']).invoke(['confFactory', (confFactory) => (constants = confFactory)]);
+    angular.module(moduleName).config([
+          '$httpProvider',
+          ($httpProvider) => {
+            $httpProvider.defaults.transformResponse.push((value) => {
+              if (!value) return value;
 
-        $rootScope.$on("newLoginPage", () => {
-          ipcRenderer.send("user-logged", "");
-        });
-      }]);
-    }
+              switch (typeof value) {
+                case 'object':
+                  /* Inject emoji stickers and prevent recalling. */
+                  if (value.AddMsgList instanceof Array) {
+                    value.AddMsgList.forEach((msg) => {
+                      switch (msg.MsgType) {
+                        case constants.MSGTYPE_EMOTICON:
+                          lock(msg, 'MMDigest', '[Emoticon]');
+                          lock(msg, 'MsgType', constants.MSGTYPE_EMOTICON);
+                          if (msg.ImgWidth >= 120) {
+                            lock(msg, 'MMImgStyle', {height: '120px', width: 'initial'});
+                          }
+                          break;
+                        case constants.MSGTYPE_RECALLED:
+                          lock(msg, 'MsgType', constants.MSGTYPE_SYS);
+                          lock(msg, 'MMActualContent', '阻止了一次撤回');
+                          lock(msg, 'MMDigest', '阻止了一次撤回');
+                          break;
+                      }
+                    });
+                  }
+                  break;
+                case 'string':
+                  /* Inject share sites to menu. */
+                  let optionMenuReg = /optionMenu\(\);/;
+                  if (optionMenuReg.test(value)) {
+                    value = value.replace(optionMenuReg, "optionMenu();shareMenu();");
+                  }
+                  break;
+              }
+              return value;
+            });
+          }
+        ])
+        .run(['$rootScope', ($rootScope) => {
+          MMCgi.isLogin ?
+              ipcRenderer.send("wx-rendered", true) :
+              ipcRenderer.send("wx-rendered", false);
+
+          $rootScope.$on("newLoginPage", () => {
+            ipcRenderer.send("user-logged", "");
+          });
+          $rootScope.shareMenu = injectBundle.shareMenu;
+        }]);
     return angularBootstrapReal.apply(angular, arguments);
   } : angularBootstrapReal,
   set: (real) => (angularBootstrapReal = real)
@@ -78,28 +92,17 @@ injectBundle.getBadgeJS = () => {
   }, 1500);
 };
 
-injectBundle.appendMenu = () => {
-  let menu, reader;
-  let curr_pos, title, menu_html;
-  setInterval(() => {
-    reader = document.getElementById("reader");
-    menu = reader ? document.getElementById("mmpop_reader_menu") : false;
-    if (reader && menu) {
-      title = $(".read_item.active .title").text();
-      console.log(title);
-      console.log(reader.src);
-      if (!title || !reader.src) {
-        return;
-      }
-      if ((curr_pos != reader.src) || ($(".reader_menu .dropdown_menu > li").length < 5)) {
-        curr_pos = reader.src;
-        menu_html = genShareMenu({url: reader.src, title:title});
-        $(".reader_menu .dropdown_menu").prepend(menu_html);
-      }
-    }
+injectBundle.shareMenuItemsCount = 256;
 
-  }, 500);
+injectBundle.shareMenu = () => {
+  let dropdownMenu = $(".reader_menu .dropdown_menu");
+  let dropdownMenuItem = $(".reader_menu .dropdown_menu > li");
+  if (dropdownMenuItem.length > injectBundle.shareMenuItemsCount) return;
 
-}
+  injectBundle.shareMenuItemsCount = dropdownMenuItem.length;
+  let readItem = angular.element('.reader').scope().readItem;
+  let menu_html = new ShareMenu().get({url: readItem.Url, title: readItem.Title});
+  dropdownMenu.prepend(menu_html);
+};
 
-(new MenuHandler()).create();
+new MenuHandler().create();
