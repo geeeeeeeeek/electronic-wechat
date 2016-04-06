@@ -105,4 +105,62 @@ injectBundle.shareMenu = () => {
   dropdownMenu.prepend(menu_html);
 };
 
+injectBundle.mentionMenu = () => {
+  let $box = $('<div id="userSelectionBox"/>');
+  $box.css({
+    'display': 'none',
+    'position': 'fixed',
+    'bottom': '182px',
+    'left': '50%'
+  });
+  let $select = $('<select multiple/>');
+  $select.css({
+    'width': '120px',
+    'height': '120px',
+    'border': 'none',
+    'box-shadow': '1px 1px 10px #ababab',
+    'outline': 'none'
+  });
+  $box.append($select);
+  $('body').append($box);
+
+  (function atUser() {
+    const $editArea = document.querySelector('#editArea');
+
+    if (!$editArea) {
+      return setTimeout(atUser, 3000);
+    }
+
+    const $atUser = document.querySelector('#userSelectionBox');
+
+    $atUser.querySelector('select').onchange = function () {
+      $editArea.innerHTML = $editArea.innerHTML.replace(/@\S*$/ig, `@${this.value} `);
+      $atUser.style.display = 'none';
+    };
+
+    const trim = nick => nick.replace(/<span.*>.*<\/span>/, '');
+
+    $editArea.oninput = function () {
+      const name = /@(\S*)$/.exec($editArea.innerHTML);
+      if (name) {
+        const $scope = angular.element('.box_hd').scope();
+        const nameRe = new RegExp(name[1], 'ig');
+        $atUser.querySelector('select').innerHTML = $scope.currentContact.MemberList.map(m => {
+          if (!nameRe.test(trim(m.NickName))) return '';
+          let $option = $(`<option value="${trim(m.NickName)}">${trim(m.NickName)}</option>`);
+          $option.css({
+            'padding': '2px 8px',
+            'font-size': '14px'
+          });
+          return $option.prop('outerHTML');
+        });
+        $atUser.querySelector('select').value = '';
+        $atUser.style.display = '';
+        $atUser.focus();
+      } else {
+        $atUser.style.display = 'none';
+      }
+    };
+  })();
+};
 new MenuHandler().create();
