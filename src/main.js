@@ -152,7 +152,7 @@ class ElectronicWeChat {
         this.browserWindow.webContents.insertCSS(injectBundle.osxCSS);
       }
       this.browserWindow.webContents.executeJavaScript(`injectBundle.getBadgeJS()`);
-      this.browserWindow.webContents.executeJavaScript(`injectBundle.mentionMenu()`);
+      this.browserWindow.webContents.executeJavaScript(`injectBundle.initMentionMenu()`);
 
       new UpdateHandler().checkForUpdate(`v${app.getVersion()}`, true);
     });

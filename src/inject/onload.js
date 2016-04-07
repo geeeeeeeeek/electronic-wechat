@@ -60,6 +60,34 @@ injectBundle.commonCSS = `
     div.lang, div.copyright {
       display: none !important
     }
+    /* Group mention: user selection box */
+    div#userSelectionBox select option:hover {
+      background: #eeeeee;
+    }
+    div#userSelectionBox select option {
+      padding: 4px 10px;
+      text-overflow: hidden;
+      font-size: 14px;
+    }
+    div#userSelectionBox select {
+      width: 120px;
+      border: none;
+      box-shadow: 1px 1px 10px #ababab;
+      outline: none;
+      height: inherit;
+    }
+    div#userSelectionBox {
+      display: none;
+      position: fixed;
+      bottom: 140px;
+      left: 335px;
+    }
+    span.measure_text {
+      padding-left: 20px;
+      outline: 0;
+      border: 0;
+      font-size: 14px;
+    }
   `;
 
 injectBundle.osxCSS = `

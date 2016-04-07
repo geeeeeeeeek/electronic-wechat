@@ -53,8 +53,12 @@ Object.defineProperty(angular, 'bootstrap', {
                 case 'string':
                   /* Inject share sites to menu. */
                   let optionMenuReg = /optionMenu\(\);/;
+                  let messageBoxKeydownReg = /editAreaKeydown\(\$event\)/;
                   if (optionMenuReg.test(value)) {
                     value = value.replace(optionMenuReg, "optionMenu();shareMenu();");
+                  } else if (messageBoxKeydownReg.test(value)) {
+                    value = value.replace(messageBoxKeydownReg, "editAreaKeydown($event);mentionMenu($event);");
+                    console.log(value);
                   }
                   break;
               }
@@ -71,6 +75,8 @@ Object.defineProperty(angular, 'bootstrap', {
             ipcRenderer.send("user-logged", "");
           });
           $rootScope.shareMenu = injectBundle.shareMenu;
+          $rootScope.mentionMenu = injectBundle.mentionMenu;
+          $rootScope.clearMentionMenu = injectBundle.clearMentionMenu;
         }]);
     return angularBootstrapReal.apply(angular, arguments);
   } : angularBootstrapReal,
@@ -105,62 +111,64 @@ injectBundle.shareMenu = () => {
   dropdownMenu.prepend(menu_html);
 };
 
-injectBundle.mentionMenu = () => {
+injectBundle.mentionMenu = ($event) => {
+  const $editArea = $($event.currentTarget);
+  const $box = $('#userSelectionBox');
+  const trim = nick => nick.replace(/<span.*>.*<\/span>/, '');
+
+  let delayInjection = () => {
+    const name = /@(\S*)$/.exec($editArea.html());
+    if (!name) {
+      $box.css('display', 'none');
+      return;
+    }
+    const $scope = angular.element('#chatArea').scope();
+    const $select = $box.children('select');
+    const nameRe = new RegExp(name[1], 'ig');
+    $select.html('');
+    $scope.currentContact.MemberList.map(m => {
+      let displayName = `${m.NickName}　`;
+      if (!nameRe.test(trim(displayName))) return;
+
+      let userContact = $scope.getUserContact(m.UserName);
+
+      if (!userContact) return;
+      let actualName = (userContact.NickName.length > 0) ? userContact.NickName : displayName;
+      let $option = $(`<option/>`);
+      $option.val(trim(actualName));
+      $option.html(trim(displayName));
+      $select.append($option);
+    });
+    let membersCount = Math.min($select.children().length, 4);
+    if (membersCount > 0) {
+      $select.val('');
+      $box.css({
+        'display': 'block',
+        'height': `${membersCount * 30}px`
+      });
+      $box.focus();
+    } else {
+      $box.css('display', 'none');
+    }
+  };
+  setTimeout(delayInjection, 0);
+};
+
+injectBundle.clearMentionMenu = ()=> {
+  const $box = $('#userSelectionBox');
+  $box.css('display', 'none');
+};
+
+injectBundle.initMentionMenu = () => {
+  let $editArea = $('#editArea');
   let $box = $('<div id="userSelectionBox"/>');
-  $box.css({
-    'display': 'none',
-    'position': 'fixed',
-    'bottom': '182px',
-    'left': '50%'
-  });
   let $select = $('<select multiple/>');
-  $select.css({
-    'width': '120px',
-    'height': '120px',
-    'border': 'none',
-    'box-shadow': '1px 1px 10px #ababab',
-    'outline': 'none'
+  $select.change(()=> {
+    $editArea.focus();
+    $editArea.html($editArea.html().replace(/@\S*$/ig, `@${$select.val()} `));
+    $box.css('display', 'none');
   });
   $box.append($select);
   $('body').append($box);
-
-  (function atUser() {
-    const $editArea = document.querySelector('#editArea');
-
-    if (!$editArea) {
-      return setTimeout(atUser, 3000);
-    }
-
-    const $atUser = document.querySelector('#userSelectionBox');
-
-    $atUser.querySelector('select').onchange = function () {
-      $editArea.innerHTML = $editArea.innerHTML.replace(/@\S*$/ig, `@${this.value} `);
-      $atUser.style.display = 'none';
-    };
-
-    const trim = nick => nick.replace(/<span.*>.*<\/span>/, '');
-
-    $editArea.oninput = function () {
-      const name = /@(\S*)$/.exec($editArea.innerHTML);
-      if (name) {
-        const $scope = angular.element('.box_hd').scope();
-        const nameRe = new RegExp(name[1], 'ig');
-        $atUser.querySelector('select').innerHTML = $scope.currentContact.MemberList.map(m => {
-          if (!nameRe.test(trim(m.NickName))) return '';
-          let $option = $(`<option value="${trim(m.NickName)}">${trim(m.NickName)}</option>`);
-          $option.css({
-            'padding': '2px 8px',
-            'font-size': '14px'
-          });
-          return $option.prop('outerHTML');
-        });
-        $atUser.querySelector('select').value = '';
-        $atUser.style.display = '';
-        $atUser.focus();
-      } else {
-        $atUser.style.display = 'none';
-      }
-    };
-  })();
 };
 new MenuHandler().create();
