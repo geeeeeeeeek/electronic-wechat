@@ -2,6 +2,7 @@
  * Created by Zhongyi on 2/23/16.
  */
 "use strict";
+const Common = require("../common");
 
 let injectBundle = {};
 
@@ -79,8 +80,8 @@ injectBundle.commonCSS = `
     div#userSelectionBox {
       display: none;
       position: fixed;
-      bottom: 140px;
-      left: 335px;
+      bottom: ${Common.MENTION_MENU_INITIAL_Y}px;
+      left: ${Common.MENTION_MENU_INITIAL_X}px;
     }
     span.measure_text {
       padding-left: 20px;

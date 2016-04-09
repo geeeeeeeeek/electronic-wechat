@@ -3,6 +3,7 @@
  */
 "use strict";
 class Common {
+  
 }
 Common.ELECTRON = "Electron";
 Common.ELECTRONIC_WECHAT = "Electronic WeChat";
@@ -27,4 +28,13 @@ Common.UPDATE_ERROR_NETWORK = "Connection hang up unexpectedly. Check your netwo
 Common.UPDATE_ERROR_LATEST = (version)=> {
   return `You are using the latest version(${version}).`
 };
+
+Common.MENTION_MENU_INITIAL_X = 300;
+Common.MENTION_MENU_OFFSET_X = 30;
+Common.MENTION_MENU_INITIAL_Y = 140;
+Common.MENTION_MENU_OFFSET_Y = 45;
+Common.MENTION_MENU_WIDTH = 120;
+Common.MENTION_MENU_OPTION_HEIGHT = 30;
+Common.MENTION_MENU_OPTION_DEFAULT_NUM = 4;
+
 module.exports = Common;

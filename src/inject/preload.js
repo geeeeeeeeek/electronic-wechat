@@ -3,6 +3,7 @@ const ipcRenderer = require('electron').ipcRenderer;
 const webFrame = require('web-frame');
 const MenuHandler = require('../handler/menu');
 const ShareMenu = require('./share_menu');
+const MentionMenu = require('./mention_menu');
 
 const lock = (object, key, value) => Object.defineProperty(object, key, {
   get: () => value,
@@ -58,7 +59,6 @@ Object.defineProperty(angular, 'bootstrap', {
                     value = value.replace(optionMenuReg, "optionMenu();shareMenu();");
                   } else if (messageBoxKeydownReg.test(value)) {
                     value = value.replace(messageBoxKeydownReg, "editAreaKeydown($event);mentionMenu($event);");
-                    console.log(value);
                   }
                   break;
               }
@@ -75,8 +75,8 @@ Object.defineProperty(angular, 'bootstrap', {
             ipcRenderer.send("user-logged", "");
           });
           $rootScope.shareMenu = injectBundle.shareMenu;
-          $rootScope.mentionMenu = injectBundle.mentionMenu;
-          $rootScope.clearMentionMenu = injectBundle.clearMentionMenu;
+          $rootScope.mentionMenu = new MentionMenu().mentionMenu;
+          $rootScope.clearMentionMenu = new MentionMenu().clearMentionMenu;
         }]);
     return angularBootstrapReal.apply(angular, arguments);
   } : angularBootstrapReal,
@@ -109,54 +109,6 @@ injectBundle.shareMenu = () => {
   let readItem = angular.element('.reader').scope().readItem;
   let menu_html = new ShareMenu().get({url: readItem.Url, title: readItem.Title});
   dropdownMenu.prepend(menu_html);
-};
-
-injectBundle.mentionMenu = ($event) => {
-  const $editArea = $($event.currentTarget);
-  const $box = $('#userSelectionBox');
-  const trim = nick => nick.replace(/<span.*>.*<\/span>/, '');
-
-  let delayInjection = () => {
-    const name = /@(\S*)$/.exec($editArea.html());
-    if (!name) {
-      $box.css('display', 'none');
-      return;
-    }
-    const $scope = angular.element('#chatArea').scope();
-    const $select = $box.children('select');
-    const nameRe = new RegExp(name[1], 'ig');
-    $select.html('');
-    $scope.currentContact.MemberList.map(m => {
-      let displayName = `${m.NickName}　`;
-      if (!nameRe.test(trim(displayName))) return;
-
-      let userContact = $scope.getUserContact(m.UserName);
-
-      if (!userContact) return;
-      let actualName = (userContact.NickName.length > 0) ? userContact.NickName : displayName;
-      let $option = $(`<option/>`);
-      $option.val(trim(actualName));
-      $option.html(trim(displayName));
-      $select.append($option);
-    });
-    let membersCount = Math.min($select.children().length, 4);
-    if (membersCount > 0) {
-      $select.val('');
-      $box.css({
-        'display': 'block',
-        'height': `${membersCount * 30}px`
-      });
-      $box.focus();
-    } else {
-      $box.css('display', 'none');
-    }
-  };
-  setTimeout(delayInjection, 0);
-};
-
-injectBundle.clearMentionMenu = ()=> {
-  const $box = $('#userSelectionBox');
-  $box.css('display', 'none');
 };
 
 injectBundle.initMentionMenu = () => {
