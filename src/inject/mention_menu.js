@@ -4,12 +4,12 @@
 
 "use strict";
 const Common = require("../common");
+const pinyin = require("pinyin");
 
 class MentionMenu {
   mentionMenu($event) {
     const $editArea = $($event.currentTarget);
     const $box = $('#userSelectionBox');
-    const trim = nick => nick.replace(/<span.*>.*<\/span>/, '');
 
     let $probe = $('<span id="probe"/>');
     $editArea.append($probe);
@@ -25,20 +25,12 @@ class MentionMenu {
       }
       const $scope = angular.element('#chatArea').scope();
       const $select = $box.children('select');
-      const nameRe = new RegExp(name[1], 'ig');
       $select.html('');
       $scope.currentContact.MemberList.map(m => {
-        let displayName = `${m.NickName}　`;
-        if (!nameRe.test(displayName)) return;
+        if (!MentionMenu.isValidNameHint(name, m.NickName)) return;
 
-        let userContact = $scope.getUserContact(m.UserName);
-
-        if (!userContact) return;
-        let actualName = (userContact.NickName.length > 0) ? userContact.NickName : displayName;
-        let $option = $(`<option/>`);
-        $option.val(actualName);
-        $option.html(displayName);
-        $select.append($option);
+        let $option = MentionMenu.generateOptionFromMember($scope, m);
+        if ($option) $select.append($option);
       });
       let membersCount = Math.min($select.children().length, Common.MENTION_MENU_OPTION_DEFAULT_NUM);
       if (membersCount > 0) {
@@ -75,6 +67,36 @@ class MentionMenu {
     }
     menuPosition.bottom = Common.MENTION_MENU_INITIAL_Y - probePosition.top + Common.MENTION_MENU_OFFSET_Y;
     return menuPosition;
+  }
+
+  static isValidNameHint(nameHint, userName) {
+    let pinyinRaw = pinyin(userName, {
+      style: pinyin.STYLE_FIRST_LETTER
+    });
+
+    let pinyinName = '';
+    for (let pinyin of pinyinRaw) {
+      if (pinyin[0] && pinyin[0] != ' ') {
+        pinyinName += pinyin[0];
+      }
+    }
+
+    const nameRe = new RegExp(nameHint[1], 'ig');
+    return nameRe.test(userName) || nameRe.test(pinyinName);
+  }
+
+  static generateOptionFromMember($scope, member) {
+    let displayName = `${member.NickName}　`;
+
+    let userContact = $scope.getUserContact(member.UserName);
+    if (!userContact) return null;
+
+    let actualName = (userContact.NickName.length > 0) ? userContact.NickName : displayName;
+    let $option = $(`<option/>`);
+    $option.val(actualName);
+    $option.html(displayName);
+
+    return $option;
   }
 }
 
