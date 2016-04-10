@@ -70,14 +70,20 @@ injectBundle.commonCSS = `
       text-overflow: hidden;
       font-size: 14px;
     }
+    .user_select_hint_text {
+      padding: 4px 10px;
+      font-size: 14px;
+      background: #eeeeee;
+    }
     div#userSelectionBox select {
       width: 120px;
       border: none;
-      box-shadow: 1px 1px 10px #ababab;
       outline: none;
       height: inherit;
     }
     div#userSelectionBox {
+      box-shadow: 1px 1px 10px #ababab;
+      background: #fff;
       display: none;
       position: fixed;
       bottom: ${Common.MENTION_MENU_INITIAL_Y}px;

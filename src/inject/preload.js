@@ -4,6 +4,7 @@ const webFrame = require('web-frame');
 const MenuHandler = require('../handler/menu');
 const ShareMenu = require('./share_menu');
 const MentionMenu = require('./mention_menu');
+const Common = require("../common");
 
 const lock = (object, key, value) => Object.defineProperty(object, key, {
   get: () => value,
@@ -114,6 +115,12 @@ injectBundle.shareMenu = () => {
 injectBundle.initMentionMenu = () => {
   let $editArea = $('#editArea');
   let $box = $('<div id="userSelectionBox"/>');
+  
+  let $div = $('<div/>');
+  $div.html(Common.MENTION_MENU_HINT_TEXT);
+  $div.addClass('user_select_hint_text');
+  $box.append($div);
+  
   let $select = $('<select multiple/>');
   $select.change(()=> {
     $editArea.focus();

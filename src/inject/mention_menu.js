@@ -37,9 +37,16 @@ class MentionMenu {
         $select.val('');
         $box.css({
           'display': 'block',
-          'height': `${membersCount * Common.MENTION_MENU_OPTION_HEIGHT}px`,
-          'left': `${menuPosition.left}px`,
-          'bottom': `${menuPosition.bottom}px`
+          'height': `${(membersCount + 1) * Common.MENTION_MENU_OPTION_HEIGHT}px`
+        });
+        if (name[1].length == 0) {
+          $box.css({
+            'left': `${menuPosition.left}px`,
+            'bottom': `${menuPosition.bottom}px`
+          });
+        }
+        $select.css({
+          'height': `${membersCount * Common.MENTION_MENU_OPTION_HEIGHT}px`
         });
         $box.focus();
       } else {
@@ -87,11 +94,18 @@ class MentionMenu {
 
   static generateOptionFromMember($scope, member) {
     let displayName = `${member.NickName}　`;
+    let actualName = displayName;
 
-    let userContact = $scope.getUserContact(member.UserName);
-    if (!userContact) return null;
+    if (member.DisplayName.length > 0) {
+      actualName = member.DisplayName;
+    } else {
+      let userContact = $scope.getUserContact(member.UserName);
+      if (!userContact) return null;
+      if (userContact.NickName.length > 0) {
+        actualName = userContact.NickName;
+      }
+    }
 
-    let actualName = (userContact.NickName.length > 0) ? userContact.NickName : displayName;
     let $option = $(`<option/>`);
     $option.val(actualName);
     $option.html(displayName);
