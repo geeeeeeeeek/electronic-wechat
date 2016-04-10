@@ -3,6 +3,8 @@ const ipcRenderer = require('electron').ipcRenderer;
 const webFrame = require('web-frame');
 const MenuHandler = require('../handler/menu');
 const ShareMenu = require('./share_menu');
+const MentionMenu = require('./mention_menu');
+const Common = require("../common");
 
 const lock = (object, key, value) => Object.defineProperty(object, key, {
   get: () => value,
@@ -53,8 +55,11 @@ Object.defineProperty(angular, 'bootstrap', {
                 case 'string':
                   /* Inject share sites to menu. */
                   let optionMenuReg = /optionMenu\(\);/;
+                  let messageBoxKeydownReg = /editAreaKeydown\(\$event\)/;
                   if (optionMenuReg.test(value)) {
                     value = value.replace(optionMenuReg, "optionMenu();shareMenu();");
+                  } else if (messageBoxKeydownReg.test(value)) {
+                    value = value.replace(messageBoxKeydownReg, "editAreaKeydown($event);mentionMenu($event);");
                   }
                   break;
               }
@@ -71,6 +76,8 @@ Object.defineProperty(angular, 'bootstrap', {
             ipcRenderer.send("user-logged", "");
           });
           $rootScope.shareMenu = injectBundle.shareMenu;
+          $rootScope.mentionMenu = new MentionMenu().mentionMenu;
+          $rootScope.clearMentionMenu = new MentionMenu().clearMentionMenu;
         }]);
     return angularBootstrapReal.apply(angular, arguments);
   } : angularBootstrapReal,
@@ -105,4 +112,22 @@ injectBundle.shareMenu = () => {
   dropdownMenu.prepend(menu_html);
 };
 
+injectBundle.initMentionMenu = () => {
+  let $editArea = $('#editArea');
+  let $box = $('<div id="userSelectionBox"/>');
+  
+  let $div = $('<div/>');
+  $div.html(Common.MENTION_MENU_HINT_TEXT);
+  $div.addClass('user_select_hint_text');
+  $box.append($div);
+  
+  let $select = $('<select multiple/>');
+  $select.change(()=> {
+    $editArea.focus();
+    $editArea.html($editArea.html().replace(/@\S*$/ig, `@${$select.val()} `));
+    $box.css('display', 'none');
+  });
+  $box.append($select);
+  $('body').append($box);
+};
 new MenuHandler().create();
