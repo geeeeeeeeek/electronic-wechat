@@ -115,7 +115,6 @@ injectBundle.shareMenu = () => {
 };
 
 injectBundle.initMentionMenu = () => {
-  let $editArea = $('#editArea');
   let $box = $('<div id="userSelectionBox"/>');
 
   let $div = $('<div/>');
@@ -125,8 +124,11 @@ injectBundle.initMentionMenu = () => {
 
   let $select = $('<select multiple/>');
   $select.change(()=> {
+    let $editArea = $('#editArea');
     $editArea.focus();
-    $editArea.html($editArea.html().replace(/@\S*$/ig, `@${$select.val()} `));
+    let newMessage = $editArea.html().replace(/@\S*$/ig, `@${$select.val()} `);
+    $editArea.html('');
+    $editArea.scope().insertToEditArea(newMessage);
     $box.css('display', 'none');
   });
   $box.append($select);
