@@ -4,9 +4,9 @@
 "use strict";
 const Common = require("../common");
 
-let injectBundle = {};
+class CSSInjector {};
 
-injectBundle.commonCSS = `
+CSSInjector.commonCSS = `
     div.main {
       height: 100% !important;
       min-height: 0 !important;
@@ -97,7 +97,7 @@ injectBundle.commonCSS = `
     }
   `;
 
-injectBundle.osxCSS = `
+CSSInjector.osxCSS = `
     div.header div.avatar img.img {
       width: 24px;
       height: 24px;
@@ -108,4 +108,4 @@ injectBundle.osxCSS = `
     }
 `;
 
-module.exports = injectBundle;
+module.exports = CSSInjector;

@@ -10,7 +10,7 @@ const shell = electron.shell;
 const Menu = electron.Menu;
 const nativeImage = electron.nativeImage;
 
-const injectBundle = require('./inject/onload');
+const CSSInjector = require('./inject/css');
 const MessageHandler = require('./handler/message');
 const UpdateHandler = require('./handler/update');
 const Common = require('./common');
@@ -125,7 +125,7 @@ class ElectronicWeChat {
     });
 
     this.browserWindow.webContents.setUserAgent(Common.USER_AGENT);
-    // this.browserWindow.webContents.openDevTools();
+    this.browserWindow.webContents.openDevTools();
 
     this.browserWindow.loadURL(Common.WEB_WECHAT);
 
@@ -152,12 +152,10 @@ class ElectronicWeChat {
     });
 
     this.browserWindow.webContents.on('dom-ready', () => {
-      this.browserWindow.webContents.insertCSS(injectBundle.commonCSS);
+      this.browserWindow.webContents.insertCSS(CSSInjector.commonCSS);
       if (process.platform == "darwin") {
-        this.browserWindow.webContents.insertCSS(injectBundle.osxCSS);
+        this.browserWindow.webContents.insertCSS(CSSInjector.osxCSS);
       }
-      this.browserWindow.webContents.executeJavaScript(`injectBundle.getBadgeJS()`);
-      this.browserWindow.webContents.executeJavaScript(`injectBundle.initMentionMenu()`);
 
       new UpdateHandler().checkForUpdate(`v${app.getVersion()}`, true);
     });

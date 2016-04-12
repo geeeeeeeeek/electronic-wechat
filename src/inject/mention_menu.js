@@ -7,7 +7,29 @@ const Common = require("../common");
 const pinyin = require("pinyin");
 
 class MentionMenu {
-  mentionMenu($event) {
+
+  init() {
+    let $box = $('<div id="userSelectionBox"/>');
+
+    let $div = $('<div/>');
+    $div.html(Common.MENTION_MENU_HINT_TEXT);
+    $div.addClass('user_select_hint_text');
+    $box.append($div);
+
+    let $select = $('<select multiple/>');
+    $select.change(()=> {
+      let $editArea = $('#editArea');
+      $editArea.focus();
+      let newMessage = $editArea.html().replace(/@\S*$/ig, `@${$select.val()} `);
+      $editArea.html('');
+      $editArea.scope().insertToEditArea(newMessage);
+      $box.css('display', 'none');
+    });
+    $box.append($select);
+    $('body').append($box);
+  }
+
+  inject($event) {
     const $editArea = $($event.currentTarget);
     const $box = $('#userSelectionBox');
 
@@ -54,11 +76,6 @@ class MentionMenu {
       }
     };
     setTimeout(delayInjection, 0);
-  }
-
-  clearMentionMenu() {
-    const $box = $('#userSelectionBox');
-    $box.css('display', 'none');
   }
 
   static getMenuPosition($editArea, probePosition) {
