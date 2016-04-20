@@ -42,7 +42,7 @@ class MenuHandler {
           },
           {
             label: 'Hide Others',
-            accelerator: 'Command+Shift+H',
+            accelerator: 'Command+Alt+H',
             selector: 'hideOtherApplications:'
           },
           {
