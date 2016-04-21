@@ -19,13 +19,19 @@ ARCH=$2
 
 echo "Start packaging for $PLATFORM $ARCH."
 
-electron-packager . "Electronic WeChat" --platform=$PLATFORM --arch=$ARCH --version=0.36.9 --icon=assets/icon.icns --overwrite --out=./dist --ignore=./dist
+if [ $PLATFORM = "linux" ]; then
+    APP_NAME="electronic-wechat"
+else
+    APP_NAME="Electronic WeChat"
+fi
+
+electron-packager . "${APP_NAME}" --platform=$PLATFORM --arch=$ARCH --version=0.37.6 --icon=assets/icon.icns --overwrite --out=./dist --ignore=./dist
 
 if [ $? -eq 0 ]; then
-  echo -e "Packaging for $PLATFORM $ARCH succeeded.\n"
+  echo -e "$(tput setaf 2)Packaging for $PLATFORM $ARCH succeeded.$(tput sgr0)\n"
 fi
 
 if [ $PLATFORM = "darwin" ]; then
     ditto -rsrcFork ./dist/Electronic\ WeChat-darwin-x64/Electronic\ WeChat.app /Applications/Electronic\ WeChat.app
-    echo "App copied to your application folder."
+    echo "$(tput setaf 3)App copied to ~/Applications. You can open Electronic WeChat there or from Spotlight.$(tput sgr0)"
 fi

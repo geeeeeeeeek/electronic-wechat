@@ -1,6 +1,6 @@
 {
   "name": "electronic-wechat",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "An Electron application for WeChat",
   "main": "src/main.js",
   "scripts": {
@@ -32,7 +32,7 @@
   "homepage": "https://github.com/geeeeeeeeek/wechat-electron/",
   "dependencies": {
     "pinyin": "^2.7.1",
-    "electron-prebuilt": "^0.36.9",
-    "electron-packager": "^5.2.1"
+    "electron-prebuilt": "^0.37.6",
+    "electron-packager": "^7.0.0"
   }
 }
