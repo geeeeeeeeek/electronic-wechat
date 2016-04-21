@@ -63,7 +63,7 @@ class ElectronicWeChat {
     });
 
     ipcMain.on('reload', (event, message) => {
-      this.browserWindow.loadURL("https://wx.qq.com/");
+      this.browserWindow.loadURL(Common.WEB_WECHAT);
     });
 
     ipcMain.on('update', (event, message) => {
@@ -125,7 +125,9 @@ class ElectronicWeChat {
     });
 
     this.browserWindow.webContents.setUserAgent(Common.USER_AGENT);
-    this.browserWindow.webContents.openDevTools();
+    if (Common.DEBUG_MODE) {
+      this.browserWindow.webContents.openDevTools();
+    }
 
     this.browserWindow.loadURL(Common.WEB_WECHAT);
 

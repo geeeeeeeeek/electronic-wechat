@@ -10,13 +10,19 @@ const Common = require("../common");
 
 class Injector {
   init() {
-    let self = this;
-    this.mentionMenu = new MentionMenu();
-    this.badgeCount = new BadgeCount();
-    this.initInjectBundle(self);
-    Injector.lock(window, 'console', window.console);
+    if (Common.DEBUG_MODE) {
+      Injector.lock(window, 'console', window.console);
+    }
+
+    this.initInjectBundle();
+    this.initAngularInjection();
     webFrame.setZoomLevelLimits(1, 1);
 
+    new MenuHandler().create();
+  }
+
+  initAngularInjection() {
+    let self = this;
     let angular = window.angular = {};
     let angularBootstrapReal;
     Object.defineProperty(angular, 'bootstrap', {
@@ -37,20 +43,21 @@ class Injector {
             ipcRenderer.send("user-logged", "");
           });
           $rootScope.shareMenu = ShareMenu.inject;
-          $rootScope.mentionMenu = self.mentionMenu.inject;
+          $rootScope.mentionMenu = Injector.mentionMenu.inject;
         }]);
         return angularBootstrapReal.apply(angular, arguments);
       } : angularBootstrapReal,
       set: (real) => (angularBootstrapReal = real)
     });
-
-    new MenuHandler().create();
   }
 
-  initInjectBundle(self) {
-    window.onload = ()=> {
-      self.mentionMenu.init();
-      self.badgeCount.init();
+  initInjectBundle() {
+    Injector.mentionMenu = new MentionMenu();
+    Injector.badgeCount = new BadgeCount();
+
+    window.onload = (self)=> {
+      Injector.mentionMenu.init();
+      Injector.badgeCount.init();
     };
   }
 
@@ -60,36 +67,10 @@ class Injector {
     switch (typeof value) {
       case 'object':
         /* Inject emoji stickers and prevent recalling. */
-        if (!(value.AddMsgList instanceof Array)) break;
-        value.AddMsgList.forEach((msg) => {
-          switch (msg.MsgType) {
-            case constants.MSGTYPE_EMOTICON:
-              Injector.lock(msg, 'MMDigest', '[Emoticon]');
-              Injector.lock(msg, 'MsgType', constants.MSGTYPE_EMOTICON);
-              if (msg.ImgHeight >= 120) {
-                Injector.lock(msg, 'MMImgStyle', {height: '120px', width: 'initial'});
-              } else if (msg.ImgWidth >= 120) {
-                Injector.lock(msg, 'MMImgStyle', {width: '120px', height: 'initial'});
-              }
-              break;
-            case constants.MSGTYPE_RECALLED:
-              Injector.lock(msg, 'MsgType', constants.MSGTYPE_SYS);
-              Injector.lock(msg, 'MMActualContent', '阻止了一次撤回');
-              Injector.lock(msg, 'MMDigest', '阻止了一次撤回');
-              break;
-          }
-        });
-        break;
+        return this.checkEmojiContent(value, constants);
       case 'string':
         /* Inject share sites to menu. */
-        let optionMenuReg = /optionMenu\(\);/;
-        let messageBoxKeydownReg = /editAreaKeydown\(\$event\)/;
-        if (optionMenuReg.test(value)) {
-          value = value.replace(optionMenuReg, "optionMenu();shareMenu();");
-        } else if (messageBoxKeydownReg.test(value)) {
-          value = value.replace(messageBoxKeydownReg, "editAreaKeydown($event);mentionMenu($event);");
-        }
-        break;
+        return this.checkTemplateContent(value);
     }
     return value;
   }
@@ -100,6 +81,40 @@ class Injector {
       set: () => {
       }
     });
+  }
+
+  checkEmojiContent(value, constants) {
+    if (!(value.AddMsgList instanceof Array)) return value;
+    value.AddMsgList.forEach((msg) => {
+      switch (msg.MsgType) {
+        case constants.MSGTYPE_EMOTICON:
+          Injector.lock(msg, 'MMDigest', '[Emoticon]');
+          Injector.lock(msg, 'MsgType', constants.MSGTYPE_EMOTICON);
+          if (msg.ImgHeight >= Common.EMOJI_MAXIUM_SIZE) {
+            Injector.lock(msg, 'MMImgStyle', {height: `${Common.EMOJI_MAXIUM_SIZE}px`, width: 'initial'});
+          } else if (msg.ImgWidth >= Common.EMOJI_MAXIUM_SIZE) {
+            Injector.lock(msg, 'MMImgStyle', {width: `${Common.EMOJI_MAXIUM_SIZE}px`, height: 'initial'});
+          }
+          break;
+        case constants.MSGTYPE_RECALLED:
+          Injector.lock(msg, 'MsgType', constants.MSGTYPE_SYS);
+          Injector.lock(msg, 'MMActualContent', Common.MESSAGE_PREVENT_RECALL);
+          Injector.lock(msg, 'MMDigest', Common.MESSAGE_PREVENT_RECALL);
+          break;
+      }
+    });
+    return value;
+  }
+
+  checkTemplateContent(value) {
+    let optionMenuReg = /optionMenu\(\);/;
+    let messageBoxKeydownReg = /editAreaKeydown\(\$event\)/;
+    if (optionMenuReg.test(value)) {
+      value = value.replace(optionMenuReg, "optionMenu();shareMenu();");
+    } else if (messageBoxKeydownReg.test(value)) {
+      value = value.replace(messageBoxKeydownReg, "editAreaKeydown($event);mentionMenu($event);");
+    }
+    return value;
   }
 }
 

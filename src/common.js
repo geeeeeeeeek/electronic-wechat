@@ -3,10 +3,11 @@
  */
 "use strict";
 class Common {
-  
+
 }
 Common.ELECTRON = "Electron";
 Common.ELECTRONIC_WECHAT = "Electronic WeChat";
+Common.DEBUG_MODE = false;
 Common.WINDOW_SIZE = {width: 800, height: 600};
 Common.WINDOW_SIZE_LOGIN = {width: 380, height: 540};
 Common.USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) " +
@@ -37,5 +38,8 @@ Common.MENTION_MENU_WIDTH = 120;
 Common.MENTION_MENU_OPTION_HEIGHT = 30;
 Common.MENTION_MENU_OPTION_DEFAULT_NUM = 4;
 Common.MENTION_MENU_HINT_TEXT = "选择回复的人:";
+
+Common.MESSAGE_PREVENT_RECALL = "阻止了一次撤回";
+Common.EMOJI_MAXIUM_SIZE = 120;
 
 module.exports = Common;
