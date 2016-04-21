@@ -4,8 +4,18 @@
 "use strict";
 
 class ShareMenu {
+  static inject() {
+    let dropdownMenu = $(".reader_menu .dropdown_menu");
+    let dropdownMenuItem = $(".reader_menu .dropdown_menu > li");
+    if (dropdownMenuItem.length > ShareMenu.shareMenuItemsCount) return;
 
-  get(link) {
+    ShareMenu.shareMenuItemsCount = dropdownMenuItem.length;
+    let readItem = angular.element('.reader').scope().readItem;
+    let menu_html = ShareMenu.get({url: readItem.Url, title: readItem.Title});
+    dropdownMenu.prepend(menu_html);
+  }
+
+  static get(link) {
     if (!link.url || !link.title) return "";
 
     link.url = encodeURIComponent(link.url);
@@ -41,13 +51,13 @@ class ShareMenu {
 
     let menuItemsTemplate = ``;
     for (let target in shareTargets) {
-      menuItemsTemplate += this.genShareMenuItem(shareTargets[target]);
+      menuItemsTemplate += ShareMenu.genShareMenuItem(shareTargets[target]);
     }
 
     return menuItemsTemplate;
   }
 
-  genShareMenuItem(target) {
+  static genShareMenuItem(target) {
     return `
           <li>
             <a href="javascript:;" onclick="javascript:window.open('${target.url}', '_blank'); return;">
@@ -59,5 +69,6 @@ class ShareMenu {
   }
 }
 
+ShareMenu.shareMenuItemsCount = 256;
 
 module.exports = ShareMenu;
