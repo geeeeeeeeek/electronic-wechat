@@ -115,7 +115,7 @@ class ElectronicWeChat {
       autoHideMenuBar: true,
       icon: 'assets/icon.png',
       titleBarStyle: 'hidden-inset',
-      'web-preferences': {
+      webPreferences: {
         javascript: true,
         plugins: true,
         nodeIntegration: false,
