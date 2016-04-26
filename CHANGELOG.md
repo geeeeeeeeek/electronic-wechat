@@ -16,7 +16,7 @@
 
 7. 优化 Linux 下使用彩色图标。
 
-8. 升级 `electron-prebuilt` 版本至 `0.36.7` ， `electron-packager` 版本至 `7.0.0`。
+8. 升级 `electron-prebuilt` 版本至 `0.37.6` ， `electron-packager` 版本至 `7.0.0`。
 
 9. 降级 Emoji贴纸显示的功能。由于微信协议调整和官方代码缺陷，现有商店内贴纸及部分个人收藏的贴纸无法显示。后续跟进微信的修复进行调整。
 
