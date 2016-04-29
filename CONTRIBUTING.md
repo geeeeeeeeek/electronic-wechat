@@ -12,4 +12,8 @@ First of all, thanks for contributing to this project. It would be appreciated i
 
 ## Pull Requests
 
-PR are always welcomed. It's better if you put up an issue before firing a PR. **Remember**, the smaller your focus is on, the larger possibility your PR will get merged.
+PR are always welcomed. It's better if you put up an issue before firing a PR. **Remember**, the smaller your focus, the better chance to get merged.
+
+## Be a collaborator!
+
+If you are excited about the project, and happen to have skills in Angular, Node, Electron, or else. Do not hesitate to contact me. Let's build together!
