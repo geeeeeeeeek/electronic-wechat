@@ -43,7 +43,7 @@ class Injector {
             ipcRenderer.send("user-logged", "");
           });
           $rootScope.shareMenu = ShareMenu.inject;
-          $rootScope.mentionMenu = Injector.mentionMenu.inject;
+          $rootScope.mentionMenu = MentionMenu.inject;
         }]);
         return angularBootstrapReal.apply(angular, arguments);
       } : angularBootstrapReal,
@@ -52,12 +52,17 @@ class Injector {
   }
 
   initInjectBundle() {
-    Injector.mentionMenu = new MentionMenu();
-    Injector.badgeCount = new BadgeCount();
+    let initModules = ()=> {
+      if (!window.$) {
+        return setTimeout(initModules, 3000);
+      }
 
-    window.onload = (self)=> {
-      Injector.mentionMenu.init();
-      Injector.badgeCount.init();
+      MentionMenu.init();
+      BadgeCount.init();
+    };
+
+    window.onload = () => {
+      initModules();
     };
   }
 

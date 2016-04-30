@@ -8,7 +8,7 @@ const pinyin = require("pinyin");
 
 class MentionMenu {
 
-  init() {
+  static init() {
     let $box = $('<div id="userSelectionBox"/>');
 
     let $div = $('<div/>');
@@ -29,7 +29,7 @@ class MentionMenu {
     $('body').append($box);
   }
 
-  inject($event) {
+  static inject($event) {
     const $editArea = $($event.currentTarget);
     const $box = $('#userSelectionBox');
 
