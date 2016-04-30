@@ -63,6 +63,9 @@ class Injector {
 
     window.onload = () => {
       initModules();
+      window.addEventListener('online', ()=> {
+        ipcRenderer.send('reload');
+      });
     };
   }
 
