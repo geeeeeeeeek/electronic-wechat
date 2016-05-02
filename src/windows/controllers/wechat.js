@@ -28,7 +28,6 @@ class WeChatWindow {
       splashWindow.hide();
       this.wechatWindow.show();
     }
-    this.logged = isLogged;
   }
 
   createWindow() {
@@ -36,7 +35,7 @@ class WeChatWindow {
       title: Common.ELECTRONIC_WECHAT,
       resizable: true,
       center: true,
-      show: true,
+      show: false,
       frame: true,
       autoHideMenuBar: true,
       icon: path.join(__dirname, '../../../assets/icon.png'),
@@ -69,12 +68,6 @@ class WeChatWindow {
       }
     });
 
-    this.wechatWindow.on('closed', () => {
-      this.wechatWindow = null;
-      this.tray.destroy();
-      this.tray = null;
-    });
-
     this.wechatWindow.on('page-title-updated', (ev) => {
       ev.preventDefault();
     });
@@ -92,8 +85,6 @@ class WeChatWindow {
       event.preventDefault();
       shell.openExternal(new MessageHandler().handleRedirectMessage(url));
     });
-
-    this.wechatWindow.hide();
   }
 
   loadURL(url) {

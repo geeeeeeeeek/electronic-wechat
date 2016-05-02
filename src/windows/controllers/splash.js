@@ -5,7 +5,6 @@
 
 const path = require('path');
 const electron = require('electron');
-const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const Common = require('../../common');
 
@@ -25,7 +24,7 @@ class SplashWindow {
       titleBarStyle: 'hidden'
     });
 
-    this.splashWindow.loadURL('file://' + __dirname + '/../views/splash.html');
+    this.splashWindow.loadURL('file://' + path.join(__dirname, '/../views/splash.html'));
     this.isShown = false;
   }
 

@@ -5,21 +5,19 @@ const path = require('path');
 const electron = require('electron');
 const app = electron.app;
 const ipcMain = electron.ipcMain;
-const Menu = electron.Menu;
-const nativeImage = electron.nativeImage;
 
 const UpdateHandler = require('./handlers/update');
 const Common = require('./common');
 
 const SplashWindow = require('./windows/controllers/splash');
 const WeChatWindow = require('./windows/controllers/wechat');
+const AppTray = require('./windows/controllers/app_tray');
 
 class ElectronicWeChat {
   constructor() {
     this.wechatWindow = null;
     this.splashWindow = null;
     this.tray = null;
-    this.logged = null;
   }
 
   init() {
@@ -74,34 +72,7 @@ class ElectronicWeChat {
   };
 
   createTray() {
-    let image;
-    if (process.platform == "linux") {
-      image = nativeImage.createFromPath(path.join(__dirname, '../assets/icon.png'));
-    } else {
-      image = nativeImage.createFromPath(path.join(__dirname, '../assets/status_bar.png'));
-    }
-    image.setTemplateImage(true);
-
-    this.tray = new electron.Tray(image);
-    this.tray.setToolTip(Common.ELECTRONIC_WECHAT);
-
-    if (process.platform == "linux") {
-      let contextMenu = Menu.buildFromTemplate([
-        {
-          label: 'Show', click: () => {
-          if (this.splashWindow.isShown) return;
-          this.wechatWindow.show();
-        }
-        },
-        {label: 'Exit', click: () => app.exit(0)}
-      ]);
-      this.tray.setContextMenu(contextMenu);
-    } else {
-      this.tray.on('click', () => {
-        if (this.splashWindow.isShown) return;
-        this.wechatWindow.show();
-      });
-    }
+    this.tray = new AppTray(this.splashWindow, this.wechatWindow);
   }
 
   createSplashWindow() {
