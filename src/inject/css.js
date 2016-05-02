@@ -4,7 +4,7 @@
 "use strict";
 const Common = require("../common");
 
-class CSSInjector {};
+class CSSInjector {}
 
 CSSInjector.commonCSS = `
     div.main {
@@ -27,6 +27,9 @@ CSSInjector.commonCSS = `
     }
     a.web_wechat_screencut {
       display: none !important;
+    }
+    span.display_name {
+      width: 172px !important;
     }
     * {
       -webkit-user-select: none;
