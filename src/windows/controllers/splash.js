@@ -10,8 +10,8 @@ const BrowserWindow = electron.BrowserWindow;
 const Common = require('../../common');
 
 class SplashWindow {
-  init() {
-    this.browserWindow = new BrowserWindow({
+  constructor() {
+    this.splashWindow = new BrowserWindow({
       width: Common.WINDOW_SIZE_LOADING.width,
       height: Common.WINDOW_SIZE_LOADING.height,
       title: Common.ELECTRONIC_WECHAT,
@@ -25,17 +25,17 @@ class SplashWindow {
       titleBarStyle: 'hidden'
     });
 
-    this.browserWindow.loadURL('file://' + __dirname + '/../views/splash.html');
+    this.splashWindow.loadURL('file://' + __dirname + '/../views/splash.html');
     this.isShown = false;
   }
 
   show() {
-    this.browserWindow.show();
+    this.splashWindow.show();
     this.isShown = true;
   }
 
   hide() {
-    this.browserWindow.hide();
+    this.splashWindow.hide();
     this.isShown = false;
   }
 }
