@@ -10,6 +10,7 @@ Common.ELECTRONIC_WECHAT = "Electronic WeChat";
 Common.DEBUG_MODE = false;
 Common.WINDOW_SIZE = {width: 800, height: 600};
 Common.WINDOW_SIZE_LOGIN = {width: 380, height: 540};
+Common.WINDOW_SIZE_LOADING = {width: 380, height: 120};
 Common.USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) " +
     "Chrome/41.0.2227.1 Safari/537.36";
 

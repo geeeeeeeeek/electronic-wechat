@@ -11,13 +11,16 @@ const Menu = electron.Menu;
 const nativeImage = electron.nativeImage;
 
 const CSSInjector = require('./inject/css');
-const MessageHandler = require('./handler/message');
-const UpdateHandler = require('./handler/update');
+const MessageHandler = require('./handlers/message');
+const UpdateHandler = require('./handlers/update');
 const Common = require('./common');
+
+const SplashWindow = require('./windows/controllers/splash');
 
 class ElectronicWeChat {
   constructor() {
     this.browserWindow = null;
+    this.splashWindow = null;
     this.tray = null;
     this.logged = null;
   }
@@ -29,6 +32,7 @@ class ElectronicWeChat {
 
   initApp() {
     app.on('ready', ()=> {
+      this.createSplashWindow();
       this.createWindow();
       this.createTray();
     });
@@ -86,12 +90,20 @@ class ElectronicWeChat {
 
     if (process.platform == "linux") {
       let contextMenu = Menu.buildFromTemplate([
-        {label: 'Show', click: () => this.browserWindow.show()},
+        {
+          label: 'Show', click: () => {
+          if (this.splashWindow.isShown) return;
+          this.browserWindow.show();
+        }
+        },
         {label: 'Exit', click: () => app.exit(0)}
       ]);
       this.tray.setContextMenu(contextMenu);
     } else {
-      this.tray.on('click', () => this.browserWindow.show());
+      this.tray.on('click', () => {
+        if (this.splashWindow.isShown) return;
+        this.browserWindow.show();
+      });
     }
   }
 
@@ -101,7 +113,10 @@ class ElectronicWeChat {
     this.browserWindow.setResizable(isLogged);
     this.browserWindow.setSize(size.width, size.height);
     this.browserWindow.center();
-    if (this.logged != isLogged) this.browserWindow.show();
+    if (this.logged != isLogged) {
+      this.splashWindow.hide();
+      this.browserWindow.show();
+    }
     this.logged = isLogged;
   }
 
@@ -168,6 +183,12 @@ class ElectronicWeChat {
     });
 
     this.browserWindow.hide();
+  }
+
+  createSplashWindow() {
+    this.splashWindow = new SplashWindow();
+    this.splashWindow.init();
+    this.splashWindow.show();
   }
 }
 

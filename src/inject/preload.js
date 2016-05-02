@@ -1,7 +1,7 @@
 "use strict";
 const ipcRenderer = require('electron').ipcRenderer;
 const webFrame = require('web-frame');
-const MenuHandler = require('../handler/menu');
+const MenuHandler = require('../handlers/menu');
 const ShareMenu = require('./share_menu');
 const MentionMenu = require('./mention_menu');
 const BadgeCount = require('./badge_count');
