@@ -5,7 +5,7 @@
 const ipcRenderer = require('electron').ipcRenderer;
 
 class BadgeCount {
-  init() {
+  static init() {
     setInterval(() => {
       let count = 0;
       $(".icon.web_wechat_reddot_middle").each(function () {

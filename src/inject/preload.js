@@ -1,7 +1,7 @@
 "use strict";
 const ipcRenderer = require('electron').ipcRenderer;
 const webFrame = require('web-frame');
-const MenuHandler = require('../handler/menu');
+const MenuHandler = require('../handlers/menu');
 const ShareMenu = require('./share_menu');
 const MentionMenu = require('./mention_menu');
 const BadgeCount = require('./badge_count');
@@ -43,7 +43,7 @@ class Injector {
             ipcRenderer.send("user-logged", "");
           });
           $rootScope.shareMenu = ShareMenu.inject;
-          $rootScope.mentionMenu = Injector.mentionMenu.inject;
+          $rootScope.mentionMenu = MentionMenu.inject;
         }]);
         return angularBootstrapReal.apply(angular, arguments);
       } : angularBootstrapReal,
@@ -52,12 +52,20 @@ class Injector {
   }
 
   initInjectBundle() {
-    Injector.mentionMenu = new MentionMenu();
-    Injector.badgeCount = new BadgeCount();
+    let initModules = ()=> {
+      if (!window.$) {
+        return setTimeout(initModules, 3000);
+      }
 
-    window.onload = (self)=> {
-      Injector.mentionMenu.init();
-      Injector.badgeCount.init();
+      MentionMenu.init();
+      BadgeCount.init();
+    };
+
+    window.onload = () => {
+      initModules();
+      window.addEventListener('online', ()=> {
+        ipcRenderer.send('reload');
+      });
     };
   }
 
