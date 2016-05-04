@@ -33,5 +33,5 @@ fi
 
 if [ $PLATFORM = "darwin" ]; then
     ditto -rsrcFork ./dist/Electronic\ WeChat-darwin-x64/Electronic\ WeChat.app /Applications/Electronic\ WeChat.app
-    echo "$(tput setaf 3)App copied to ~/Applications. You can open Electronic WeChat there or from Spotlight.$(tput sgr0)"
+    echo "$(tput setaf 3)App copied to /Applications. You can open Electronic WeChat there or from Spotlight.$(tput sgr0)"
 fi
