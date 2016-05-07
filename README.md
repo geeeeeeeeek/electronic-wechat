@@ -37,7 +37,13 @@ npm run build:osx
 npm run build:linux
 ```
 
-*OPTIONAL:* If you find `npm install` going slowly, use [taobao's cnpm mirror](http://npm.taobao.org/) instead.
+**New:** Wanna install it with your familiar package manager? check [this](https://github.com/geeeeeeeeek/electronic-wechat/wiki/System-Support-Matrix#%E7%A4%BE%E5%8C%BA%E8%B4%A1%E7%8C%AE%E7%9A%84%E5%AE%89%E8%A3%85%E5%8C%85) out!
+
+**New:** Or, with homebrew!
+
+```bash
+brew cask install electronic-wechat
+```
 
 #### [Download App](https://github.com/geeeeeeeeek/electronic-wechat/releases)
 
