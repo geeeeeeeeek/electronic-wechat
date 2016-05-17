@@ -61,8 +61,13 @@ class ElectronicWeChat {
       console.log(message);
     });
 
-    ipcMain.on('reload', (event, message) => {
-      this.wechatWindow.loadURL(Common.WEB_WECHAT);
+    ipcMain.on('reload', (event, repetitive) => {
+      if (repetitive) {
+        this.wechatWindow.loginState.current = this.wechatWindow.loginState.NULL;
+        this.wechatWindow.connect();
+      } else {
+        this.wechatWindow.loadURL(Common.WEB_WECHAT);
+      }
     });
 
     ipcMain.on('update', (event, message) => {
