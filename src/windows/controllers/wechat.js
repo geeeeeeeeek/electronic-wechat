@@ -17,6 +17,7 @@ class WeChatWindow {
   constructor() {
     this.loginState = {NULL: -2, WAITING: -1, YES: 1, NO: 0};
     this.loginState.current = this.loginState.NULL;
+    this.inervals = {};
     this.createWindow();
   }
 
@@ -25,10 +26,10 @@ class WeChatWindow {
 
     this.wechatWindow.setResizable(isLogged);
     this.wechatWindow.setSize(size.width, size.height);
-    this.wechatWindow.center();
     if (this.loginState.current == 1 - isLogged || this.loginState.current == this.loginState.WAITING) {
       splashWindow.hide();
       this.wechatWindow.show();
+      this.wechatWindow.center();
       this.loginState.current = this.loginState.WAITING;
     }
   }
@@ -72,7 +73,7 @@ class WeChatWindow {
     });
 
     this.wechatWindow.on('page-title-updated', (ev) => {
-      if (this.logged == this.loginState.NULL) {
+      if (this.loginState.current == this.loginState.NULL) {
         this.loginState.current = this.loginState.WAITING;
       }
       ev.preventDefault();
@@ -102,12 +103,17 @@ class WeChatWindow {
   }
 
   connect() {
+    Object.keys(this.inervals).forEach((key, index) => {
+      clearInterval(key);
+      delete this.inervals[key];
+    });
+
+    clearInterval();
+    this.loadURL(Common.WEB_WECHAT);
     let int = setInterval(()=> {
       if (this.loginState.current == this.loginState.NULL) {
         this.loadURL(Common.WEB_WECHAT);
         console.log("Reconnect.");
-      } else {
-        clearInterval(int);
       }
     }, 5000)
   }
