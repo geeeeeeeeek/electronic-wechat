@@ -108,14 +108,14 @@ class WeChatWindow {
       delete this.inervals[key];
     });
 
-    clearInterval();
     this.loadURL(Common.WEB_WECHAT);
     let int = setInterval(()=> {
       if (this.loginState.current == this.loginState.NULL) {
         this.loadURL(Common.WEB_WECHAT);
         console.log("Reconnect.");
       }
-    }, 5000)
+    }, 5000);
+    this.inervals[int] = true;
   }
 }
 
