@@ -1,6 +1,5 @@
 "use strict";
-const ipcRenderer = require('electron').ipcRenderer;
-const webFrame = require('web-frame');
+const {ipcRenderer, webFrame} = require('electron');
 const MenuHandler = require('../handlers/menu');
 const ShareMenu = require('./share_menu');
 const MentionMenu = require('./mention_menu');
@@ -10,10 +9,10 @@ const Common = require("../common");
 
 class Injector {
   init() {
+    console.log("init");
     if (Common.DEBUG_MODE) {
       Injector.lock(window, 'console', window.console);
     }
-
     this.initInjectBundle();
     this.initAngularInjection();
     webFrame.setZoomLevelLimits(1, 1);

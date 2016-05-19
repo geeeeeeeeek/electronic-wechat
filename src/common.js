@@ -7,7 +7,7 @@ class Common {
 }
 Common.ELECTRON = "Electron";
 Common.ELECTRONIC_WECHAT = "Electronic WeChat";
-Common.DEBUG_MODE = false;
+Common.DEBUG_MODE = true;
 Common.WINDOW_SIZE = {width: 800, height: 600};
 Common.WINDOW_SIZE_LOGIN = {width: 380, height: 540};
 Common.WINDOW_SIZE_LOADING = {width: 380, height: 120};

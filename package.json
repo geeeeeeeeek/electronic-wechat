@@ -32,7 +32,7 @@
   "homepage": "https://github.com/geeeeeeeeek/wechat-electron/",
   "dependencies": {
     "electron-packager": "^7.0.0",
-    "electron-prebuilt": "^0.37.6",
+    "electron-prebuilt": "^1.0.0",
     "pinyin": "^2.7.1"
   }
 }
