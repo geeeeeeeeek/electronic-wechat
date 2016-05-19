@@ -4,10 +4,7 @@
 "use strict";
 
 const path = require('path');
-const electron = require('electron');
-const app = electron.app;
-const shell = electron.shell;
-const BrowserWindow = electron.BrowserWindow;
+const {app, shell, BrowserWindow} = require('electron');
 const Common = require('../../common');
 
 const CSSInjector = require('../../inject/css');
