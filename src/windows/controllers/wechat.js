@@ -27,7 +27,7 @@ class WeChatWindow {
       splashWindow.hide();
       this.wechatWindow.show();
       this.wechatWindow.center();
-      this.loginState.current = this.loginState.WAITING;
+      this.loginState.current = isLogged;
     }
   }
 
