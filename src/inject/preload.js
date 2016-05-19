@@ -9,7 +9,6 @@ const Common = require("../common");
 
 class Injector {
   init() {
-    console.log("init");
     if (Common.DEBUG_MODE) {
       Injector.lock(window, 'console', window.console);
     }

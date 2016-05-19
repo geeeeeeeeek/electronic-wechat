@@ -2,9 +2,7 @@
 'use strict';
 
 const path = require('path');
-const electron = require('electron');
-const app = electron.app;
-const ipcMain = electron.ipcMain;
+const {app, ipcMain} = require('electron');
 
 const UpdateHandler = require('./handlers/update');
 const Common = require('./common');
@@ -53,9 +51,13 @@ class ElectronicWeChat {
       }
     });
 
-    ipcMain.on('user-logged', () => this.wechatWindow.resizeWindow(true, this.splashWindow));
+    ipcMain.on('user-logged', () => {
+      this.wechatWindow.resizeWindow(true, this.splashWindow)
+    });
 
-    ipcMain.on('wx-rendered', (event, isLogged) => this.wechatWindow.resizeWindow(isLogged, this.splashWindow));
+    ipcMain.on('wx-rendered', (event, isLogged) => {
+      this.wechatWindow.resizeWindow(isLogged, this.splashWindow)
+    });
 
     ipcMain.on('log', (event, message) => {
       console.log(message);
