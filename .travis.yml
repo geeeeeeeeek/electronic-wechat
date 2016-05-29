@@ -11,7 +11,6 @@ before_script:
 script:
 - ./scripts/build-all.sh
 - ./scripts/tar-all.sh
-- ./scripts/qiniu.sh 
 deploy:
   provider: releases
   api_key:
@@ -21,6 +20,7 @@ deploy:
   - 'dist/linux-x64.tar.gz'
   - 'dist/linux-ia32.tar.gz'
   skip_cleanup: true
+  script: ./scripts/qiniu.sh
   on:
     repo: geeeeeeeeek/electronic-wechat
     branch: production
