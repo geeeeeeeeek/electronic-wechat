@@ -11,7 +11,6 @@ before_script:
 script:
 - ./scripts/build-all.sh
 - ./scripts/tar-all.sh
-- sudo bash scripts/qiniu.sh 
 deploy:
   provider: releases
   api_key:
@@ -31,3 +30,5 @@ notifications:
     on_success: always  # options: [always|never|change] default: always
     on_failure: always  # options: [always|never|change] default: always
     on_start: always     # options: [always|never|change] default: always
+after_deploy:
+  - ./scripts/qiniu.sh
