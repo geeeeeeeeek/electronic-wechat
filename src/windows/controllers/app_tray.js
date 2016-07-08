@@ -30,9 +30,8 @@ class AppTray {
         {label: 'Exit', click: () => app.exit(0)}
       ]);
       this.tray.setContextMenu(contextMenu);
-    } else {
-      this.tray.on('click', () => this.hideSplashAndShowWeChat());
     }
+    this.tray.on('click', () => this.hideSplashAndShowWeChat());
   }
 
   setTitle(title) {
