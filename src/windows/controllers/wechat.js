@@ -82,18 +82,20 @@ class WeChatWindow {
         this.wechatWindow.webContents.insertCSS(CSSInjector.osxCSS);
       }
 
-      new UpdateHandler().checkForUpdate(`v${app.getVersion()}`, true);
+      if (!UpdateHandler.CHECKED) {
+        new UpdateHandler().checkForUpdate(`v${app.getVersion()}`, true);
+      }
     });
 
     this.wechatWindow.webContents.on('new-window', (event, url) => {
       event.preventDefault();
       shell.openExternal(new MessageHandler().handleRedirectMessage(url));
     });
-    
+
     this.wechatWindow.webContents.on('will-navigate', (event, url) => {
       if (url.endsWith('/fake')) event.preventDefault();
     });
-    
+
   }
 
   loadURL(url) {

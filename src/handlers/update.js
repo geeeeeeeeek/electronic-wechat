@@ -8,6 +8,7 @@ const Common = require('../common');
 
 class UpdateHandler {
   checkForUpdate(version, silent) {
+    UpdateHandler.CHECKED = true;
     let promise = new Promise((res, rej) => {
       if (Common.ELECTRON == app.getName()) {
         rej(Common.UPDATE_ERROR_ELECTRON);
@@ -79,5 +80,6 @@ class UpdateHandler {
   };
 }
 
+UpdateHandler.CHECKED = false;
 
 module.exports = UpdateHandler;
