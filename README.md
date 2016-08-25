@@ -1,8 +1,12 @@
+<img src="assets/icon.png" alt="logo" height="120" align="right" />
 # Electronic WeChat
+*A better WeChat on macOS and Linux. Built with [Electron](https://github.com/atom/electron).*
 
-[![Gitter](https://badges.gitter.im/geeeeeeeeek/electronic-wechat.svg)](https://gitter.im/geeeeeeeeek/electronic-wechat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)  [![Build Status](https://travis-ci.org/geeeeeeeeek/electronic-wechat.svg?branch=master)](https://travis-ci.org/geeeeeeeeek/electronic-wechat)  [中文文档](README_zh.md)
-
-**A better WeChat on Mac OS X and Linux. Fewer bugs, more features. Build with [Electron](https://github.com/atom/electron).** 
+[![Gitter](https://badges.gitter.im/geeeeeeeeek/electronic-wechat.svg)](https://gitter.im/geeeeeeeeek/electronic-wechat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
+[![Build Status](https://travis-ci.org/geeeeeeeeek/electronic-wechat.svg?branch=master)](https://travis-ci.org/geeeeeeeeek/electronic-wechat)
+[![Build Status](https://img.shields.io/github/stars/geeeeeeeeek/electronic-wechat.svg)](https://github.com/geeeeeeeeek/electronic-wechat)
+[![Build Status](https://img.shields.io/github/forks/geeeeeeeeek/electronic-wechat.svg)](https://github.com/geeeeeeeeek/electronic-wechat)
+[![Build Status](https://img.shields.io/badge/README-切换语言-yellow.svg)](README_zh.md)
 
 ![qq20160428-0 2x](https://cloud.githubusercontent.com/assets/7262715/14876747/ff691ade-0d49-11e6-8435-cb1fac91b3c2.png)
 
