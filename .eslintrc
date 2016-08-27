@@ -6,5 +6,6 @@
       "max-len": "off",
       "prefer-template": "warn",
       "arrow-body-style": "off",
+      "no-unused-vars": "warn",
     },
 }
