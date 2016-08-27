@@ -15,5 +15,7 @@
       "default-case": "off",
       "guard-for-in": "off",
       "no-restricted-syntax": "off",
+      "no-underscore-dangle": "warn",
+      "new-cap": "warn",
     },
 }
