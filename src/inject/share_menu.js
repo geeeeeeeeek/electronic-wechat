@@ -60,8 +60,8 @@ class ShareMenu {
   static genShareMenuItem(target) {
     return `
           <li>
-            <a href='javascript:;' onclick='javascript:window.open('${target.url}', '_blank'); return;'>
-              <i class='menuicon_copylink'></i>
+            <a href="javascript:;" onclick="javascript:window.open('${target.url}', '_blank'); return;">
+              <i class="menuicon_copylink"></i>
               ${target.text}
             </a>
           </li>
