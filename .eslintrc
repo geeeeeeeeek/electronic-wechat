@@ -1,0 +1,22 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb/base",
+  "rules": {
+      "strict": "off",
+      "max-len": "off",
+      "prefer-template": "warn",
+      "arrow-body-style": "off",
+      "no-unused-vars": "warn",
+      "no-undef": "off",
+      "array-callback-return": "warn",
+      "no-confusing-arrow": "warn",
+      "consistent-return": "warn",
+      "no-param-reassign": "off",
+      "default-case": "off",
+      "guard-for-in": "off",
+      "no-restricted-syntax": "off",
+      "no-underscore-dangle": "warn",
+      "new-cap": "warn",
+      "no-console": "off",
+    },
+}

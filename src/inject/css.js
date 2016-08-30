@@ -1,8 +1,8 @@
 /**
  * Created by Zhongyi on 2/23/16.
  */
-"use strict";
-const Common = require("../common");
+'use strict';
+const Common = require('../common');
 
 class CSSInjector {}
 

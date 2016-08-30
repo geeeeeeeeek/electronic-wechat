@@ -1,10 +1,10 @@
 /**
  * Created by Zhongyi on 5/1/16.
  */
-"use strict";
+'use strict';
 
 const path = require('path');
-const {BrowserWindow} = require('electron');
+const { BrowserWindow } = require('electron');
 const Common = require('../../common');
 
 class SplashWindow {
@@ -20,7 +20,7 @@ class SplashWindow {
       autoHideMenuBar: true,
       alwaysOnTop: true,
       icon: 'assets/icon.png',
-      titleBarStyle: 'hidden'
+      titleBarStyle: 'hidden',
     });
 
     this.splashWindow.loadURL('file://' + path.join(__dirname, '/../views/splash.html'));

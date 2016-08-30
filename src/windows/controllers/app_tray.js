@@ -1,10 +1,10 @@
 /**
  * Created by Zhongyi on 5/2/16.
  */
-"use strict";
+'use strict';
 
 const path = require('path');
-const {app, Menu, nativeImage, Tray} = require('electron');
+const { app, Menu, nativeImage, Tray } = require('electron');
 
 const Common = require('../../common');
 
@@ -14,7 +14,7 @@ class AppTray {
     this.wechatWindow = wechatWindow;
 
     let image;
-    if (process.platform == "linux") {
+    if (process.platform === 'linux') {
       image = nativeImage.createFromPath(path.join(__dirname, '../../../assets/status_bar_linux.png'));
     } else {
       image = nativeImage.createFromPath(path.join(__dirname, '../../../assets/status_bar.png'));
@@ -24,10 +24,10 @@ class AppTray {
     this.tray = new Tray(image);
     this.tray.setToolTip(Common.ELECTRONIC_WECHAT);
 
-    if (process.platform == "linux") {
-      let contextMenu = Menu.buildFromTemplate([
-        {label: 'Show', click: () => this.hideSplashAndShowWeChat()},
-        {label: 'Exit', click: () => app.exit(0)}
+    if (process.platform === 'linux') {
+      const contextMenu = Menu.buildFromTemplate([
+        { label: 'Show', click: () => this.hideSplashAndShowWeChat() },
+        { label: 'Exit', click: () => app.exit(0) },
       ]);
       this.tray.setContextMenu(contextMenu);
     }
