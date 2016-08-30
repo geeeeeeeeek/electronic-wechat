@@ -6,7 +6,6 @@ branches:
   only:
   - master
   - production
-  - eslint
 before_script:
 - npm install
 script:

@@ -17,5 +17,6 @@
       "no-restricted-syntax": "off",
       "no-underscore-dangle": "warn",
       "new-cap": "warn",
+      "no-console": "off",
     },
 }
