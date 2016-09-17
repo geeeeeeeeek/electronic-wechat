@@ -48,6 +48,9 @@ class ElectronicWeChat {
         } else {
           this.tray.setTitle('');
         }
+      } else if (process.platform == "linux") {
+          app.setBadgeCount(num * 1);
+          this.tray.setUnreadStat((num * 1 > 0)? 1 : 0);
       }
     });
 
