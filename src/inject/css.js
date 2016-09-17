@@ -106,25 +106,25 @@ CSSInjector.commonCSS = `
     }
     @media (max-width: 512px) {
       .panel {
-        width: 50px!important;
+        width: 75px !important;
         transition: width .3s;
       }
       .panel .header,
       .chat_item {
-        padding: 5px!important
+        padding: 8px 16px !important;
       }
-      .header .info,
+      .header,
       .panel .tab,
       .search_bar,
       .chat_item .info,
       .chat_item .ext {
-        display: none!important
+        display: none !important
       }
       .nav_view {
-        top: 54px!important
+        top: 36px !important
       }
       .chat_item.active {
-        border-left: 3px solid #eee!important
+        border-left: 2px solid #02b300 !important
       }
     }
   `;
