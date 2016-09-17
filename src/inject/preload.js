@@ -45,7 +45,7 @@ class Injector {
         }]);
         return angularBootstrapReal.apply(angular, arguments);
       } : angularBootstrapReal,
-      set: (real) => (angularBootstrapReal = real)
+      set: (real) => (angularBootstrapReal = real),
     });
   }
 
@@ -84,8 +84,7 @@ class Injector {
   static lock(object, key, value) {
     return Object.defineProperty(object, key, {
       get: () => value,
-      set: () => {
-      },
+      set: () => {},
     });
   }
 
@@ -103,6 +102,7 @@ class Injector {
           }
           break;
         case constants.MSGTYPE_RECALLED:
+          // TODO: 根据本地设置决定是否撤回
           Injector.lock(msg, 'MsgType', constants.MSGTYPE_SYS);
           Injector.lock(msg, 'MMActualContent', Common.MESSAGE_PREVENT_RECALL);
           Injector.lock(msg, 'MMDigest', Common.MESSAGE_PREVENT_RECALL);
