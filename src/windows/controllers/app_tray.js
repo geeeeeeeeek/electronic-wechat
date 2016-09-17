@@ -17,7 +17,7 @@ class AppTray {
     this.lastUnreadStat = 0;
 
     fs.readFile(this.TRAY_CONFIG_PATH, (err, data) => {
-      if(err) {
+      if (err) {
         this.trayColor = 'white';
         fs.writeFile(this.TRAY_CONFIG_PATH, '{"color":"white"}');
       } else {
@@ -62,14 +62,14 @@ class AppTray {
   }
 
   changeIconColor() {
-    if(this.trayColor == 'white') {
+    if (this.trayColor === 'white') {
       this.trayColor = 'black';
-    } else if (this.trayColor == 'black') {
+    } else if (this.trayColor === 'black') {
       this.trayColor = 'white';
     }
     this.trayIcon = nativeImage.createFromPath(path.join(__dirname, `../../../assets/tray_${this.trayColor}.png`));
     this.trayIconUnread = nativeImage.createFromPath(path.join(__dirname, `../../../assets/tray_unread_${this.trayColor}.png`));
-    if(this.lastUnreadStat === 0) { 
+    if (this.lastUnreadStat === 0) {
       this.tray.setImage(this.trayIcon);
     } else {
       this.tray.setImage(this.trayIconUnread);
@@ -78,9 +78,9 @@ class AppTray {
   }
 
   setUnreadStat(stat) {
-    if(stat == this.lastUnreadStat) return;
+    if (stat === this.lastUnreadStat) return;
     this.lastUnreadStat = stat;
-    if(stat == 0) {
+    if (stat === 0) {
       this.tray.setImage(this.trayIcon);
     } else {
       this.tray.setImage(this.trayIconUnread);

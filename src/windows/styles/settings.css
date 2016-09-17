@@ -9,6 +9,7 @@ body {
   padding: 0;
   color: #364854;
   font-family: Georgia;
+  background-color: #F3F3F3;
 }
 
 div {
@@ -28,9 +29,7 @@ section {
   position: relative;
   width: 75%;
   left: 12.5%;
-  height: 125px;
   margin: 1px;
-  background-color: #FFF;
   border-bottom: 1px solid gray;
 }
 
@@ -45,17 +44,17 @@ section {
 
 .menu-title {
   position: relative;
-  left: 25%;
+  left: 20%;
 }
 
 .menu-desc {
   position: relative;
-  left: 32%;
+  left: 20%;
 }
 
 .menu-button {
   position: relative;
-  left: 32%;
+  left: 20%;
 }
 
 .setting-top-bar {
@@ -96,7 +95,7 @@ section {
   width: 12.5%;
   height: 100px;
   margin-top: 28px;
-  margin-right: 30px;
+  margin-right: 40px;
   padding-top: 20px;
 }
 
