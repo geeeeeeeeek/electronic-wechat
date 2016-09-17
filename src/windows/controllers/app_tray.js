@@ -14,6 +14,7 @@ class AppTray {
     this.splashWindow = splashWindow;
     this.wechatWindow = wechatWindow;
     this.TRAY_CONFIG_PATH = path.join(app.getPath('appData'),'electronic-wechat/trayConfig.json');
+    this.lastUnreadStat = 0;
 
     fs.readFile(this.TRAY_CONFIG_PATH, (err, data) => {
       if(err) {
@@ -30,6 +31,8 @@ class AppTray {
     let image;
     if (process.platform === 'linux') {
       image = nativeImage.createFromPath(path.join(__dirname, `../../../assets/tray_${this.trayColor}.png`));
+      this.trayIcon = image;
+      this.trayIconUnread = nativeImage.createFromPath(path.join(__dirname, `../../../assets/tray_unread_${this.trayColor}.png`));
     } else {
       image = nativeImage.createFromPath(path.join(__dirname, '../../../assets/status_bar.png'));
     }
@@ -64,9 +67,24 @@ class AppTray {
     } else if (this.trayColor == 'black') {
       this.trayColor = 'white';
     }
-    let image = nativeImage.createFromPath(path.join(__dirname, `../../../assets/tray_${this.trayColor}.png`));
-    this.tray.setImage(image);
+    this.trayIcon = nativeImage.createFromPath(path.join(__dirname, `../../../assets/tray_${this.trayColor}.png`));
+    this.trayIconUnread = nativeImage.createFromPath(path.join(__dirname, `../../../assets/tray_unread_${this.trayColor}.png`));
+    if(this.lastUnreadStat === 0) { 
+      this.tray.setImage(this.trayIcon);
+    } else {
+      this.tray.setImage(this.trayIconUnread);
+    }
     fs.writeFile(this.TRAY_CONFIG_PATH, `{"color":"${this.trayColor}"}`);
+  }
+
+  setUnreadStat(stat) {
+    if(stat === this.lastUnreadStat) return;
+    this.lastUnreadStat = stat;
+    let unread = 'unread_';
+    if(stat === 0) { unread = ''; }
+    let img;
+    img = nativeImage.createFromPath(path.join(__dirname, `../../../assets/tray_${unread}${this.trayColor}.png`));
+    this.tray.setImage(img);
   }
 }
 
