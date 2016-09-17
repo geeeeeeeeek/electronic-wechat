@@ -104,6 +104,29 @@ CSSInjector.commonCSS = `
       border: 0;
       font-size: 14px;
     }
+    @media (max-width: 512px) {
+      .panel {
+        width: 50px!important;
+        transition: width .3s;
+      }
+      .panel .header,
+      .chat_item {
+        padding: 5px!important
+      }
+      .header .info,
+      .panel .tab,
+      .search_bar,
+      .chat_item .info,
+      .chat_item .ext {
+        display: none!important
+      }
+      .nav_view {
+        top: 54px!important
+      }
+      .chat_item.active {
+        border-left: 3px solid #eee!important
+      }
+    }
   `;
 
 CSSInjector.osxCSS = `
