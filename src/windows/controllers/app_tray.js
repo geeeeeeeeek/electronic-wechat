@@ -23,11 +23,11 @@ class AppTray {
       } else {
         this.trayColor = JSON.parse(data.toString()).color;
       }
-      this.creatTray();
+      this.createTray();
     });
   }
 
-  creatTray() {
+  createTray() {
     let image;
     if (process.platform === 'linux') {
       image = nativeImage.createFromPath(path.join(__dirname, `../../../assets/tray_${this.trayColor}.png`));
@@ -78,13 +78,13 @@ class AppTray {
   }
 
   setUnreadStat(stat) {
-    if(stat === this.lastUnreadStat) return;
+    if(stat == this.lastUnreadStat) return;
     this.lastUnreadStat = stat;
-    let unread = 'unread_';
-    if(stat === 0) { unread = ''; }
-    let img;
-    img = nativeImage.createFromPath(path.join(__dirname, `../../../assets/tray_${unread}${this.trayColor}.png`));
-    this.tray.setImage(img);
+    if(stat == 0) {
+      this.tray.setImage(this.trayIcon);
+    } else {
+      this.tray.setImage(this.trayIconUnread);
+    }
   }
 }
 
