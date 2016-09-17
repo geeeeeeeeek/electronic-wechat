@@ -4,7 +4,8 @@
 'use strict';
 const Common = require('../common');
 
-class CSSInjector {}
+class CSSInjector {
+}
 
 CSSInjector.commonCSS = `
     div.header, div.title_wrap {
@@ -140,6 +141,11 @@ CSSInjector.osxCSS = `
     }
     span.display_name {
       width: 172px !important;
+    }
+    @media (max-width: 512px) {
+      .nav_view {
+        top: 36px !important
+      }
     }
 `;
 
