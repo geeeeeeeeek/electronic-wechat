@@ -9,12 +9,14 @@ const Common = require('./common');
 
 const SplashWindow = require('./windows/controllers/splash');
 const WeChatWindow = require('./windows/controllers/wechat');
+const SettingsWindow = require('./windows/controllers/settings')
 const AppTray = require('./windows/controllers/app_tray');
 
 class ElectronicWeChat {
   constructor() {
     this.wechatWindow = null;
     this.splashWindow = null;
+    this.settingsWindow = null;
     this.tray = null;
   }
 
@@ -24,9 +26,11 @@ class ElectronicWeChat {
   }
 
   initApp() {
+    app.wcConfig = 'Test string see you late11r.';
     app.on('ready', ()=> {
       this.createSplashWindow();
       this.createWeChatWindow();
+      this.createSettingsWindow();
       this.createTray();
     });
 
@@ -93,6 +97,11 @@ class ElectronicWeChat {
   createWeChatWindow() {
     this.wechatWindow = new WeChatWindow();
   }
+
+  createSettingsWindow() {
+    this.settingsWindow = new SettingsWindow();
+  }
+
 }
 
 new ElectronicWeChat().init();

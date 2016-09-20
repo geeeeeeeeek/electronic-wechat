@@ -10,21 +10,19 @@ const Common = require('../../common');
 class SettingsWindow {
   constructor() {
     this.settingsWindow = new BrowserWindow({
-      width: Common.WINDOW_SIZE_LOADING.width,
-      height: Common.WINDOW_SIZE_LOADING.height,
+      width: Common.WINDOW_SIZE_SETTINGS.width,
+      height: Common.WINDOW_SIZE_SETTINGS.height,
       title: Common.ELECTRONIC_WECHAT,
       resizable: false,
       center: true,
-      show: true,
+      show: false,
       frame: false,
       autoHideMenuBar: true,
       alwaysOnTop: true,
       icon: 'assets/icon.png',
       titleBarStyle: 'hidden',
     });
-
-    this.settingsWindow.loadURL('file://' + path.join(__dirname, '/../views/setting.html'));
-    this.isShown = true;
+    this.settingsWindow.loadURL('file://' + path.join(__dirname, '/../views/settings.html'));
   }
 
   show() {

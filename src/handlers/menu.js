@@ -2,6 +2,7 @@
 
 const { remote, shell, ipcRenderer } = require('electron');
 const Common = require('../common');
+const path = require('path');
 
 const { Menu, app } = remote;
 
@@ -46,6 +47,13 @@ class MenuHandler {
           {
             label: 'Show All',
             selector: 'unhideAllApplications:',
+          },
+          {
+            type: 'separator',
+          },
+          {
+            label: 'Preference',
+            click: MenuHandler._preference,
           },
           {
             type: 'separator',
@@ -222,6 +230,10 @@ class MenuHandler {
 
   static _update() {
     ipcRenderer.send('update');
+  }
+
+  static _preference() {
+    console.log(app.wcConfig);
   }
 }
 module.exports = MenuHandler;

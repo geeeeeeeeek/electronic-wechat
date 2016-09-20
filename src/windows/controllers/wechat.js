@@ -17,6 +17,8 @@ class WeChatWindow {
     this.loginState.current = this.loginState.NULL;
     this.inervals = {};
     this.createWindow();
+    // TODO: Need to be deleted
+    console.log(app.wcConfig);
   }
 
   resizeWindow(isLogged, splashWindow) {

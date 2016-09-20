@@ -47,13 +47,13 @@ Common.MENTION_MENU_OPTION_HEIGHT = 30;
 Common.MENTION_MENU_OPTION_DEFAULT_NUM = 4;
 
 Common.MENTION_MENU_HINT_TEXT = {
-  cn: '选择回复的人:',
-  en: 'Mention:',
+  cnZH: '选择回复的人:',
+  enUS: 'Mention:',
 };
 
 Common.MESSAGE_PREVENT_RECALL = {
-  cn: '阻止了一次撤回',
-  en: 'Blocked a message recall.',
+  cnZH: '阻止了一次撤回',
+  enUS: 'Blocked a message recall.',
 };
 
 Common.EMOJI_MAXIUM_SIZE = 120;
