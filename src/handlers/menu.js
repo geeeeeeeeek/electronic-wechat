@@ -234,6 +234,7 @@ class MenuHandler {
 
   static _preference() {
     console.log(app.wcConfig);
+    ipcRenderer.send('open-settings-window');
   }
 }
 module.exports = MenuHandler;

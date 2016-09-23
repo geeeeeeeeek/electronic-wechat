@@ -83,6 +83,15 @@ class ElectronicWeChat {
       let updateHandler = new UpdateHandler();
       updateHandler.checkForUpdate(`v${app.getVersion()}`, false);
     });
+
+    ipcMain.on('open-settings-window', (event, message) => {
+      if (this.settingsWindow) {
+        this.settingsWindow.show();
+      } else {
+        this.createSettingsWindow();
+        this.settingsWindow.show();
+      }
+    })
   };
 
   createTray() {
