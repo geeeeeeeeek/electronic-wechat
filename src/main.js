@@ -6,6 +6,7 @@ const {app, ipcMain} = require('electron');
 
 const UpdateHandler = require('./handlers/update');
 const Common = require('./common');
+const AppConfig = require('./configuration');
 
 const SplashWindow = require('./windows/controllers/splash');
 const WeChatWindow = require('./windows/controllers/wechat');
@@ -26,12 +27,16 @@ class ElectronicWeChat {
   }
 
   initApp() {
-    app.wcConfig = 'Test string see you late11r.';
     app.on('ready', ()=> {
       this.createSplashWindow();
       this.createWeChatWindow();
-      this.createSettingsWindow();
       this.createTray();
+
+      if (!AppConfig.readSettings('language')) {
+        AppConfig.saveSettings('language', 'cnZH');
+        AppConfig.saveSettings('prevent-callback', 'off');
+        AppConfig.saveSettings('icon', 'black');
+      }
     });
 
     app.on('activate', () => {
@@ -91,6 +96,11 @@ class ElectronicWeChat {
         this.createSettingsWindow();
         this.settingsWindow.show();
       }
+    });
+
+    ipcMain.on('close-settings-window', (event, messgae) => {
+      this.settingsWindow.close();
+      this.settingsWindow = null;
     })
   };
 

@@ -13,7 +13,7 @@
       <img class="top-bar-icon" src="../../../assets/icon.png">
     </div>
     <div class="top-bar-right">
-      <button type="button" class="upgrade-btn" name="upgrade-button">Upgrade</button>
+      <button type="button" class="upgrade-btn" name="upgrade-button" onclick="todo();">Upgrade</button>
     </div>
     <div class="top-bar-middle">
       <ul class="title-list">
@@ -28,7 +28,7 @@
     <section>
       <ul>
         <li class="menu-title">
-          <h3 name="app-language-title">语言</h3>
+          <h3 class="app-language-title">语言</h3>
         </li>
         <li class="menu-desc">
           <h4 name="app-language-desc">选择你希望使用的默认语言</h4>
@@ -51,7 +51,7 @@
         </li>
         <li class="menu-button">
           <select class="" name="app-callback-select">
-            <option value="on" default>开启</option>
+            <option value="on">开启</option>
             <option value="off">关闭</option>
           </select>
         </li>
@@ -74,6 +74,8 @@
       </ul>
     </section>
   </div>
+
+  <script src="../controllers/settings.js"></script>
 </body>
 
 </html>
