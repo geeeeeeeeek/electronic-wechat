@@ -1,10 +1,18 @@
 'use strict';
 
 const { remote, shell, ipcRenderer } = require('electron');
-const Common = require('../common');
 const path = require('path');
+const AppConfig = require('../configuration');
 
 const { Menu, app } = remote;
+
+const lan = AppConfig.readSettings('language');
+let Common;
+if (lan === 'cnZh') {
+  Common = require('../common_cn');
+} else {
+  Common = require('../common_cn');
+}
 
 class MenuHandler {
   create() {

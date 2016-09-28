@@ -31,11 +31,11 @@ Common.GITHUB_API_RELEASE_LATEST_PATH = '/repos/geeeeeeeeek/electronic-wechat/re
 
 Common.UPDATE_ERROR_ELECTRON = 'Failed to get the local version. If you are using debug mode(by `npm start`), this error would happen. Use packed app instead or manually check for updates.\n\n' + Common.GITHUB_RELEASES;
 Common.UPDATE_ERROR_EMPTY_RESPONSE = 'Failed to fetch release info.';
-Common.UPDATE_ERROR_UNKNOWN = 'Something went wrong.';
-Common.UPDATE_NA_TITLE = 'No Update Available';
-Common.UPDATE_ERROR_NETWORK = 'Connection hang up unexpectedly. Check your network settings.';
+Common.UPDATE_ERROR_UNKNOWN = '不造啥玩意出错了...';
+Common.UPDATE_NA_TITLE = '没有可用的更新';
+Common.UPDATE_ERROR_NETWORK = '网络连接出错辣，检查你的网络先！';
 Common.UPDATE_ERROR_LATEST = (version) => {
-  return `You are using the latest version(${version}).`;
+  return `已经在使用最新版辣 － (${version})`;
 };
 
 Common.MENTION_MENU_INITIAL_X = 300;
@@ -46,15 +46,9 @@ Common.MENTION_MENU_WIDTH = 120;
 Common.MENTION_MENU_OPTION_HEIGHT = 30;
 Common.MENTION_MENU_OPTION_DEFAULT_NUM = 4;
 
-Common.MENTION_MENU_HINT_TEXT = {
-  cnZH: '选择回复的人:',
-  enUS: 'Mention:',
-};
+Common.MENTION_MENU_HINT_TEXT = '选择回复的人:';
 
-Common.MESSAGE_PREVENT_RECALL = {
-  cnZH: '阻止了一次撤回',
-  enUS: 'Blocked a message recall.',
-};
+Common.MESSAGE_PREVENT_RECALL = '阻止了一次撤回';
 
 Common.EMOJI_MAXIUM_SIZE = 120;
 

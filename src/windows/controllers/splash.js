@@ -5,7 +5,15 @@
 
 const path = require('path');
 const { BrowserWindow } = require('electron');
-const Common = require('../../common');
+const AppConfig = require('../../configuration');
+
+const lan = AppConfig.readSettings('language');
+let Common;
+if (lan === 'cnZh') {
+  Common = require('../../common_cn');
+} else {
+  Common = require('../../common');
+}
 
 class SplashWindow {
   constructor() {

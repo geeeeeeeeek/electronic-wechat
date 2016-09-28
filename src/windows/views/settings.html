@@ -13,7 +13,8 @@
       <img class="top-bar-icon" src="../../../assets/icon.png">
     </div>
     <div class="top-bar-right">
-      <button type="button" class="upgrade-btn" name="upgrade-button" onclick="todo();">Upgrade</button>
+      <button type="button" class="upgrade-btn" id="upgrade-btn" onclick="todo()">Upgrade</button>
+      <button type="button" class="upgrade-btn" id="feedback-btn" onclick="feedback()">Feedback</button>
     </div>
     <div class="top-bar-middle">
       <ul class="title-list">
@@ -28,7 +29,7 @@
     <section>
       <ul>
         <li class="menu-title">
-          <h3 class="app-language-title">语言</h3>
+          <h3 id="app-language-title">语言</h3>
         </li>
         <li class="menu-desc">
           <h4 name="app-language-desc">选择你希望使用的默认语言</h4>
@@ -75,7 +76,32 @@
     </section>
   </div>
 
-  <script src="../controllers/settings.js"></script>
+  <script>
+    const AppConfig = require('../../configuration');
+    const {shell} = require('electron')
+
+    const lan = AppConfig.readSettings('language');
+    if (lan === 'cnZh') {
+
+    }
+
+    const Common = require('')
+
+    function feedback() {
+      shell.openExternal(Common.GITHUB_ISSUES);
+    }
+
+    function todo() {
+      console.log('clicked!');
+      const lan = AppConfig.readSettings('language');
+      console.log(lan);
+      if (lan === 'cnZH') {
+        var title = document.getElementById('app-language-title');
+        console.log(document);
+      }
+      title.innerHTML = '123';
+    }
+  </script>
 </body>
 
 </html>

@@ -92,10 +92,9 @@ section {
 }
 
 .top-bar-right {
+  text-align: center;
   float: right;
   width: 12.5%;
-  height: 100px;
-  margin-top: 28px;
   margin-right: 40px;
   padding-top: 20px;
 }

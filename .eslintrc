@@ -18,5 +18,6 @@
       "no-underscore-dangle": "off",
       "new-cap": "warn",
       "no-console": "off",
+      "global-require": "off",
     },
 }

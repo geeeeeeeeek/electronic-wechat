@@ -50,10 +50,8 @@ Common.MENTION_MENU_WIDTH = 120;
 Common.MENTION_MENU_OPTION_HEIGHT = 30;
 Common.MENTION_MENU_OPTION_DEFAULT_NUM = 4;
 Common.MENTION_MENU_HINT_TEXT = 'Mention:';
-Common.MENTION_MENU_HINT_TEXT_CN = '选择回复的人:';
 
 Common.MESSAGE_PREVENT_RECALL = 'Blocked a message recall.';
-Common.MESSAGE_PREVENT_RECALL_CN = '阻止了一次撤回';
 Common.EMOJI_MAXIUM_SIZE = 120;
 
 module.exports = Common;

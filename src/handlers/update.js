@@ -3,9 +3,17 @@
  */
 'use strict';
 const { dialog, shell, app, nativeImage } = require('electron');
+const AppConfig = require('../configuration');
 const https = require('https');
-const Common = require('../common');
 const path = require('path');
+
+const lan = AppConfig.readSettings('language');
+let Common;
+if (lan === 'cnZh') {
+  Common = require('../common_cn');
+} else {
+  Common = require('../common_cn');
+}
 
 class UpdateHandler {
   checkForUpdate(version, silent) {
