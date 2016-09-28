@@ -33,8 +33,8 @@ class ElectronicWeChat {
       this.createTray();
 
       if (!AppConfig.readSettings('language')) {
-        AppConfig.saveSettings('language', 'cnZH');
-        AppConfig.saveSettings('prevent-callback', 'off');
+        AppConfig.saveSettings('language', 'en');
+        AppConfig.saveSettings('prevent-recall', 'on');
         AppConfig.saveSettings('icon', 'black');
       }
     });

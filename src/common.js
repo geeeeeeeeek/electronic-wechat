@@ -54,6 +54,13 @@ Common.MENTION_MENU_HINT_TEXT = 'Mention:';
 Common.MESSAGE_PREVENT_RECALL = 'Blocked a message recall.';
 Common.EMOJI_MAXIUM_SIZE = 120;
 
+Common.languageTitle = 'Language';
+Common.languageDesc = 'Select a default language for WeChat!';
+Common.recallTitle = 'Prevent Message Recall';
+Common.recallDesc = 'Message recall feature might be annoying';
+Common.iconTitle = 'Icon (Linux Only)';
+Common.iconDesc = 'Select a customized icon';
+
 Common.MENU = {
   about: 'About Electronic Wechat',
   service: 'Service',

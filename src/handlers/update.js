@@ -9,10 +9,10 @@ const path = require('path');
 
 const lan = AppConfig.readSettings('language');
 let Common;
-if (lan === 'cnZh') {
+if (lan === 'zh-CH') {
   Common = require('../common_cn');
 } else {
-  Common = require('../common_cn');
+  Common = require('../common');
 }
 
 class UpdateHandler {
