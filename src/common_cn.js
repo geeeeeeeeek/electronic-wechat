@@ -55,7 +55,7 @@ Common.EMOJI_MAXIUM_SIZE = 120;
 Common.MENU = {
   about: '关于 Electronic Wechat',
   service: '服务',
-  hide: '隐藏 Electron',
+  hide: '隐藏应用',
   hideOther: '隐藏其他窗口',
   showAll: '显示全部窗口',
   pref: '偏好',

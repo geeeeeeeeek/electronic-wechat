@@ -8,8 +8,8 @@ const { Menu, app } = remote;
 
 const lan = AppConfig.readSettings('language');
 let Common;
-if (lan === 'cnZh') {
-  Common = require('../common');
+if (lan === 'cnZH') {
+  Common = require('../common_cn');
 } else {
   Common = require('../common');
 }
