@@ -54,4 +54,32 @@ Common.MENTION_MENU_HINT_TEXT = 'Mention:';
 Common.MESSAGE_PREVENT_RECALL = 'Blocked a message recall.';
 Common.EMOJI_MAXIUM_SIZE = 120;
 
+Common.MENU = {
+  about: 'About Electronic Wechat',
+  service: 'Service',
+  hide: 'Hide Electron',
+  hideOther: 'Hide Others',
+  showAll: 'Show All',
+  pref: 'Preference',
+  quit: 'Quit',
+  edit: 'Edit',
+  undo: 'Undo',
+  redo: 'Redo',
+  cut: 'Cut',
+  copy: 'Copy',
+  paste: 'Paste',
+  selectAll: 'Select All',
+  view: 'View',
+  reload: 'Reload This Window',
+  devtool: 'Toggle DevTools',
+  window: 'Window',
+  min: 'Minimize',
+  close: 'Close',
+  allFront: 'Bring All to Front',
+  help: 'Help',
+  repo: 'GitHub Repository',
+  feedback: 'Report Issue',
+  checkRelease: 'Check for New Release',
+};
+
 module.exports = Common;

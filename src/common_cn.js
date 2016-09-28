@@ -30,12 +30,12 @@ Common.GITHUB_API_HOST = 'api.github.com';
 Common.GITHUB_API_RELEASE_LATEST_PATH = '/repos/geeeeeeeeek/electronic-wechat/releases/latest';
 
 Common.UPDATE_ERROR_ELECTRON = 'Failed to get the local version. If you are using debug mode(by `npm start`), this error would happen. Use packed app instead or manually check for updates.\n\n' + Common.GITHUB_RELEASES;
-Common.UPDATE_ERROR_EMPTY_RESPONSE = 'Failed to fetch release info.';
-Common.UPDATE_ERROR_UNKNOWN = '不造啥玩意出错了...';
+Common.UPDATE_ERROR_EMPTY_RESPONSE = '没能获取最新的更新信息';
+Common.UPDATE_ERROR_UNKNOWN = '不造什么出错了...';
 Common.UPDATE_NA_TITLE = '没有可用的更新';
-Common.UPDATE_ERROR_NETWORK = '网络连接出错辣，检查你的网络先！';
+Common.UPDATE_ERROR_NETWORK = '网络连接出错，请检查你的网络';
 Common.UPDATE_ERROR_LATEST = (version) => {
-  return `已经在使用最新版辣 － (${version})`;
+  return `已经在使用最新版 － (${version})`;
 };
 
 Common.MENTION_MENU_INITIAL_X = 300;
@@ -51,5 +51,33 @@ Common.MENTION_MENU_HINT_TEXT = '选择回复的人:';
 Common.MESSAGE_PREVENT_RECALL = '阻止了一次撤回';
 
 Common.EMOJI_MAXIUM_SIZE = 120;
+
+Common.MENU = {
+  about: '关于 Electronic Wechat',
+  service: '服务',
+  hide: '隐藏 Electron',
+  hideOther: '隐藏其他窗口',
+  showAll: '显示全部窗口',
+  pref: '偏好',
+  quit: '退出',
+  edit: '编辑',
+  undo: '撤销',
+  redo: '取消撤销',
+  cut: '剪切',
+  copy: '复制',
+  paste: '粘贴',
+  selectAll: '选择全部',
+  view: '视图',
+  reload: '重新加载当前窗口',
+  devtool: '开发者工具',
+  window: '窗口',
+  min: '最小化',
+  close: '关闭',
+  allFront: '全部打开',
+  help: '帮助',
+  repo: 'GitHub 目录',
+  feedback: '反馈',
+  checkRelease: '检查更新',
+};
 
 module.exports = Common;
