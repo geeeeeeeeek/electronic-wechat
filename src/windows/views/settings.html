@@ -13,8 +13,8 @@
       <img class="top-bar-icon" src="../../../assets/icon.png">
     </div>
     <div class="top-bar-right">
-      <button type="button" class="upgrade-btn" id="upgrade-btn" onclick="todo()">Upgrade</button>
-      <button type="button" class="upgrade-btn" id="feedback-btn" onclick="feedback()">Feedback</button>
+      <button type="button" class="upgrade-btn" id="upgrade-btn" onclick="upgrade()">检查更新</button>
+      <button type="button" class="upgrade-btn" id="feedback-btn" onclick="feedback()">反馈</button>
     </div>
     <div class="top-bar-middle">
       <ul class="title-list">
@@ -29,15 +29,15 @@
     <section>
       <ul>
         <li class="menu-title">
-          <h3 id="app-language-title">语言</h3>
+          <h3 id="app-language-title">语言（重启生效）</h3>
         </li>
         <li class="menu-desc">
-          <h4 name="app-language-desc">选择你希望使用的默认语言</h4>
+          <h4 id="app-language-desc">选择你希望使用的默认语言</h4>
         </li>
         <li class="menu-button">
-          <select class="" name="app-language-select" required>
-            <option value="enUS">English</option>
-            <option value="zhCN">简体中文</option>
+          <select class="" id="app-language-select" required>
+            <option value="en">English</option>
+            <option value="zh-CN">简体中文</option>
           </select>
         </li>
       </ul>
@@ -45,15 +45,15 @@
     <section>
       <ul>
         <li class="menu-title">
-          <h3 name="app-callback-title">阻止撤回</h3>
+          <h3 id="app-recall-title">阻止消息撤回</h3>
         </li>
         <li class="menu-desc">
-          <h4 name="app-callback-desc">选择是否阻止微信的消息撤回功能</h4>
+          <h4 id="app-recall-desc">选择是否阻止微信的消息撤回功能</h4>
         </li>
         <li class="menu-button">
-          <select class="" name="app-callback-select">
-            <option value="on">开启</option>
-            <option value="off">关闭</option>
+          <select class="" id="app-recall-select">
+            <option value="on">On</option>
+            <option value="off">Off</option>
           </select>
         </li>
       </ul>
@@ -61,16 +61,13 @@
     <section>
       <ul>
         <li class="menu-title">
-          <h3 name="app-sidebar-title">工具栏图标（Linux）</h3>
+          <h3 id="app-icon-title">Flash 路径</h3>
         </li>
         <li class="menu-desc">
-          <h4 name="app-sidebar-desc">选择一个你喜欢的工具栏图标吧！</h4>
+          <h4 id="app-icon-desc">默认路径</h4>
         </li>
         <li class="menu-button">
-          <select class="" name="app-sidebar-select">
-            <option value="black">深色</option>
-            <option value="white">浅色</option>
-          </select>
+          <input type="text" placeholder="File Path...">
         </li>
       </ul>
     </section>
@@ -78,28 +75,57 @@
 
   <script>
     const AppConfig = require('../../configuration');
-    const {shell} = require('electron')
+    const { remote, shell, ipcRenderer } = require('electron');
 
     const lan = AppConfig.readSettings('language');
-    if (lan === 'cnZh') {
+    const recall = AppConfig.readSettings('prevent-recall');
+    const icon = AppConfig.readSettings('icon');
 
+    const lanSelect = document.getElementById('app-language-select');
+    const recallSelect = document.getElementById('app-recall-select');
+
+    setConfig();
+    setListeners()
+
+    let Common;
+    if (lan === 'zh-CN') {
+      Common = require('../../common_cn');
+    } else {
+      Common = require('../../common');
+      setLocale();
     }
 
-    const Common = require('')
+    function setListeners() {
+      lanSelect.addEventListener('change', function() {
+        AppConfig.saveSettings('language', lanSelect.value)
+      })
+      recallSelect.addEventListener('change', function() {
+        AppConfig.saveSettings('prevent-recall', recallSelect.value)
+      })
+    }
+
+    function setConfig() {
+      document.getElementById('app-language-select').value = lan;
+      document.getElementById('app-recall-select').value = recall;
+    }
+
+    function setLocale() {
+      document.getElementById('app-language-title').innerHTML = Common.languageTitle;
+      document.getElementById('app-language-desc').innerHTML = Common.languageDesc;
+      document.getElementById('app-recall-title').innerHTML = Common.recallTitle;
+      document.getElementById('app-recall-desc').innerHTML = Common.recallDesc;
+      document.getElementById('app-icon-title').innerHTML = Common.iconTitle;
+      document.getElementById('app-icon-desc').innerHTML = Common.iconDesc;
+      document.getElementById('upgrade-btn').innerHTML = Common.UPGRADE;
+      document.getElementById('feedback-btn').innerHTML = Common.FEEDBACK;
+    }
 
     function feedback() {
       shell.openExternal(Common.GITHUB_ISSUES);
     }
 
-    function todo() {
-      console.log('clicked!');
-      const lan = AppConfig.readSettings('language');
-      console.log(lan);
-      if (lan === 'cnZH') {
-        var title = document.getElementById('app-language-title');
-        console.log(document);
-      }
-      title.innerHTML = '123';
+    function upgrade() {
+      ipcRenderer.send('update');
     }
   </script>
 </body>

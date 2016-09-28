@@ -83,7 +83,7 @@ section {
 
 .top-bar-left {
   float: left;
-  width: 12.5%;
+  width: 12%;
   padding: 1%;
 }
 
@@ -94,7 +94,7 @@ section {
 .top-bar-right {
   text-align: center;
   float: right;
-  width: 12.5%;
+  width: 18%;
   margin-right: 40px;
   padding-top: 20px;
 }
