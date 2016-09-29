@@ -105,6 +105,10 @@ CSSInjector.commonCSS = `
       border: 0;
       font-size: 14px;
     }
+    img.emojione {
+      width: 20px;
+      height: 20px;
+    }
     @media (max-width: 512px) {
       .panel {
         width: 75px !important;
