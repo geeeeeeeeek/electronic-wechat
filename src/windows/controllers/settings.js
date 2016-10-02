@@ -38,8 +38,7 @@ class SettingsWindow {
         this.settingsWindow.hide();
       }
     });
-    // TODO: Comment out!
-    this.settingsWindow.webContents.openDevTools();
+    // this.settingsWindow.webContents.openDevTools();
   }
 
   show() {

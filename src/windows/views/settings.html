@@ -131,6 +131,10 @@
     function upgrade() {
       ipcRenderer.send('update');
     }
+
+    function KeyDownFn(evt) {
+      if (evt.keyCode == 73 && evt.ctrlKey && evt.shiftKey) evt.preventDefault();
+    }
   </script>
 </body>
 
