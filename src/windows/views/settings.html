@@ -61,7 +61,7 @@
     <section>
       <ul>
         <li class="menu-title">
-          <h3 id="app-icon-title">Flash 路径</h3>
+          <h3 id="app-icon-title">Flash 路径 (即将上线)</h3>
         </li>
         <li class="menu-desc">
           <h4 id="app-icon-desc">默认路径</h4>
@@ -75,7 +75,11 @@
 
   <script>
     const AppConfig = require('../../configuration');
-    const { remote, shell, ipcRenderer } = require('electron');
+    const {
+      remote,
+      shell,
+      ipcRenderer
+    } = require('electron');
 
     const lan = AppConfig.readSettings('language');
     const recall = AppConfig.readSettings('prevent-recall');

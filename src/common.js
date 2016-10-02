@@ -26,7 +26,7 @@ Common.WINDOW_SIZE_SETTINGS = {
 };
 Common.USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36';
 
-Common.WEB_WECHAT = 'https://wx.qq.com/';
+Common.WEB_WECHAT = 'https://wx.qq.com/?lang=en_US';
 Common.GITHUB = 'https://github.com/geeeeeeeeek/electronic-wechat';
 Common.GITHUB_RELEASES = 'https://github.com/geeeeeeeeek/electronic-wechat/releases';
 Common.GITHUB_ISSUES = 'https://github.com/geeeeeeeeek/electronic-wechat/issues';
@@ -58,7 +58,7 @@ Common.languageTitle = 'Language（Need to Restart）';
 Common.languageDesc = 'Select a default language for WeChat!';
 Common.recallTitle = 'Prevent Message Recall';
 Common.recallDesc = 'Message recall feature might be annoying';
-Common.iconTitle = 'File Path';
+Common.iconTitle = 'File Path (In Development)';
 Common.iconDesc = 'Set a default file path';
 
 Common.UPGRADE = 'UPGRADE';

@@ -26,7 +26,7 @@ Common.WINDOW_SIZE_SETTINGS = {
 };
 Common.USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36';
 
-Common.WEB_WECHAT = 'https://wx.qq.com/';
+Common.WEB_WECHAT = 'https://wx.qq.com/?lang=zh_CN';
 Common.GITHUB = 'https://github.com/geeeeeeeeek/electronic-wechat';
 Common.GITHUB_RELEASES = 'https://github.com/geeeeeeeeek/electronic-wechat/releases';
 Common.GITHUB_ISSUES = 'https://github.com/geeeeeeeeek/electronic-wechat/issues';
