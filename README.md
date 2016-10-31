@@ -15,10 +15,10 @@
 - **Modern UI and all features from Web WeChat.**
 - **Block message recall.**
 - **Stickers showing support.** [[?]](https://github.com/geeeeeeeeek/electronic-wechat/issues/2)
-- Share subscribed passages on Weibo, Qzone, Facebook, Twitter, Evernote and email.
+- Share subscribed passages on Weibo, Qzone, Facebook, Twitter, Evernote, and email.
 - Mention users in a group chat.
 - Drag and drop to send photos.
-- Behaves like a native app, based on dozens of optimisation.
+- Behaves like a native app, based on dozens of optimization.
 - Removes URL link redirects and takes you directly to blocked websites (e.g. taobao.com).
 
 ## How To Use
