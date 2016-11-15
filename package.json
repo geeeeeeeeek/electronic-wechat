@@ -32,8 +32,9 @@
   },
   "homepage": "https://github.com/geeeeeeeeek/wechat-electron/",
   "dependencies": {
+    "electron": "^1.4.2",
     "electron-packager": "^7.0.0",
-    "electron": "^1.3.4",
+    "nconf": "^0.8.4",
     "pinyin": "^2.7.1"
   },
   "devDependencies": {

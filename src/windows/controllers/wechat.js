@@ -5,11 +5,19 @@
 
 const path = require('path');
 const { app, shell, BrowserWindow } = require('electron');
-const Common = require('../../common');
+const AppConfig = require('../../configuration');
 
 const CSSInjector = require('../../inject/css');
 const MessageHandler = require('../../handlers/message');
 const UpdateHandler = require('../../handlers/update');
+
+const lan = AppConfig.readSettings('language');
+let Common;
+if (lan === 'zh-CN') {
+  Common = require('../../common_cn');
+} else {
+  Common = require('../../common');
+}
 
 class WeChatWindow {
   constructor() {

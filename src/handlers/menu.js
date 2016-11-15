@@ -1,9 +1,18 @@
 'use strict';
 
 const { remote, shell, ipcRenderer } = require('electron');
-const Common = require('../common');
+const path = require('path');
+const AppConfig = require('../configuration');
 
 const { Menu, app } = remote;
+
+const lan = AppConfig.readSettings('language');
+let Common;
+if (lan === 'zh-CN') {
+  Common = require('../common_cn');
+} else {
+  Common = require('../common');
+}
 
 class MenuHandler {
   create() {
@@ -17,56 +26,63 @@ class MenuHandler {
   getTemplate(platform) {
     const darwinTemplate = [
       {
-        label: 'Electronic WeChat',
+        label: Common.ELECTRONIC_WECHAT,
         submenu: [
           {
-            label: 'About Electronic WeChat',
+            label: Common.MENU.about,
             selector: 'orderFrontStandardAboutPanel:',
           },
           {
             type: 'separator',
           },
           {
-            label: 'Services',
+            label: Common.MENU.service,
             submenu: [],
           },
           {
             type: 'separator',
           },
           {
-            label: 'Hide Electron',
+            label: Common.MENU.hide,
             accelerator: 'Command+H',
             selector: 'hide:',
           },
           {
-            label: 'Hide Others',
+            label: Common.MENU.hideOther,
             accelerator: 'Command+Alt+H',
             selector: 'hideOtherApplications:',
           },
           {
-            label: 'Show All',
+            label: Common.MENU.showAll,
             selector: 'unhideAllApplications:',
           },
           {
             type: 'separator',
           },
           {
-            label: 'Quit',
+            label: Common.MENU.pref,
+            click: MenuHandler._preference,
+          },
+          {
+            type: 'separator',
+          },
+          {
+            label: Common.MENU.quit,
             accelerator: 'Command+Q',
             click: MenuHandler._quitApp,
           },
         ],
       },
       {
-        label: 'Edit',
+        label: Common.MENU.edit,
         submenu: [
           {
-            label: 'Undo',
+            label: Common.MENU.undo,
             accelerator: 'Command+Z',
             selector: 'undo:',
           },
           {
-            label: 'Redo',
+            label: Common.MENU.redo,
             accelerator: 'Shift+Command+Z',
             selector: 'redo:',
           },
@@ -74,52 +90,52 @@ class MenuHandler {
             type: 'separator',
           },
           {
-            label: 'Cut',
+            label: Common.MENU.cut,
             accelerator: 'Command+X',
             selector: 'cut:',
           },
           {
-            label: 'Copy',
+            label: Common.MENU.copy,
             accelerator: 'Command+C',
             selector: 'copy:',
           },
           {
-            label: 'Paste',
+            label: Common.MENU.paste,
             accelerator: 'Command+V',
             selector: 'paste:',
           },
           {
-            label: 'Select All',
+            label: Common.MENU.selectAll,
             accelerator: 'Command+A',
             selector: 'selectAll:',
           },
         ],
       },
       {
-        label: 'View',
+        label: Common.MENU.view,
         submenu: [
           {
-            label: 'Reload This Window',
+            label: Common.MENU.reload,
             accelerator: 'Command+R',
             click: MenuHandler._reload,
           },
           {
-            label: 'Toggle DevTools',
+            label: Common.MENU.devtool,
             accelerator: 'Alt+Command+I',
             click: MenuHandler._devTools,
           },
         ],
       },
       {
-        label: 'Window',
+        label: Common.MENU.window,
         submenu: [
           {
-            label: 'Minimize',
+            label: Common.MENU.min,
             accelerator: 'Command+M',
             selector: 'performMiniaturize:',
           },
           {
-            label: 'Close',
+            label: Common.MENU.close,
             accelerator: 'Command+W',
             selector: 'performClose:',
           },
@@ -127,40 +143,40 @@ class MenuHandler {
             type: 'separator',
           },
           {
-            label: 'Bring All to Front',
+            label: Common.MENU.allFront,
             selector: 'arrangeInFront:',
           },
         ],
       },
       {
-        label: 'Help',
+        label: Common.MENU.help,
         submenu: [
           {
-            label: 'GitHub Repository',
+            label: Common.MENU.repo,
             click: MenuHandler._github,
           },
           {
             type: 'separator',
           }, {
-            label: 'Report Issues',
+            label: Common.MENU.feedback,
             click: MenuHandler._githubIssues,
           }, {
-            label: 'Check for New Release',
+            label: Common.MENU.checkRelease,
             click: MenuHandler._update,
           }],
       },
     ];
     const linuxTemplate = [
       {
-        label: 'Window',
+        label: Common.MENU.window,
         submenu: [
           {
-            label: 'Reload This Window',
+            label: Common.MENU.reload,
             accelerator: 'Ctrl+R',
             click: () => MenuHandler._reload,
           },
           {
-            label: 'Toggle DevTools',
+            label: Common.MENU.devtool,
             accelerator: 'Ctrl+Shift+I',
             click: () => MenuHandler._devTools,
           },
@@ -168,26 +184,26 @@ class MenuHandler {
             type: 'separator',
           },
           {
-            label: 'Quit The App',
+            label: Common.MENU.quit,
             accelerator: 'Ctrl+Q',
             click: () => MenuHandler._quitApp,
           },
         ],
       },
       {
-        label: 'Help',
+        label: Common.MENU.help,
         submenu: [
           {
-            label: 'GitHub Repository',
+            label: Common.MENU.repo,
             click: MenuHandler._github,
           },
           {
             type: 'separator',
           }, {
-            label: 'Report Issues',
+            label: Common.MENU.feedback,
             click: MenuHandler._githubIssues,
           }, {
-            label: 'Check for New Release',
+            label: Common.MENU.checkRelease,
             click: MenuHandler._update,
           }],
       },
@@ -222,6 +238,10 @@ class MenuHandler {
 
   static _update() {
     ipcRenderer.send('update');
+  }
+
+  static _preference() {
+    ipcRenderer.send('open-settings-window');
   }
 }
 module.exports = MenuHandler;
