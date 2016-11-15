@@ -1,5 +1,5 @@
 /**
- * Created by Zhongyi on 5/1/16.
+ * Created by Zhongyi on May 1, 2016
  */
 'use strict';
 
