@@ -5,7 +5,7 @@ function getUserHome() {
 }
 
 const nconf = require('nconf').file({
-  file: getUserHome() + '/sound-machine-config.json',
+  file: getUserHome() + '/.ew.json',
 });
 
 function saveSettings(settingKey, settingValue) {
