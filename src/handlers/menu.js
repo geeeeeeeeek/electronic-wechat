@@ -140,6 +140,15 @@ class MenuHandler {
             selector: 'performClose:',
           },
           {
+            label: Common.MENU.toggleFullScreen,
+            accelerator: 'Ctrl+Command+F',
+            click: function (item, focusedWindow) {
+              if (focusedWindow) {
+                focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
+              }
+            }
+          },
+          {
             type: 'separator',
           },
           {
@@ -174,6 +183,15 @@ class MenuHandler {
             label: Common.MENU.reload,
             accelerator: 'Ctrl+R',
             click: () => MenuHandler._reload,
+          },
+          {
+            label: Common.MENU.toggleFullScreen,
+            accelerator: 'F11',
+            click: function (item, focusedWindow) {
+              if (focusedWindow) {
+                focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
+              }
+            }
           },
           {
             label: Common.MENU.devtool,
