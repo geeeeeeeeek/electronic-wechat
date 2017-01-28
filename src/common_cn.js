@@ -81,6 +81,7 @@ Common.MENU = {
   view: '视图',
   reload: '重新加载当前窗口',
   toggleFullScreen:'切换全屏',
+  searchContacts:'搜索联系人',
   devtool: '开发者工具',
   window: '窗口',
   min: '最小化',

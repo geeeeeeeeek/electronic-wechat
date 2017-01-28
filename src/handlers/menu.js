@@ -109,6 +109,16 @@ class MenuHandler {
             accelerator: 'Command+A',
             selector: 'selectAll:',
           },
+          {
+            type: 'separator',
+          },
+          {
+            label: Common.MENU.searchContacts,
+            accelerator: 'Command+F',
+            click: function () {
+              $('#search_bar input')[0].focus();
+            }
+          }
         ],
       },
       {
@@ -191,6 +201,16 @@ class MenuHandler {
               if (focusedWindow) {
                 focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
               }
+            }
+          },
+          {
+            type: 'separator',
+          },
+          {
+            label: Common.MENU.searchContacts,
+            accelerator: 'Ctrl+F',
+            click: function () {
+              $('#search_bar input')[0].focus();
             }
           },
           {

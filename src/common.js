@@ -89,6 +89,7 @@ Common.MENU = {
   view: 'View',
   reload: 'Reload This Window',
   toggleFullScreen:'Toggle Full Screen',
+  searchContacts:'Search Contacts',
   devtool: 'Toggle DevTools',
   window: 'Window',
   min: 'Minimize',
