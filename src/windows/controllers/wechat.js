@@ -130,6 +130,10 @@ class WeChatWindow {
     }, 5000);
     this.inervals[int] = true;
   }
+
+  initWechatWindowShortcut() {
+    console.log(123);
+  }
 }
 
 module.exports = WeChatWindow;

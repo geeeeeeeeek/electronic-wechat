@@ -15,9 +15,9 @@ if (lan === 'zh-CN') {
 
 class MenuHandler {
   create() {
-    this.template = this.getTemplate(remote.process.platform);
-    if (this.template) {
-      const menuFromTemplate = Menu.buildFromTemplate(this.template);
+    const template = this.getTemplate(remote.process.platform);
+    if (template) {
+      const menuFromTemplate = Menu.buildFromTemplate(template);
       Menu.setApplicationMenu(menuFromTemplate);
     }
   }
