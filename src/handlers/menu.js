@@ -1,7 +1,6 @@
 'use strict';
 
 const { remote, shell, ipcRenderer } = require('electron');
-const path = require('path');
 const AppConfig = require('../configuration');
 
 const { Menu, app } = remote;
@@ -16,14 +15,14 @@ if (lan === 'zh-CN') {
 
 class MenuHandler {
   create() {
-    const template = this.getTemplate(remote.process.platform);
-    if (template) {
-      const menuFromTemplate = Menu.buildFromTemplate(template);
+    this.template = this.getTemplate(remote.process.platform);
+    if (this.template) {
+      const menuFromTemplate = Menu.buildFromTemplate(this.template);
       Menu.setApplicationMenu(menuFromTemplate);
     }
   }
 
-  getTemplate(platform) {
+  static getTemplate(platform) {
     const darwinTemplate = [
       {
         label: Common.ELECTRONIC_WECHAT,

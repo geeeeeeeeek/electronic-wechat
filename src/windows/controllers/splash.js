@@ -1,6 +1,7 @@
 /**
  * Created by Zhongyi on May 1, 2016
  */
+
 'use strict';
 
 const path = require('path');
@@ -31,7 +32,7 @@ class SplashWindow {
       titleBarStyle: 'hidden',
     });
 
-    this.splashWindow.loadURL('file://' + path.join(__dirname, '/../views/splash.html'));
+    this.splashWindow.loadURL(`file://${path.join(__dirname, '/../views/splash.html')}`);
     this.isShown = false;
   }
 

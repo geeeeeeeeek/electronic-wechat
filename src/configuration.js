@@ -5,7 +5,7 @@ function getUserHome() {
 }
 
 const nconf = require('nconf').file({
-  file: getUserHome() + '/.ew.json',
+  file: `${getUserHome()}/.ew.json`,
 });
 
 function saveSettings(settingKey, settingValue) {

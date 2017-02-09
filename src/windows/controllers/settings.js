@@ -1,6 +1,7 @@
 /**
  * Created by Ji on 9/15/16.
  */
+
 'use strict';
 
 const path = require('path');
@@ -30,7 +31,7 @@ class SettingsWindow {
       icon: 'assets/icon.png',
       titleBarStyle: 'hidden',
     });
-    this.settingsWindow.loadURL('file://' + path.join(__dirname, '/../views/settings.html'));
+    this.settingsWindow.loadURL(`file://${path.join(__dirname, '/../views/settings.html')}`);
 
     this.settingsWindow.on('close', (e) => {
       if (this.settingsWindow.isVisible()) {

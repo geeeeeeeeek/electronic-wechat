@@ -1,7 +1,9 @@
 /**
  * Created by Zhongyi on 3/25/16.
  */
+
 'use strict';
+
 const { dialog, shell, app, nativeImage } = require('electron');
 const AppConfig = require('../configuration');
 const https = require('https');

@@ -21,7 +21,7 @@
         <li>
           <h1>Electronic Wechat V2.0.0</h1></li>
         <li>
-          <h1 style="font-size:95%;">Powered by Electron V1.3.5</h1></li>
+          <h1 style="font-size:95%;">Powered by Electron V1.4.7</h1></li>
       </ul>
     </div>
   </div>
@@ -85,8 +85,12 @@
     const recall = AppConfig.readSettings('prevent-recall');
     const icon = AppConfig.readSettings('icon');
 
-    const lanSelect = document.getElementById('app-language-select');
-    const recallSelect = document.getElementById('app-recall-select');
+    const lanSelect = $('app-language-select');
+    const recallSelect = $('app-recall-select');
+
+    function $(id) {
+      return document.getElementById(id);
+    }
 
     setConfig();
     setListeners()
@@ -109,23 +113,23 @@
     }
 
     function setConfig() {
-      document.getElementById('app-language-select').value = lan;
-      document.getElementById('app-recall-select').value = recall;
+      $('app-language-select').value = lan;
+      $('app-recall-select').value = recall;
     }
 
     function setLocale() {
-      document.getElementById('app-language-title').innerHTML = Common.languageTitle;
-      document.getElementById('app-language-desc').innerHTML = Common.languageDesc;
-      document.getElementById('app-recall-title').innerHTML = Common.recallTitle;
-      document.getElementById('app-recall-desc').innerHTML = Common.recallDesc;
-      document.getElementById('app-icon-title').innerHTML = Common.iconTitle;
-      document.getElementById('app-icon-desc').innerHTML = Common.iconDesc;
-      document.getElementById('upgrade-btn').innerHTML = Common.UPGRADE;
-      document.getElementById('feedback-btn').innerHTML = Common.FEEDBACK;
+      $('app-language-title').innerHTML = Common.languageTitle;
+      $('app-language-desc').innerHTML = Common.languageDesc;
+      $('app-recall-title').innerHTML = Common.recallTitle;
+      $('app-recall-desc').innerHTML = Common.recallDesc;
+      $('app-icon-title').innerHTML = Common.iconTitle;
+      $('app-icon-desc').innerHTML = Common.iconDesc;
+      $('upgrade-btn').innerHTML = Common.UPGRADE;
+      $('feedback-btn').innerHTML = Common.FEEDBACK;
     }
 
     function feedback() {
-      shell.openExternal(Common.GITHUB_ISSUES);
+      shell.openExternal(Comm22on.GITHUB_ISSUES);
     }
 
     function upgrade() {
@@ -135,6 +139,7 @@
     function KeyDownFn(evt) {
       if (evt.keyCode == 73 && evt.ctrlKey && evt.shiftKey) evt.preventDefault();
     }
+
   </script>
 </body>
 
