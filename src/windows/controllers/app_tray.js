@@ -8,7 +8,12 @@ const fs = require('fs');
 const path = require('path');
 const { app, Menu, nativeImage, Tray } = require('electron');
 
-const Common = require('../../common');
+let Common;
+if (lan === 'zh-CN') {
+  Common = require('../../common_cn');
+} else {
+  Common = require('../../common');
+}
 
 class AppTray {
   constructor(splashWindow, wechatWindow) {
