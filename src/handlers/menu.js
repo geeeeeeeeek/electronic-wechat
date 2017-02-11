@@ -22,7 +22,7 @@ class MenuHandler {
     }
   }
 
-  static getTemplate(platform) {
+  getTemplate(platform) {
     const darwinTemplate = [
       {
         label: Common.ELECTRONIC_WECHAT,
