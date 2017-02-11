@@ -74,7 +74,7 @@ class WeChatWindow {
     this.wechatWindow.show();
   }
 
-  connect() {
+  connectWeChat() {
     Object.keys(this.inervals).forEach((key, index) => {
       clearInterval(key);
       delete this.inervals[key];
@@ -96,7 +96,7 @@ class WeChatWindow {
       this.wechatWindow.webContents.openDevTools();
     }
 
-    this.connect();
+    this.connectWeChat();
 
     this.wechatWindow.webContents.on('will-navigate', (ev, url) => {
       if (/(.*wx.*\.qq\.com.*)|(web.*\.wechat\.com.*)/.test(url)) return;
@@ -130,6 +130,7 @@ class WeChatWindow {
         e.preventDefault();
         this.wechatWindow.hide();
       }
+      this.unregisterLocalShortCut();
     });
 
     this.wechatWindow.on('page-title-updated', (ev) => {
@@ -137,6 +138,10 @@ class WeChatWindow {
         this.loginState.current = this.loginState.WAITING;
       }
       ev.preventDefault();
+    });
+
+    this.wechatWindow.on('show', () => {
+      this.registerLocalShortcut();
     });
   }
 

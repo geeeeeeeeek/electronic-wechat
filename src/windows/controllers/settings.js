@@ -37,8 +37,6 @@ class SettingsWindow {
         this.settingsWindow.hide();
       }
     });
-
-    this.settingsWindow.webContents.openDevTools();
   }
 
   show() {
