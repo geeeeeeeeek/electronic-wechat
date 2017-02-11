@@ -76,6 +76,10 @@ class MenuHandler {
         label: Common.MENU.edit,
         submenu: [
           {
+            label: Common.MENU.pref,
+            click: MenuHandler._preference,
+          },
+          {
             label: Common.MENU.undo,
             accelerator: 'Command+Z',
             selector: 'undo:',

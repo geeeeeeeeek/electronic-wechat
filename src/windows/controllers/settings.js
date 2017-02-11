@@ -20,13 +20,11 @@ class SettingsWindow {
   constructor() {
     this.settingsWindow = new BrowserWindow({
       width: Common.WINDOW_SIZE_SETTINGS.width,
-      height: Common.WINDOW_SIZE_SETTINGS.height,
-      minWidth: Common.WINDOW_SIZE_SETTINGS.width,
-      minHeight: Common.WINDOW_SIZE_SETTINGS.height,
-      resizable: true,
+      height: Common.WINDOW_SIZE_SETTINGS.height * 0.9,
+      resizable: false,
+      fullscreenable: false,
       show: false,
-      frame: false,
-      autoHideMenuBar: true,
+      frame: true,
       alwaysOnTop: true,
       icon: 'assets/icon.png',
       titleBarStyle: 'hidden',
@@ -39,6 +37,8 @@ class SettingsWindow {
         this.settingsWindow.hide();
       }
     });
+
+    this.settingsWindow.webContents.openDevTools();
   }
 
   show() {
