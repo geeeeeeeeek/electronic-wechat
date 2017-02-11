@@ -6,15 +6,18 @@ const {app, ipcMain} = require('electron');
 
 const UpdateHandler = require('./handlers/update');
 const Common = require('./common');
+const AppConfig = require('./configuration');
 
 const SplashWindow = require('./windows/controllers/splash');
 const WeChatWindow = require('./windows/controllers/wechat');
+const SettingsWindow = require('./windows/controllers/settings')
 const AppTray = require('./windows/controllers/app_tray');
 
 class ElectronicWeChat {
   constructor() {
     this.wechatWindow = null;
     this.splashWindow = null;
+    this.settingsWindow = null;
     this.tray = null;
   }
 
@@ -28,6 +31,12 @@ class ElectronicWeChat {
       this.createSplashWindow();
       this.createWeChatWindow();
       this.createTray();
+
+      if (!AppConfig.readSettings('language')) {
+        AppConfig.saveSettings('language', 'en');
+        AppConfig.saveSettings('prevent-recall', 'on');
+        AppConfig.saveSettings('icon', 'black');
+      }
     });
 
     app.on('activate', () => {
@@ -79,6 +88,20 @@ class ElectronicWeChat {
       let updateHandler = new UpdateHandler();
       updateHandler.checkForUpdate(`v${app.getVersion()}`, false);
     });
+
+    ipcMain.on('open-settings-window', (event, message) => {
+      if (this.settingsWindow) {
+        this.settingsWindow.show();
+      } else {
+        this.createSettingsWindow();
+        this.settingsWindow.show();
+      }
+    });
+
+    ipcMain.on('close-settings-window', (event, messgae) => {
+      this.settingsWindow.close();
+      this.settingsWindow = null;
+    })
   };
 
   createTray() {
@@ -93,6 +116,11 @@ class ElectronicWeChat {
   createWeChatWindow() {
     this.wechatWindow = new WeChatWindow();
   }
+
+  createSettingsWindow() {
+    this.settingsWindow = new SettingsWindow();
+  }
+
 }
 
 new ElectronicWeChat().init();

@@ -2,6 +2,8 @@
 # Electronic WeChat
 *A better WeChat on macOS and Linux. Built with [Electron](https://github.com/atom/electron).*
 
+**Important:** If you want to build the app by yourself rather than download the release directly, please consider to use the source code from [the production branch](https://github.com/geeeeeeeeek/electronic-wechat/tree/production), the master branch is under development and we cannot guarantee it to be stable.
+
 [![Gitter](https://badges.gitter.im/geeeeeeeeek/electronic-wechat.svg)](https://gitter.im/geeeeeeeeek/electronic-wechat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
 [![Build Status](https://travis-ci.org/geeeeeeeeek/electronic-wechat.svg?branch=master)](https://travis-ci.org/geeeeeeeeek/electronic-wechat)
 [![Build Status](https://img.shields.io/github/stars/geeeeeeeeek/electronic-wechat.svg)](https://github.com/geeeeeeeeek/electronic-wechat)
@@ -15,10 +17,10 @@
 - **Modern UI and all features from Web WeChat.**
 - **Block message recall.**
 - **Stickers showing support.** [[?]](https://github.com/geeeeeeeeek/electronic-wechat/issues/2)
-- Share subscribed passages on Weibo, Qzone, Facebook, Twitter, Evernote and email.
+- Share subscribed passages on Weibo, Qzone, Facebook, Twitter, Evernote, and email.
 - Mention users in a group chat.
 - Drag and drop to send photos.
-- Behaves like a native app, based on dozens of optimisation.
+- Behaves like a native app, based on dozens of optimization.
 - Removes URL link redirects and takes you directly to blocked websites (e.g. taobao.com).
 
 ## How To Use

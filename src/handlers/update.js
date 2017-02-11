@@ -1,11 +1,21 @@
 /**
  * Created by Zhongyi on 3/25/16.
  */
+
 'use strict';
+
 const { dialog, shell, app, nativeImage } = require('electron');
+const AppConfig = require('../configuration');
 const https = require('https');
-const Common = require('../common');
 const path = require('path');
+
+const lan = AppConfig.readSettings('language');
+let Common;
+if (lan === 'zh-CN') {
+  Common = require('../common_cn');
+} else {
+  Common = require('../common');
+}
 
 class UpdateHandler {
   checkForUpdate(version, silent) {

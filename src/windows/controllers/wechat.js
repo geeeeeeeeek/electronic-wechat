@@ -1,15 +1,27 @@
 /**
  * Created by Zhongyi on 5/2/16.
  */
+
 'use strict';
 
 const path = require('path');
 const { app, shell, BrowserWindow } = require('electron');
-const Common = require('../../common');
+const electronLocalShortcut = require('electron-localshortcut');
+
+const AppConfig = require('../../configuration');
 
 const CSSInjector = require('../../inject/css');
 const MessageHandler = require('../../handlers/message');
 const UpdateHandler = require('../../handlers/update');
+
+const lan = AppConfig.readSettings('language');
+
+let Common;
+if (lan === 'zh-CN') {
+  Common = require('../../common_cn');
+} else {
+  Common = require('../../common');
+}
 
 class WeChatWindow {
   constructor() {
@@ -17,6 +29,9 @@ class WeChatWindow {
     this.loginState.current = this.loginState.NULL;
     this.inervals = {};
     this.createWindow();
+    this.initWechatWindowShortcut();
+    this.initWindowEvents();
+    this.initWindowWebContent();
   }
 
   resizeWindow(isLogged, splashWindow) {
@@ -50,30 +65,42 @@ class WeChatWindow {
         preload: path.join(__dirname, '../../inject/preload.js'),
       },
     });
+  }
 
-    this.wechatWindow.webContents.setUserAgent(Common.USER_AGENT);
+  loadURL(url) {
+    this.wechatWindow.loadURL(url);
+  }
+
+  show() {
+    this.wechatWindow.show();
+  }
+
+  connectWeChat() {
+    Object.keys(this.inervals).forEach((key, index) => {
+      clearInterval(key);
+      delete this.inervals[key];
+    });
+
+    this.loadURL(Common.WEB_WECHAT);
+    const int = setInterval(() => {
+      if (this.loginState.current === this.loginState.NULL) {
+        this.loadURL(Common.WEB_WECHAT);
+        console.log('Reconnect.');
+      }
+    }, 5000);
+    this.inervals[int] = true;
+  }
+
+  initWindowWebContent() {
+    this.wechatWindow.webContents.setUserAgent(Common.USER_AGENT[process.platform]);
     if (Common.DEBUG_MODE) {
       this.wechatWindow.webContents.openDevTools();
     }
 
-    this.connect();
+    this.connectWeChat();
 
     this.wechatWindow.webContents.on('will-navigate', (ev, url) => {
       if (/(.*wx.*\.qq\.com.*)|(web.*\.wechat\.com.*)/.test(url)) return;
-      ev.preventDefault();
-    });
-
-    this.wechatWindow.on('close', (e) => {
-      if (this.wechatWindow.isVisible()) {
-        e.preventDefault();
-        this.wechatWindow.hide();
-      }
-    });
-
-    this.wechatWindow.on('page-title-updated', (ev) => {
-      if (this.loginState.current === this.loginState.NULL) {
-        this.loginState.current = this.loginState.WAITING;
-      }
       ev.preventDefault();
     });
 
@@ -98,28 +125,39 @@ class WeChatWindow {
     });
   }
 
-  loadURL(url) {
-    this.wechatWindow.loadURL(url);
-  }
-
-  show() {
-    this.wechatWindow.show();
-  }
-
-  connect() {
-    Object.keys(this.inervals).forEach((key, index) => {
-      clearInterval(key);
-      delete this.inervals[key];
+  initWindowEvents() {
+    this.wechatWindow.on('close', (e) => {
+      if (this.wechatWindow.isVisible()) {
+        e.preventDefault();
+        this.wechatWindow.hide();
+      }
+      this.unregisterLocalShortCut();
     });
 
-    this.loadURL(Common.WEB_WECHAT);
-    const int = setInterval(() => {
+    this.wechatWindow.on('page-title-updated', (ev) => {
       if (this.loginState.current === this.loginState.NULL) {
-        this.loadURL(Common.WEB_WECHAT);
-        console.log('Reconnect.');
+        this.loginState.current = this.loginState.WAITING;
       }
-    }, 5000);
-    this.inervals[int] = true;
+      ev.preventDefault();
+    });
+
+    this.wechatWindow.on('show', () => {
+      this.registerLocalShortcut();
+    });
+  }
+
+  registerLocalShortcut() {
+    electronLocalShortcut.register(this.wechatWindow, 'Esc', () => {
+      this.wechatWindow.close();
+    });
+  }
+
+  unregisterLocalShortCut() {
+    electronLocalShortcut.unregisterAll(this.wechatWindow);
+  }
+
+  initWechatWindowShortcut() {
+    this.registerLocalShortcut();
   }
 }
 
