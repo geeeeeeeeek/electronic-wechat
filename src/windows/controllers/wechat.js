@@ -6,6 +6,8 @@
 
 const path = require('path');
 const { app, shell, BrowserWindow } = require('electron');
+const electronLocalShortcut = require('electron-localshortcut');
+
 const AppConfig = require('../../configuration');
 
 const CSSInjector = require('../../inject/css');
@@ -26,6 +28,9 @@ class WeChatWindow {
     this.loginState.current = this.loginState.NULL;
     this.inervals = {};
     this.createWindow();
+    this.initWechatWindowShortcut();
+    this.initWindowEvents();
+    this.initWindowWebContent();
   }
 
   resizeWindow(isLogged, splashWindow) {
@@ -59,52 +64,6 @@ class WeChatWindow {
         preload: path.join(__dirname, '../../inject/preload.js'),
       },
     });
-
-    this.wechatWindow.webContents.setUserAgent(Common.USER_AGENT[process.platform]);
-    if (Common.DEBUG_MODE) {
-      this.wechatWindow.webContents.openDevTools();
-    }
-
-    this.connect();
-
-    this.wechatWindow.webContents.on('will-navigate', (ev, url) => {
-      if (/(.*wx.*\.qq\.com.*)|(web.*\.wechat\.com.*)/.test(url)) return;
-      ev.preventDefault();
-    });
-
-    this.wechatWindow.on('close', (e) => {
-      if (this.wechatWindow.isVisible()) {
-        e.preventDefault();
-        this.wechatWindow.hide();
-      }
-    });
-
-    this.wechatWindow.on('page-title-updated', (ev) => {
-      if (this.loginState.current === this.loginState.NULL) {
-        this.loginState.current = this.loginState.WAITING;
-      }
-      ev.preventDefault();
-    });
-
-    this.wechatWindow.webContents.on('dom-ready', () => {
-      this.wechatWindow.webContents.insertCSS(CSSInjector.commonCSS);
-      if (process.platform === 'darwin') {
-        this.wechatWindow.webContents.insertCSS(CSSInjector.osxCSS);
-      }
-
-      if (!UpdateHandler.CHECKED) {
-        new UpdateHandler().checkForUpdate(`v${app.getVersion()}`, true);
-      }
-    });
-
-    this.wechatWindow.webContents.on('new-window', (event, url) => {
-      event.preventDefault();
-      shell.openExternal(new MessageHandler().handleRedirectMessage(url));
-    });
-
-    this.wechatWindow.webContents.on('will-navigate', (event, url) => {
-      if (url.endsWith('/fake')) event.preventDefault();
-    });
   }
 
   loadURL(url) {
@@ -131,8 +90,70 @@ class WeChatWindow {
     this.inervals[int] = true;
   }
 
+  initWindowWebContent() {
+    this.wechatWindow.webContents.setUserAgent(Common.USER_AGENT[process.platform]);
+    if (Common.DEBUG_MODE) {
+      this.wechatWindow.webContents.openDevTools();
+    }
+
+    this.connect();
+
+    this.wechatWindow.webContents.on('will-navigate', (ev, url) => {
+      if (/(.*wx.*\.qq\.com.*)|(web.*\.wechat\.com.*)/.test(url)) return;
+      ev.preventDefault();
+    });
+
+    this.wechatWindow.webContents.on('dom-ready', () => {
+      this.wechatWindow.webContents.insertCSS(CSSInjector.commonCSS);
+      if (process.platform === 'darwin') {
+        this.wechatWindow.webContents.insertCSS(CSSInjector.osxCSS);
+      }
+
+      if (!UpdateHandler.CHECKED) {
+        new UpdateHandler().checkForUpdate(`v${app.getVersion()}`, true);
+      }
+    });
+
+    this.wechatWindow.webContents.on('new-window', (event, url) => {
+      event.preventDefault();
+      shell.openExternal(new MessageHandler().handleRedirectMessage(url));
+    });
+
+    this.wechatWindow.webContents.on('will-navigate', (event, url) => {
+      if (url.endsWith('/fake')) event.preventDefault();
+    });
+  }
+
+  initWindowEvents() {
+    this.wechatWindow.on('close', (e) => {
+      if (this.wechatWindow.isVisible()) {
+        e.preventDefault();
+        this.wechatWindow.hide();
+      }
+    });
+
+    this.wechatWindow.on('page-title-updated', (ev) => {
+      if (this.loginState.current === this.loginState.NULL) {
+        this.loginState.current = this.loginState.WAITING;
+      }
+      ev.preventDefault();
+    });
+  }
+
+  registerLocalShortcut() {
+    electronLocalShortcut.register(this.wechatWindow, 'Esc', () => {
+      this.wechatWindow.close();
+    });
+  }
+
+  unregisterLocalShortCut() {
+    electronLocalShortcut.unregisterAll(this.wechatWindow);
+  }
+
   initWechatWindowShortcut() {
-    console.log(123);
+    electronLocalShortcut.register(this.wechatWindow, 'Esc', () => {
+      this.wechatWindow.close();
+    });
   }
 }
 
