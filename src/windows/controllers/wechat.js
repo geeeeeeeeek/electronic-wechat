@@ -15,6 +15,7 @@ const MessageHandler = require('../../handlers/message');
 const UpdateHandler = require('../../handlers/update');
 
 const lan = AppConfig.readSettings('language');
+
 let Common;
 if (lan === 'zh-CN') {
   Common = require('../../common_cn');
@@ -156,9 +157,7 @@ class WeChatWindow {
   }
 
   initWechatWindowShortcut() {
-    electronLocalShortcut.register(this.wechatWindow, 'Esc', () => {
-      this.wechatWindow.close();
-    });
+    this.registerLocalShortcut();
   }
 }
 

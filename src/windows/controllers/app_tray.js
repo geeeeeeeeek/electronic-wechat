@@ -11,6 +11,7 @@ const { app, Menu, nativeImage, Tray } = require('electron');
 const AppConfig = require('../../configuration');
 
 const lan = AppConfig.readSettings('language');
+
 let Common;
 if (lan === 'zh-CN') {
   Common = require('../../common_cn');
