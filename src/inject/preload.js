@@ -5,6 +5,8 @@ const ShareMenu = require('./share_menu');
 const MentionMenu = require('./mention_menu');
 const BadgeCount = require('./badge_count');
 const Common = require('../common');
+// const EmojiParser = require('./emoji_parser');
+// const emojione = require('emojione');
 
 const AppConfig = require('../configuration');
 
@@ -95,6 +97,9 @@ class Injector {
     if (!(value.AddMsgList instanceof Array)) return value;
     value.AddMsgList.forEach((msg) => {
       switch (msg.MsgType) {
+        // case constants.MSGTYPE_TEXT:
+        //   msg.Content = EmojiParser.emojiToImage(msg.Content);
+        //   break;
         case constants.MSGTYPE_EMOTICON:
           Injector.lock(msg, 'MMDigest', '[Emoticon]');
           Injector.lock(msg, 'MsgType', constants.MSGTYPE_EMOTICON);

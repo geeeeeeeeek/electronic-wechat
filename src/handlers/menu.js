@@ -76,10 +76,6 @@ class MenuHandler {
         label: Common.MENU.edit,
         submenu: [
           {
-            label: Common.MENU.pref,
-            click: MenuHandler._preference,
-          },
-          {
             label: Common.MENU.undo,
             accelerator: 'Command+Z',
             selector: 'undo:',
@@ -118,10 +114,10 @@ class MenuHandler {
           {
             label: Common.MENU.searchContacts,
             accelerator: 'Command+F',
-            click: function () {
+            click: () => {
               $('#search_bar input')[0].focus();
-            }
-          }
+            },
+          },
         ],
       },
       {
@@ -155,11 +151,11 @@ class MenuHandler {
           {
             label: Common.MENU.toggleFullScreen,
             accelerator: 'Ctrl+Command+F',
-            click: function (item, focusedWindow) {
+            click: (item, focusedWindow) => {
               if (focusedWindow) {
-                focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
+                focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
               }
-            }
+            },
           },
           {
             type: 'separator',
@@ -193,6 +189,10 @@ class MenuHandler {
         label: Common.MENU.window,
         submenu: [
           {
+            label: Common.MENU.pref,
+            click: MenuHandler._preference,
+          },
+          {
             label: Common.MENU.reload,
             accelerator: 'Ctrl+R',
             click: () => MenuHandler._reload,
@@ -200,11 +200,11 @@ class MenuHandler {
           {
             label: Common.MENU.toggleFullScreen,
             accelerator: 'F11',
-            click: function (item, focusedWindow) {
+            click: (item, focusedWindow) => {
               if (focusedWindow) {
-                focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
+                focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
               }
-            }
+            },
           },
           {
             type: 'separator',
@@ -212,9 +212,9 @@ class MenuHandler {
           {
             label: Common.MENU.searchContacts,
             accelerator: 'Ctrl+F',
-            click: function () {
+            click: () => {
               $('#search_bar input')[0].focus();
-            }
+            },
           },
           {
             label: Common.MENU.devtool,
