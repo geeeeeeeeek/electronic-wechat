@@ -17,6 +17,8 @@ class Injector {
     }
     this.initInjectBundle();
     this.initAngularInjection();
+    this.lastUser = null;
+    this.initIPC();
     webFrame.setZoomLevelLimits(1, 1);
 
     new MenuHandler().create();
@@ -128,6 +130,20 @@ class Injector {
       value = value.replace(messageBoxKeydownReg, 'editAreaKeydown($event);mentionMenu($event);');
     }
     return value;
+  }
+
+  initIPC() {
+    // clear currentUser to receive reddot of new messages from the current chat user
+    ipcRenderer.on('hide-wechat-window', () => {
+      this.lastUser = angular.element('#chatArea').scope().currentUser;
+      angular.element('.chat_list').scope().itemClick("");
+    });
+    // recover to the last chat user
+    ipcRenderer.on('show-wechat-window', () => {
+      if (this.lastUser != null) {
+        angular.element('.chat_list').scope().itemClick(this.lastUser);
+      }
+    });
   }
 }
 

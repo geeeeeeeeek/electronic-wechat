@@ -25,6 +25,7 @@ if (lan === 'zh-CN') {
 
 class WeChatWindow {
   constructor() {
+    this.isShown = false;
     this.loginState = { NULL: -2, WAITING: -1, YES: 1, NO: 0 };
     this.loginState.current = this.loginState.NULL;
     this.inervals = {};
@@ -41,7 +42,7 @@ class WeChatWindow {
     this.wechatWindow.setSize(size.width, size.height);
     if (this.loginState.current === 1 - isLogged || this.loginState.current === this.loginState.WAITING) {
       splashWindow.hide();
-      this.wechatWindow.show();
+      this.show();
       this.wechatWindow.center();
       this.loginState.current = isLogged;
     }
@@ -73,6 +74,15 @@ class WeChatWindow {
 
   show() {
     this.wechatWindow.show();
+    this.wechatWindow.focus();
+    this.wechatWindow.webContents.send('show-wechat-window');
+    this.isShown = true;
+  }
+
+  hide() {
+    this.wechatWindow.hide();
+    this.wechatWindow.webContents.send('hide-wechat-window');
+    this.isShown = false;
   }
 
   connectWeChat() {
@@ -129,7 +139,7 @@ class WeChatWindow {
     this.wechatWindow.on('close', (e) => {
       if (this.wechatWindow.isVisible()) {
         e.preventDefault();
-        this.wechatWindow.hide();
+        this.hide();
       }
       this.unregisterLocalShortCut();
     });
