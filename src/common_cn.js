@@ -87,7 +87,7 @@ Common.MENU = {
   allFront: '全部打开',
   help: '帮助',
   repo: 'GitHub 目录',
-  feedback: '反馈',
+  feedback: '联系我们',
   checkRelease: '检查更新',
 };
 

@@ -8,7 +8,7 @@ body {
   margin: 0;
   padding: 0;
   color: #364854;
-  font-family: Georgia;
+  font-family: "Microsoft Yahei", "微软雅黑", STXihei, "华文细黑", sans-serif;
   background-color: #F3F3F3;
 }
 
@@ -62,7 +62,7 @@ section {
   padding: 0;
   margin: 0 0 10px 0;
   border: none;
-  height: 150px;
+  height: 130px;
   width: 100%;
   overflow: auto;
   background-color: #CCC;
@@ -100,11 +100,12 @@ section {
 }
 
 .upgrade-btn {
-  border-radius: 16px;
-  font-family: Georgia;
+  border-radius: 15px;
+  margin-bottom: 10px;
   color: #c9c9c9;
-  font-size: 20px;
+  font-size: 16px;
   background: #364854;
   padding: 10px 20px 10px 20px;
   text-decoration: none;
+  width: 125px;
 }

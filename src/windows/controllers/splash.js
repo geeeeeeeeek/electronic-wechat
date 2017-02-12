@@ -1,13 +1,16 @@
 /**
  * Created by Zhongyi on May 1, 2016
  */
+
 'use strict';
 
 const path = require('path');
 const { BrowserWindow } = require('electron');
+
 const AppConfig = require('../../configuration');
 
 const lan = AppConfig.readSettings('language');
+
 let Common;
 if (lan === 'zh-CN') {
   Common = require('../../common_cn');
@@ -31,7 +34,7 @@ class SplashWindow {
       titleBarStyle: 'hidden',
     });
 
-    this.splashWindow.loadURL('file://' + path.join(__dirname, '/../views/splash.html'));
+    this.splashWindow.loadURL(`file://${path.join(__dirname, '/../views/splash.html')}`);
     this.isShown = false;
   }
 

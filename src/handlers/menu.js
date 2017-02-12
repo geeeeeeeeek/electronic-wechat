@@ -1,7 +1,6 @@
 'use strict';
 
 const { remote, shell, ipcRenderer } = require('electron');
-const path = require('path');
 const AppConfig = require('../configuration');
 
 const { Menu, app } = remote;
@@ -76,6 +75,10 @@ class MenuHandler {
       {
         label: Common.MENU.edit,
         submenu: [
+          {
+            label: Common.MENU.pref,
+            click: MenuHandler._preference,
+          },
           {
             label: Common.MENU.undo,
             accelerator: 'Command+Z',

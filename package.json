@@ -32,17 +32,19 @@
   },
   "homepage": "https://github.com/geeeeeeeeek/wechat-electron/",
   "dependencies": {
-    "electron": "^1.4.6",
-    "electron-packager": "^8.2.0",
+    "electron": "^1.4.15",
+    "electron-packager": "^8.5.1",
     "nconf": "^0.8.4",
-    "pinyin": "^2.7.1"
+    "pinyin": "^2.8.0",
+    "emojione": "^2.2.7",
+    "electron-localshortcut": "github:parro-it/electron-localshortcut#b1119d46c0582263a7c20c1bcd710476dafcfe01"
   },
   "devDependencies": {
-    "babel-eslint": "^7.1.0",
-    "eslint": "^3.4.0",
-    "eslint-config-airbnb": "^13.0.0",
+    "babel-eslint": "^7.1.1",
+    "eslint": "^3.15.0",
+    "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^3.0.1",
-    "eslint-plugin-react": "^6.1.2"
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.9.0"
   }
 }

@@ -1,13 +1,23 @@
 /**
  * Created by Zhongyi on 5/2/16.
  */
+
 'use strict';
 
 const fs = require('fs');
 const path = require('path');
 const { app, Menu, nativeImage, Tray } = require('electron');
 
-const Common = require('../../common');
+const AppConfig = require('../../configuration');
+
+const lan = AppConfig.readSettings('language');
+
+let Common;
+if (lan === 'zh-CN') {
+  Common = require('../../common_cn');
+} else {
+  Common = require('../../common');
+}
 
 class AppTray {
   constructor(splashWindow, wechatWindow) {
