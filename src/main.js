@@ -78,7 +78,7 @@ class ElectronicWeChat {
     ipcMain.on('reload', (event, repetitive) => {
       if (repetitive) {
         this.wechatWindow.loginState.current = this.wechatWindow.loginState.NULL;
-        this.wechatWindow.connect();
+        this.wechatWindow.connectWeChat();
       } else {
         this.wechatWindow.loadURL(Common.WEB_WECHAT);
       }
