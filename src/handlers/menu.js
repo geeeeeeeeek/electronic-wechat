@@ -195,7 +195,7 @@ class MenuHandler {
           {
             label: Common.MENU.reload,
             accelerator: 'Ctrl+R',
-            click: () => MenuHandler._reload,
+            click: MenuHandler._reload,
           },
           {
             label: Common.MENU.toggleFullScreen,
@@ -219,7 +219,7 @@ class MenuHandler {
           {
             label: Common.MENU.devtool,
             accelerator: 'Ctrl+Shift+I',
-            click: () => MenuHandler._devTools,
+            click: MenuHandler._devTools,
           },
           {
             type: 'separator',
@@ -227,7 +227,7 @@ class MenuHandler {
           {
             label: Common.MENU.quit,
             accelerator: 'Ctrl+Q',
-            click: () => MenuHandler._quitApp,
+            click: MenuHandler._quitApp,
           },
         ],
       },
