@@ -61,6 +61,22 @@
     <section>
       <ul>
         <li class="menu-title">
+          <h3 id="app-instance-title">是否允许开启多个实例</h3>
+        </li>
+        <li class="menu-desc">
+          <h4 id="app-instance-desc">多个实例可以同时登录不同帐号</h4>
+        </li>
+        <li class="menu-button">
+          <select id="app-instance-select">
+            <option value="on">On</option>
+            <option value="off">Off</option>
+          </select>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <ul>
+        <li class="menu-title">
           <h3 id="app-icon-title">Flash 路径 (即将上线)</h3>
         </li>
         <li class="menu-desc">
@@ -83,10 +99,12 @@
 
     const lan = AppConfig.readSettings('language');
     const recall = AppConfig.readSettings('prevent-recall');
+    const instance = AppConfig.readSettings('multi-instance');
     const icon = AppConfig.readSettings('icon');
 
     const lanSelect = $('app-language-select');
     const recallSelect = $('app-recall-select');
+    const instanceSelect = $('app-instance-select');
 
     function $(id) {
       return document.getElementById(id);
@@ -110,11 +128,15 @@
       recallSelect.addEventListener('change', function() {
         AppConfig.saveSettings('prevent-recall', recallSelect.value)
       })
+      instanceSelect.addEventListener('change', function() {
+        AppConfig.saveSettings('multi-instance', instanceSelect.value)
+      })
     }
 
     function setConfig() {
       $('app-language-select').value = lan;
       $('app-recall-select').value = recall;
+      $('app-instance-select').value = instance;
     }
 
     function setLocale() {
@@ -122,6 +144,8 @@
       $('app-language-desc').innerHTML = Common.languageDesc;
       $('app-recall-title').innerHTML = Common.recallTitle;
       $('app-recall-desc').innerHTML = Common.recallDesc;
+      $('app-instance-title').innerHTML = Common.instanceTitle;
+      $('app-instance-desc').innerHTML = Common.instanceDesc;
       $('app-icon-title').innerHTML = Common.iconTitle;
       $('app-icon-desc').innerHTML = Common.iconDesc;
       $('upgrade-btn').innerHTML = Common.UPGRADE;
