@@ -22,10 +22,29 @@ class ElectronicWeChat {
   }
 
   init() {
-    this.initApp();
-    this.initIPC();
+    if(this.checkInstance()) {
+      this.initApp();
+      this.initIPC();
+    } else {
+      app.quit();
+    }
   }
+  checkInstance() {
+    if (AppConfig.readSettings('multi-instance') === 'on') return true;
+    return !app.makeSingleInstance((commandLine, workingDirectory) => {
+      if(this.splashWindow && this.splashWindow.isShown){
+        this.splashWindow.show();
+        return
+      }
+      if(this.wechatWindow){
+        this.wechatWindow.show();
+      }
+      if(this.settingsWindow && this.settingsWindow.isShown){
+        this.settingsWindow.show();
+      }
+    });
 
+  }
   initApp() {
     app.on('ready', ()=> {
       this.createSplashWindow();
@@ -36,6 +55,7 @@ class ElectronicWeChat {
         AppConfig.saveSettings('language', 'en');
         AppConfig.saveSettings('prevent-recall', 'on');
         AppConfig.saveSettings('icon', 'black');
+        AppConfig.saveSettings('multi-instance','on');
       }
     });
 
