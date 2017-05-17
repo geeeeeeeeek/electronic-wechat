@@ -21,7 +21,7 @@
         <li>
           <h1>Electronic Wechat V2.0.0</h1></li>
         <li>
-          <h1 style="font-size:95%;">Powered by Electron V1.4.7</h1></li>
+          <h1 style="font-size:95%;">Powered by Electron V<span id="top-title-electron-ver">process.versions.electron</span></h1></li>
       </ul>
     </div>
   </div>
@@ -110,6 +110,7 @@
       return document.getElementById(id);
     }
 
+    $('top-title-electron-ver').innerText = process.versions.electron;
     setConfig();
     setListeners()
 
