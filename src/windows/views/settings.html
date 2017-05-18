@@ -87,6 +87,22 @@
         </li>
       </ul>
     </section>
+    <section id="app-tray">
+      <ul>
+        <li class="menu-title">
+          <h3 id="app-tray-title">托盘图标颜色（黑/白）</h3>
+        </li>
+        <li class="menu-desc">
+          <h4 id="app-tray-desc">选择一个适合当前主题的颜色</h4>
+        </li>
+        <li class="menu-button">
+          <select id="app-tray-select">
+            <option value="black">◆</option>
+            <option value="white">◇</option>
+          </select>
+        </li>
+      </ul>
+    </section>
   </div>
 
   <script>
@@ -100,14 +116,19 @@
     const lan = AppConfig.readSettings('language');
     const recall = AppConfig.readSettings('prevent-recall');
     const instance = AppConfig.readSettings('multi-instance');
-    const icon = AppConfig.readSettings('icon');
+    const trayColor = AppConfig.readSettings('tray-color');
 
     const lanSelect = $('app-language-select');
     const recallSelect = $('app-recall-select');
     const instanceSelect = $('app-instance-select');
+    const trayColorSelect = $('app-tray-select');
 
     function $(id) {
       return document.getElementById(id);
+    }
+    
+    if(process.platform === 'darwin') {
+      $('process.platform').style.display = 'none';
     }
 
     $('top-title-electron-ver').innerText = process.versions.electron;
@@ -132,12 +153,17 @@
       instanceSelect.addEventListener('change', function() {
         AppConfig.saveSettings('multi-instance', instanceSelect.value)
       })
+      trayColorSelect.addEventListener('change', function() {
+        AppConfig.saveSettings('tray-color', trayColorSelect.value)
+        ipcRenderer.send('refreshIcon')
+      })
     }
 
     function setConfig() {
       $('app-language-select').value = lan;
       $('app-recall-select').value = recall;
       $('app-instance-select').value = instance;
+      $('app-tray-select').value = trayColor;
     }
 
     function setLocale() {
@@ -149,6 +175,8 @@
       $('app-instance-desc').innerHTML = Common.instanceDesc;
       $('app-icon-title').innerHTML = Common.iconTitle;
       $('app-icon-desc').innerHTML = Common.iconDesc;
+      $('app-tray-title').innerHTML = Common.trayTitle;
+      $('app-tray-desc').innerHTML = Common.trayDesc;
       $('upgrade-btn').innerHTML = Common.UPGRADE;
       $('feedback-btn').innerHTML = Common.FEEDBACK;
     }

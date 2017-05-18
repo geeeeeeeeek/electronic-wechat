@@ -71,6 +71,8 @@ Common.instanceTitle = 'Allow Multiple Instance';
 Common.instanceDesc = 'Multiple instance can login with different accounts';
 Common.iconTitle = 'File Path (In Development)';
 Common.iconDesc = 'Set a default file path';
+Common.trayTitle = 'Tray Icon color (Black/White)';
+Common.trayDesc = 'Select a color to match your desktop theme';
 
 Common.UPGRADE = 'UPGRADE';
 Common.FEEDBACK = 'FEEDBACK';
