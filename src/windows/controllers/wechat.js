@@ -5,6 +5,7 @@
 'use strict';
 
 const path = require('path');
+const isXfce = require('is-xfce');
 const { app, shell, BrowserWindow } = require('electron');
 const electronLocalShortcut = require('electron-localshortcut');
 
@@ -65,6 +66,14 @@ class WeChatWindow {
         webSecurity: false,
         preload: path.join(__dirname, '../../inject/preload.js'),
       },
+    });
+
+    /* menu is always visible on xfce session */
+    isXfce().then(data => {
+      if(data) {
+        this.wechatWindow.setMenuBarVisibility(true);
+        this.wechatWindow.setAutoHideMenuBar(false);
+      }
     });
   }
 
